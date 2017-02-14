@@ -8,16 +8,13 @@ class StoryBoardModel extends BaseModel
      */
     protected $table = 'bs_storyboards';
     protected $fillable = [
-        'id','name','genre','cate','thumb','detail','intro','uid','uname','money','isnew','ishot','sort','isshow','sort2','isshow2','del','created_at','updated_at',
+        'id','name','genre','cate','thumb','detail','intro','uid','uname','money','isnew','ishot','sort','isshow','del','created_at','updated_at',
     ];
     protected $genres = [
         1=>'企业供应','企业需求','个人供应','个人需求',
     ];
-//    protected $cates = [
-//        1=>'宣传片','广告片','微电影','专题片','汇报片','主题片','晚会视频','婚纱摄影','淘宝视频',
-//    ];
 
-    public function genreName()
+    public function getGenreName()
     {
         return array_key_exists($this->genre,$this->genres) ? $this->genres[$this->genre] : '';
     }
@@ -27,46 +24,27 @@ class StoryBoardModel extends BaseModel
         return array_key_exists($this->cate,$this->cates2) ? $this->cates2[$this->cate] : '';
     }
 
-    public function user()
+    /**
+     * 是否为最新记录
+     */
+    public function isnew()
     {
-        $uid = $this->uid ? $this->uid : '0';
-//        $userModel = UserModel::find($uid);
-//        return $userModel ? $userModel->username : '无';
-        $rstUser = ApiUsers::getOneUser($uid);
-        return $rstUser['code']==0 ? $rstUser['data']['username'] : '';
+        return $this->isnew ? '最新' : '非最新';
     }
 
-    public function company()
+    /**
+     * 是否为最热记录
+     */
+    public function ishot()
     {
-        $uid = $this->uid ? $this->uid : '0';
-//        $companyModel = CompanyModel::where('uid',$uid)->first();
-//        return $companyModel ? $companyModel : '';
-        $rstCompany = ApiCompany::getOneCompany($uid);
-        return $rstCompany['code']==0 ? $rstCompany['data'] : [];
+        return $this->ishot ? '最热' : '非最热';
     }
 
-    public function getComName()
-    {
-//        return $this->company() ? $this->limits($this->company()->name,5) : '';
-        return $this->company() ? str_limit($this->company()['name'],10) : '';
-    }
-
-//    public function limits($name,$length)
+//    public function getLike()
 //    {
-//        return mb_strlen($name)>$length ? mb_substr($name,0,$length,'utf-8') : $name;
+//        $likeModels = StoryBoardLikeModel::where('sbid',$this->id)->get();
+//        return $likeModels ? count($likeModels) : 0;
 //    }
-
-    public function thumb()
-    {
-        $picModel = PicModel::find($this->thumb);
-        return $picModel ? $picModel->url : '';
-    }
-
-    public function getLike()
-    {
-        $likeModels = StoryBoardLikeModel::where('sbid',$this->id)->get();
-        return $likeModels ? count($likeModels) : 0;
-    }
 
 //    /**
 //     * 细节查看权限
@@ -90,38 +68,4 @@ class StoryBoardModel extends BaseModel
 //        }
 //        return (isset($orderModel)&&$orderModel) ? 1 : 0;
 //    }
-
-    /**
-     * 是否为最新记录
-     */
-    public function isnew()
-    {
-        return $this->isnew ? '最新' : '非最新';
-    }
-
-    /**
-     * 是否为最热记录
-     */
-    public function ishot()
-    {
-        return $this->ishot ? '最热' : '非最热';
-    }
-
-    /**
-     * 获取图片
-     */
-    public function pic()
-    {
-        $pic_id = $this->thumb ? $this->thumb : 0;
-        $picModel = PicModel::find($pic_id);
-        return $picModel ? $picModel : '';
-    }
-
-    /**
-     * 获取图片url
-     */
-    public function getPicUrl()
-    {
-        return $this->pic() ? $this->pic()->getUrl() : '';
-    }
 }

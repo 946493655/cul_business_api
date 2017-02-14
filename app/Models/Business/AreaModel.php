@@ -22,37 +22,37 @@ class AreaModel extends BaseModel
     public static function getAreaStr($area_id)
     {
         $areaModel = AreaModel::find($area_id);
-        $areaSrt = $areaModel?$areaModel->cityname:'';
+        $areaStr = $areaModel?$areaModel->cityname:'';
         if ($areaModel && $areaModel->parentid!=0) {
             $areaModel2 = AreaModel::find($areaModel->parentid);
             if ($areaModel2) {
-                $areaSrt = $areaModel2->cityname.','.$areaSrt;
+                $areaStr = $areaModel2->cityname.','.$areaStr;
             }
         }
         if ($areaModel && isset($areaModel2) && $areaModel2->parentid!=0) {
             $areaModel3 = AreaModel::find($areaModel2->parentid);
             if ($areaModel3) {
-                $areaSrt = $areaModel3->cityname.','.$areaSrt;
+                $areaStr = $areaModel3->cityname.','.$areaStr;
             }
         }
-        return $areaSrt;
+        return $areaStr;
     }
 
-    /**
-     * 发布方名称：bs_order，bs_order_pro，bs_order_firm
-     */
-    public function getSellName()
-    {
-        $userModel = $this->getUser($this->seller);
-        return $userModel ? $userModel['username'] : '';
-    }
-
-    /**
-     * 申请方名称：bs_order，bs_order_pro，bs_order_firm
-     */
-    public function getBuyName()
-    {
-        $userModel = $this->getUser($this->buyer);
-        return $userModel ? $userModel['username'] : '';
-    }
+//    /**
+//     * 发布方名称：bs_order，bs_order_pro，bs_order_firm
+//     */
+//    public function getSellName()
+//    {
+//        $userModel = $this->getUser($this->seller);
+//        return $userModel ? $userModel['username'] : '';
+//    }
+//
+//    /**
+//     * 申请方名称：bs_order，bs_order_pro，bs_order_firm
+//     */
+//    public function getBuyName()
+//    {
+//        $userModel = $this->getUser($this->buyer);
+//        return $userModel ? $userModel['username'] : '';
+//    }
 }

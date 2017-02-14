@@ -1,24 +1,22 @@
 <?php
 namespace App\Http\Controllers\Business;
 
-use App\Models\Business\RentModel;
+use App\Models\Business\StoryBoardModel;
 
-class RentController extends BaseController
+class StoryBoardController extends BaseController
 {
     /**
-     * 租赁
+     * 分镜
      */
 
     public function __construct()
     {
         parent::__construct();
-        $this->selfModel = new RentModel();
+        $this->selfModel = new StoryBoardModel();
     }
 
     public function index()
     {
-        $genre = $_POST['genre'];
-        $type = $_POST['type'];
         $uid = $_POST['uid'];
         $isshow = $_POST['isshow'];
         $del = $_POST['del'];
@@ -26,14 +24,10 @@ class RentController extends BaseController
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
         $start = $limit * ($page - 1);
 
-        $genreArr = $genre ? [$genre] : [0,1,2];
-        $typeArr = $type ? [$type] : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
         if ($uid) {
-            $models = RentModel::where('uid',$uid)
+            $models = StoryBoardModel::where('uid',$uid)
                 ->where('del',$del)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('type',$typeArr)
                 ->whereIn('isshow',$isshowArr)
                 ->orderBy('sort','desc')
                 ->orderBy('id','desc')
@@ -41,9 +35,7 @@ class RentController extends BaseController
                 ->take($limit)
                 ->get();
         } else {
-            $models = RentModel::where('del',$del)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('type',$typeArr)
+            $models = StoryBoardModel::where('del',$del)
                 ->whereIn('isshow',$isshowArr)
                 ->orderBy('sort','desc')
                 ->orderBy('id','desc')
@@ -66,8 +58,7 @@ class RentController extends BaseController
             $datas[$k]['createTime'] = $model->createTime();
             $datas[$k]['updateTime'] = $model->updateTime();
             $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['typeName'] = $model->getTypeName();
-            $datas[$k]['period'] = $model->period();
+            $datas[$k]['cateName'] = $model->getCateName();
         }
         $rstArr = [
             'error' =>  [
@@ -80,35 +71,53 @@ class RentController extends BaseController
     }
 
     /**
-     * 通过价格，获取列表
+     * 通过 way、category 获取列表
+     * way：0 所有，1isnew，2ishot
      */
-    public function getRentsByMoney()
+    public function getSBsByWay()
     {
-        $type = $_POST['type'];
-        $fromMoney = $_POST['fromMoney'];
-        $toMoney = $_POST['toMoney'];
+        $genre = $_POST['genre'];
+        $cate = $_POST['cate'];
+        $way = $_POST['way'];
         $limit = (isset($_POST['limit'])&&$_POST['limit']) ? $_POST['limit'] : $this->limit;
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
         $start = $limit * ($page - 1);
-        if ($fromMoney > $toMoney) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -1,
-                    'msg'   =>  '参数有误！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
+
+        $genreArr = $genre ? [$genre] : [0,1,2,3,4];
+        $cateArr = $cate ? [$cate] : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+        if ($way==1) {
+            $models = StoryBoardModel::where('isshow',2)
+                ->where('del',0)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('cate',$cateArr)
+                ->where('isnew',1)
+                ->orderBy('sort','desc')
+                ->orderBy('id','desc')
+                ->skip($start)
+                ->take($limit)
+                ->get();
+        } elseif ($way==2) {
+            $models = StoryBoardModel::where('isshow',2)
+                ->where('del',0)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('cate',$cateArr)
+                ->where('ishot',1)
+                ->orderBy('sort','desc')
+                ->orderBy('id','desc')
+                ->skip($start)
+                ->take($limit)
+                ->get();
+        } else {
+            $models = StoryBoardModel::where('isshow',2)
+                ->where('del',0)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('cate',$cateArr)
+                ->orderBy('sort','desc')
+                ->orderBy('id','desc')
+                ->skip($start)
+                ->take($limit)
+                ->get();
         }
-        $typeArr = $type ? [$type] : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-        $models = RentModel::where('genre',1)
-            ->where('isshow',2)
-            ->whereBetween('money',[$fromMoney,$toMoney])
-            ->whereIn('type',$typeArr)
-            ->orderBy('sort','desc')
-            ->orderBy('id','desc')
-            ->skip($start)
-            ->take($limit)
-            ->get();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -124,47 +133,8 @@ class RentController extends BaseController
             $datas[$k]['createTime'] = $model->createTime();
             $datas[$k]['updateTime'] = $model->updateTime();
             $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['typeName'] = $model->getTypeName();
-            $datas[$k]['period'] = $model->period();
+            $datas[$k]['cateName'] = $model->getCateName();
         }
-        $rstArr = [
-            'error' =>  [
-                'code'  =>  0,
-                'msg'   =>  '操作成功！',
-            ],
-            'data'  =>  $datas,
-        ];
-        echo json_encode($rstArr);exit;
-    }
-
-    public function show()
-    {
-        $id = $_POST['id'];
-        if (!$id) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -1,
-                    'msg'   =>  '参数有误！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $model = RentModel::find($id);
-        if (!$model) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '没有数据！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $datas = $this->objToArr($model);
-        $datas['createTime'] = $model->createTime();
-        $datas['updateTime'] = $model->updateTime();
-        $datas['genreName'] = $model->getGenreName();
-        $datas['typeName'] = $model->getTypeName();
-        $datas['period'] = $model->period();
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -182,7 +152,8 @@ class RentController extends BaseController
     {
         $model = [
             'genres'    =>  $this->selfModel['genres'],
-            'types'     =>  $this->selfModel['types'],
+            'cates'     =>  $this->selfModel['cates2'],
+            'isshows'   =>  $this->selfModel['isshows'],
         ];
         $rstArr = [
             'error' =>  [

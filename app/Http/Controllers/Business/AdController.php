@@ -19,17 +19,30 @@ class AdController extends BaseController
     {
         $uid = $_POST['uid'];
         $adplace = $_POST['adplace'];
+        $fromTime = $_POST['fromTime'];
+        $toTime = $_POST['toTime'];
         $isuse = $_POST['isuse'];
         $isshow = $_POST['isshow'];
         $limit = (isset($_POST['limit'])&&$_POST['limit']) ? $_POST['limit'] : $this->limit;        //每页显示记录数
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;       //页码，默认第一页
         $start = $limit * ($page - 1);      //记录起始id
 
+        if ((!$fromTime&&$toTime) || ($fromTime&&!$toTime)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
         $isuseArr = $isuse ? [$isuse] : [0,1,2];
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
-        if ($adplace) {
+        if ($fromTime && $toTime) {
             $models = AdModel::where('uid',$uid)
                 ->where('adplace_id',$adplace)
+                ->where('fromTime','<',time())
+                ->where('toTime','>',time())
                 ->whereIn('isuse',$isuseArr)
                 ->whereIn('isshow',$isshowArr)
                 ->orderBy('id','desc')
@@ -38,6 +51,7 @@ class AdController extends BaseController
                 ->get();
         } else {
             $models = AdModel::where('uid',$uid)
+                ->where('adplace_id',$adplace)
                 ->whereIn('isuse',$isuseArr)
                 ->whereIn('isshow',$isshowArr)
                 ->orderBy('id','desc')
@@ -49,7 +63,7 @@ class AdController extends BaseController
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -2,
-                    'msg'   =>  '参数有误！',
+                    'msg'   =>  '没有数据！',
                 ],
             ];
             echo json_encode($rstArr);exit;
@@ -78,8 +92,8 @@ class AdController extends BaseController
     {
         $model = [
             'isauths'   =>  $this->selfModel['isauths'],
-            'isshows'   =>  $this->selfModel['isshows'],
             'isuses'    =>  $this->selfModel['isuses'],
+            'isshows'   =>  $this->selfModel['isshows'],
         ];
         $rstArr = [
             'error' =>  [

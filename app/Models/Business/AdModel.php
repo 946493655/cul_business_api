@@ -10,19 +10,10 @@ class AdModel extends BaseModel
     protected $isauths = [
         1=>'未审核','未通过审核','通过审核',
     ];
-    //前台是否显示isshow：1不显示，2显示，默认2
-    protected $isshows = [
-        1=>'不显示','显示',
-    ];
     //控制开关isuse：0关闭，1开启，默认1
     protected $isuses = [
         1=>'使用','不使用',
     ];
-
-    public function isshow()
-    {
-        return $this->isshow ? '显示' : '不显示';
-    }
 
     public function isuse()
     {
@@ -89,33 +80,4 @@ class AdModel extends BaseModel
         }
         return isset($periodName) ? $periodName : '';
     }
-
-//    /**
-//     * 所有广告位
-//     */
-//    public function adplaces()
-//    {
-//        return AdPlaceModel::all();
-//    }
-
-//    /**
-//     * 指定用户的所有广告位
-//     */
-//    public function userAdplaces($uid=0)
-//    {
-//        return AdPlaceModel::where('plat',2)->whereIn('uid',[0,$uid])->get();
-//    }
-
-//    /**
-//     * 申请使用的企业
-//     */
-//    public function getUName()
-//    {
-//        if ($this->uid) {
-//            $uname = $this->getCompanyName($this->uid) ? $this->getCompanyName($this->uid) : $this->getUserName($this->uid);
-//        } else {
-//            $uname = '本站';
-//        }
-//        return $uname;
-//    }
 }

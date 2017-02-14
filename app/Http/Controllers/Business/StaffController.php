@@ -1,18 +1,25 @@
 <?php
 namespace App\Http\Controllers\Business;
 
-use App\Models\Business\EntertainModel;
+use App\Models\Business\StaffModel;
 
-class EntertainController extends BaseController
+class StaffController extends BaseController
 {
     /**
-     * 娱乐
+     * 人员
      */
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->selfModel = new StaffModel();
+    }
 
     public function index()
     {
-        $uid = $_POST['uid'];
         $genre = $_POST['genre'];
+        $type = $_POST['type'];
+        $uid = $_POST['uid'];
         $isshow = $_POST['isshow'];
         $del = $_POST['del'];
         $limit = (isset($_POST['limit'])&&$_POST['limit']) ? $_POST['limit'] : $this->limit;
@@ -20,11 +27,17 @@ class EntertainController extends BaseController
         $start = $limit * ($page - 1);
 
         $genreArr = $genre ? [$genre] : [0,1,2];
+        $typeArr = $type ? [$type] : [
+                        0,1,2,3,4,5,
+                        21,22,23,24,25,
+                    ];
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
         if ($uid) {
-            $models = EntertainModel::where('del',$del)
-                ->where('uid',$uid)
+            $models = StaffModel::where('uid',$uid)
+                ->where('del',$del)
                 ->whereIn('genre',$genreArr)
+                ->whereIn('type',$typeArr)
+                ->whereIn('type',$typeArr)
                 ->whereIn('isshow',$isshowArr)
                 ->orderBy('sort','desc')
                 ->orderBy('id','desc')
@@ -32,8 +45,9 @@ class EntertainController extends BaseController
                 ->take($limit)
                 ->get();
         } else {
-            $models = EntertainModel::where('del',$del)
+            $models = StaffModel::where('del',$del)
                 ->whereIn('genre',$genreArr)
+                ->whereIn('type',$typeArr)
                 ->whereIn('isshow',$isshowArr)
                 ->orderBy('sort','desc')
                 ->orderBy('id','desc')
@@ -55,6 +69,12 @@ class EntertainController extends BaseController
             $datas[$k] = $this->objToArr($model);
             $datas[$k]['createTime'] = $model->createTime();
             $datas[$k]['updateTime'] = $model->updateTime();
+            $datas[$k]['genreName'] = $model->getGenreName();
+            $datas[$k]['typeName'] = $model->getTypeName();
+            $datas[$k]['sexName'] = $model->getSexName();
+            $datas[$k]['eduName'] = $model->getEduName();
+            $datas[$k]['hobbyName'] = $model->getHobbyName();
+            $datas[$k]['etName'] = $model->getEntertainTitle();
         }
         $rstArr = [
             'error' =>  [
@@ -78,7 +98,7 @@ class EntertainController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $model = EntertainModel::find($id);
+        $model = StaffModel::find($id);
         if (!$model) {
             $rstArr = [
                 'error' =>  [
@@ -91,6 +111,12 @@ class EntertainController extends BaseController
         $datas = $this->objToArr($model);
         $datas['createTime'] = $model->createTime();
         $datas['updateTime'] = $model->updateTime();
+        $datas['genreName'] = $model->getGenreName();
+        $datas['typeName'] = $model->getTypeName();
+        $datas['sexName'] = $model->getSexName();
+        $datas['eduName'] = $model->getEduName();
+        $datas['hobbyName'] = $model->getHobbyName();
+        $datas['etName'] = $model->getEntertainTitle();
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -108,6 +134,10 @@ class EntertainController extends BaseController
     {
         $model = [
             'genres'    =>  $this->selfModel['genres'],
+            'types'     =>  $this->selfModel['types'],
+            'educations'    =>  $this->selfModel['educations'],
+            'hobbys'    =>  $this->selfModel['hobbys'],
+            'isshows'   =>  $this->selfModel['isshows'],
         ];
         $rstArr = [
             'error' =>  [
