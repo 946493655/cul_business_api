@@ -5,40 +5,20 @@ class MessageModel extends BaseModel
 {
     protected $table = 'bs_message';
     protected $fillable = [
-        'id','title','genre','genre2','intro','sender','senderTime','accept','acceptTime','status','del','created_at','updated_at',
+        'id','title','genre','intro','sender','senderTime','accept','acceptTime','status','del','created_at','updated_at',
     ];
 
     protected $genres = [
         1=>'个人消息','企业消息',
-    ];
-    protected $genre2s = [
-        1=>'离线消息','即时消息',
     ];
     //1未发送，2已发送未接收，3已接收未读，4已读
     protected $statuss = [
         1=>'未发送','已发送未接收','已接收未读','已读',
     ];
 
-    public function getTitle()
+    public function getGenreName()
     {
-        return $this->title ? $this->title : '/';
-    }
-
-    public function getGenreName2()
-    {
-        return $this->genre2s[$this->genre2];
-    }
-
-    public function senderName()
-    {
-        $sender = $this->sender ? $this->sender : 0;
-        return $this->getUser($sender) ? $this->getUser($sender)['username'] : '';
-    }
-
-    public function acceptName()
-    {
-        $accept = $this->accept ? $this->accept : 0;
-        return $this->getUser($accept) ? $this->getUser($accept)['username'] : '';
+        return array_key_exists($this->genre,$this->genres) ? $this->genres[$this->genre] : '';
     }
 
     public function senderTime()
@@ -51,7 +31,7 @@ class MessageModel extends BaseModel
         return $this->acceptTime ? date('Y年m月d日 H:i',$this->acceptTime) : '未接收';
     }
 
-    public function statusName()
+    public function getStatusName()
     {
         return array_key_exists($this->status,$this->statuss) ? $this->statuss[$this->status] : '';
     }

@@ -59,6 +59,9 @@ class StoryBoardController extends BaseController
             $datas[$k]['updateTime'] = $model->updateTime();
             $datas[$k]['genreName'] = $model->getGenreName();
             $datas[$k]['cateName'] = $model->getCateName();
+            $datas[$k]['isshowName'] = $model->getIsshowName();
+            $datas[$k]['isnewName'] = $model->getIsnewName();
+            $datas[$k]['ishotName'] = $model->getIshotName();
         }
         $rstArr = [
             'error' =>  [
@@ -134,6 +137,9 @@ class StoryBoardController extends BaseController
             $datas[$k]['updateTime'] = $model->updateTime();
             $datas[$k]['genreName'] = $model->getGenreName();
             $datas[$k]['cateName'] = $model->getCateName();
+            $datas[$k]['isshowName'] = $model->getIsshowName();
+            $datas[$k]['isnewName'] = $model->getIsnewName();
+            $datas[$k]['ishotName'] = $model->getIshotName();
         }
         $rstArr = [
             'error' =>  [
@@ -141,6 +147,131 @@ class StoryBoardController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function show()
+    {
+        $id = $_POST['id'];
+        if (!$id) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = StoryBoardModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = $this->objToArr($model);
+        $datas['createTime'] = $model->createTime();
+        $datas['updateTime'] = $model->updateTime();
+        $datas['genreName'] = $model->getGenreName();
+        $datas['cateName'] = $model->getCateName();
+        $datas['isshowName'] = $model->getIsshowName();
+        $datas['isnewName'] = $model->getIsnewName();
+        $datas['ishotName'] = $model->getIshotName();
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function store()
+    {
+        $name = $_POST['name'];
+        $genre = $_POST['genre'];
+        $cate = $_POST['cate'];
+        $intro = $_POST['intro'];
+        $money = $_POST['money'];
+        $uid = $_POST['uid'];
+        $uname = $_POST['name'];
+        if (!$name || !$genre || !$cate || !$uid || !$uname) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'genre' =>  $genre,
+            'cate'  =>  $cate,
+            'intro' =>  $intro,
+            'money' =>  $money,
+            'uid'   =>  $uid,
+            'uname'    =>  $uname,
+            'created_at'    =>  time(),
+        ];
+        StoryBoardModel::create($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function update()
+    {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $genre = $_POST['genre'];
+        $cate = $_POST['cate'];
+        $intro = $_POST['intro'];
+        $money = $_POST['money'];
+        $uid = $_POST['uid'];
+        $uname = $_POST['name'];
+        if (!$id || !$name || !$genre || !$cate || !$uid || !$uname) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数要求！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = StoryBoardModel::where('id',$id)->where('uid',$uid)->first();
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'genre' =>  $genre,
+            'cate'  =>  $cate,
+            'intro' =>  $intro,
+            'money' =>  $money,
+            'updated_at'    =>  time(),
+        ];
+        StoryBoardModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
         ];
         echo json_encode($rstArr);exit;
     }
@@ -154,6 +285,8 @@ class StoryBoardController extends BaseController
             'genres'    =>  $this->selfModel['genres'],
             'cates'     =>  $this->selfModel['cates2'],
             'isshows'   =>  $this->selfModel['isshows'],
+            'isnews'    =>  $this->selfModel['isnews'],
+            'ishots'    =>  $this->selfModel['ishots'],
         ];
         $rstArr = [
             'error' =>  [

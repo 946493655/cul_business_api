@@ -32,35 +32,21 @@ class ComMainModel extends BaseModel
     protected $skinNames = [
         1=>'深灰色','黑色','深红色','深绿色','深蓝色','深橙色','紫色','深紫色',
     ];
-    protected $isshows = [
-        1=>'不显示','显示'
-    ];
     protected $istops = [
         '不置顶','置顶'
     ];
 
     public function getSkin()
     {
-        return $this->skins[$this->skin];
+        return array_key_exists($this->isshow,$this->isshows) ? $this->skins[$this->skin] : '';
     }
 
     public function getSkinName()
     {
-        return $this->skinNames[$this->skin];
+        return array_key_exists($this->skin,$this->skins) ? $this->skinNames[$this->skin] : '';
     }
 
-    public function company()
-    {
-        $rst = ApiCompany::show($this->cid);
-        return $rst['code']==0 ? $rst['data'] : [];
-    }
-
-    public function isshow()
-    {
-        return array_key_exists($this->isshow,$this->isshows) ? $this->isshows[$this->isshow] : '';
-    }
-
-    public function istop()
+    public function getIsTopName()
     {
         return array_key_exists($this->istop,$this->istops) ? $this->isshows[$this->isshow] : '';
     }

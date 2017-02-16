@@ -175,6 +175,89 @@ class RentController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
+    public function store()
+    {
+        $name = $_POST['name'];
+        $genre = $_POST['genre'];
+        $type = $_POST['type'];
+        $intro = $_POST['intro'];
+        $uid = $_POST['uid'];
+        $money = $_POST['money'];
+        if (!$name || !$genre || !$type || !$uid) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'genre' =>  $genre,
+            'type'  =>  $type,
+            'intro' =>  $intro,
+            'uid'   =>  $uid,
+            'money' =>  $money,
+            'created_at'    =>  time(),
+        ];
+        RentModel::create($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function update()
+    {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $genre = $_POST['genre'];
+        $type = $_POST['type'];
+        $intro = $_POST['intro'];
+        $uid = $_POST['uid'];
+        $money = $_POST['money'];
+        if (!$id || !$name || !$genre || !$type || !$uid) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = RentModel::where('id',$id)->where('uid',$uid)->first();
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'genre' =>  $genre,
+            'type'  =>  $type,
+            'intro' =>  $intro,
+            'uid'   =>  $uid,
+            'money' =>  $money,
+            'updated_at'    =>  time(),
+        ];
+        RentModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
     /**
      * 获取 model
      */

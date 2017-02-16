@@ -5,7 +5,7 @@ class StaffModel extends BaseModel
 {
     protected $table = 'bs_staffs';
     protected $fillable = [
-        'id','name','et_id','uid','genre','type','thumb','sex','realname','origin','education','school','hobby',
+        'id','name','uid','genre','type','thumb','sex','realname','origin','education','school','hobby',
         'area','height','sort','isshow','del','created_at','updated_at',
     ];
     protected $genres = [
@@ -44,7 +44,7 @@ class StaffModel extends BaseModel
         return array_key_exists($this->education,$this->educations) ? $this->educations[$this->education] : '';
     }
 
-    public function getHobby()
+    public function getHobbys()
     {
         $hobby = $this->hobby ? $this->hobby : '';
         return $hobby ? explode(',',$hobby) : [];
@@ -52,7 +52,7 @@ class StaffModel extends BaseModel
 
     public function getHobbyName()
     {
-        if ($hobbys = $this->getHobby()) {
+        if ($hobbys = $this->getHobbys()) {
             foreach ($hobbys as $hobby) {
                 $hobbyName = $this->hobbys[$hobby];
                 $hobbyArr[] = $hobbyName;

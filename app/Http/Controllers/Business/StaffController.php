@@ -73,6 +73,65 @@ class StaffController extends BaseController
             $datas[$k]['typeName'] = $model->getTypeName();
             $datas[$k]['sexName'] = $model->getSexName();
             $datas[$k]['eduName'] = $model->getEduName();
+            $datas[$k]['hobbys'] = $model->getHobbys();
+            $datas[$k]['hobbyName'] = $model->getHobbyName();
+            $datas[$k]['etName'] = $model->getEntertainTitle();
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 通过 uid 获取艺人列表
+     */
+    public function getStaffsByUid()
+    {
+        $uid = $_POST['uid'];
+        $genre = $_POST['genre'];
+        $type = $_POST['type'];
+        if (!$uid) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $genreArr = $genre ? [$genre] : [0,1,2];
+        $typeArr = $type ? [$type] : [0,1,2,3,4,5,21,22,23,24,25];
+        $models = StaffModel::where('uid',$uid)
+            ->whereIn('genre',$genreArr)
+            ->whereIn('type',$typeArr)
+            ->where('isshow',2)
+            ->where('del',0)
+            ->orderBy('id','desc')
+            ->get();
+        if (!$models) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->objToArr($model);
+            $datas[$k]['createTime'] = $model->createTime();
+            $datas[$k]['updateTime'] = $model->updateTime();
+            $datas[$k]['genreName'] = $model->getGenreName();
+            $datas[$k]['typeName'] = $model->getTypeName();
+            $datas[$k]['sexName'] = $model->getSexName();
+            $datas[$k]['eduName'] = $model->getEduName();
+            $datas[$k]['hobbys'] = $model->getHobbys();
             $datas[$k]['hobbyName'] = $model->getHobbyName();
             $datas[$k]['etName'] = $model->getEntertainTitle();
         }
@@ -115,6 +174,7 @@ class StaffController extends BaseController
         $datas['typeName'] = $model->getTypeName();
         $datas['sexName'] = $model->getSexName();
         $datas['eduName'] = $model->getEduName();
+        $datas['hobbys'] = $model->getHobbys();
         $datas['hobbyName'] = $model->getHobbyName();
         $datas['etName'] = $model->getEntertainTitle();
         $rstArr = [
@@ -127,6 +187,93 @@ class StaffController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
+    public function store()
+    {
+        $name = $_POST['name'];
+        $sex = $_POST['sex'];
+        $realname = $_POST['realname'];
+        $origin = $_POST['origin'];
+        $edu = $_POST['edu'];
+        $school = $_POST['school'];
+        $hobby = $_POST['hobby'];
+        $height = $_POST['height'];
+        $type = $_POST['type'];
+        $uid = $_POST['uid'];
+        if (!$name || !$sex || !$realname || !$origin || !$edu || !$school || !$hobby || !$height || !$type || !$uid) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'sex'   =>  $sex,
+            'realname'  =>  $realname,
+            'origin'    =>  $origin,
+            'education' =>  $edu,
+            'school'    =>  $school,
+            'hobby'     =>  $hobby,
+            'height'    =>  $height,
+            'type'      =>  $type,
+            'uid'       =>  $uid,
+            'created_at'    =>  time(),
+        ];
+        StaffModel::create($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function update()
+    {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $sex = $_POST['sex'];
+        $realname = $_POST['realname'];
+        $origin = $_POST['origin'];
+        $edu = $_POST['edu'];
+        $school = $_POST['school'];
+        $hobby = $_POST['hobby'];
+        $height = $_POST['height'];
+        $type = $_POST['type'];
+        $uid = $_POST['uid'];
+        if (!$id || !$name || !$sex || !$realname || !$origin || !$edu || !$school || !$hobby || !$height || !$type || !$uid) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'sex'   =>  $sex,
+            'realname'  =>  $realname,
+            'origin'    =>  $origin,
+            'education' =>  $edu,
+            'school'    =>  $school,
+            'hobby'     =>  $hobby,
+            'height'    =>  $height,
+            'updated_at'    =>  time(),
+        ];
+        StaffModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
     /**
      * 获取 model
      */
@@ -135,7 +282,7 @@ class StaffController extends BaseController
         $model = [
             'genres'    =>  $this->selfModel['genres'],
             'types'     =>  $this->selfModel['types'],
-            'educations'    =>  $this->selfModel['educations'],
+            'edus'    =>  $this->selfModel['educations'],
             'hobbys'    =>  $this->selfModel['hobbys'],
             'isshows'   =>  $this->selfModel['isshows'],
         ];

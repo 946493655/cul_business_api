@@ -27,36 +27,58 @@ $app->get('/', function () use ($app) {
 $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business'], function () use ($app) {
     //设计路由
     $app->post('design', 'DesignController@index');
+    $app->post('design/show', 'DesignController@show');
+    $app->post('design/add', 'DesignController@store');
+    $app->post('design/modify', 'DesignController@update');
     $app->post('design/getmodel', 'DesignController@getModel');
     //娱乐路由
     $app->post('entertain', 'EntertainController@index');
     $app->post('entertain/show', 'EntertainController@show');
+    $app->post('entertain/add', 'EntertainController@store');
+    $app->post('entertain/modify', 'EntertainController@update');
     $app->post('entertain/getmodel', 'EntertainController@getModel');
     //产品(发布)路由
     $app->post('goods', 'GoodsController@index');
-    $app->post('goods/goodsbycate', 'GoodsController@getGoodsByCate');
     $app->post('goods/show', 'GoodsController@show');
+    $app->post('goods/add', 'GoodsController@store');
+    $app->post('goods/modify', 'GoodsController@update');
+    $app->post('goods/thumb', 'GoodsController@setThumb');
+    $app->post('goods/link', 'GoodsController@setLink');
     $app->post('goods/getmodel', 'GoodsController@getModel');
     //产品(定制)路由
     $app->post('goodscus', 'GoodsCusController@index');
+    $app->post('goodscus/add', 'GoodsCusController@store');
+    $app->post('goodscus/modify', 'GoodsCusController@update');
+    $app->post('goodscus/show', 'GoodsCusController@show');
+    //产品(定制)之用户竞价路由
+    $app->post('goodscususer', 'GoodsCusUsersController@index');
+    $app->post('goodscususer/add', 'GoodsCusUsersController@store');
+    $app->post('goodscususer/modify', 'GoodsCusUsersController@update');
+    $app->post('goodscususer/show', 'GoodsCusUsersController@show');
     //创意路由
     $app->post('idea', 'IdeaController@index');
+    $app->post('idea/show', 'IdeaController@show');
+    $app->post('idea/add', 'IdeaController@store');
+    $app->post('idea/modify', 'IdeaController@update');
     $app->post('idea/getmodel', 'IdeaController@getModel');
     //订单路由
     $app->post('order', 'OrderController@index');
+    $app->post('order/ordersbyuid', 'OrderController@getOrdersByUid');
     $app->post('order/getmodel', 'OrderController@getModel');
     //租赁路由
     $app->post('rent', 'RentController@index');
     $app->post('rent/show', 'RentController@show');
+    $app->post('rent/add', 'RentController@store');
+    $app->post('rent/modify', 'RentController@update');
     $app->post('rent/rentsbymoney', 'RentController@getRentsByMoney');
     $app->post('rent/getmodel', 'RentController@getModel');
     //人员路由
     $app->post('staff', 'StaffController@index');
+    $app->post('staff/add', 'StaffController@store');
+    $app->post('staff/modify', 'StaffController@update');
     $app->post('staff/show', 'StaffController@show');
+    $app->post('staff/staffsbyuid', 'StaffController@getStaffsByUid');
     $app->post('staff/getmodel', 'StaffController@getModel');
-    //分镜路由
-    $app->post('storyboard', 'StoryboardController@index');
-    $app->post('storyboard/getmodel', 'StoryboardController@getModel');
     //影视作品路由
     $app->post('works', 'WorksController@index');
     $app->post('works/show', 'WorksController@show');
@@ -71,16 +93,27 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('provideo/getmodel', 'ProVideoController@getmodel');
     //分镜路由
     $app->post('storyboard', 'StoryBoardController@index');
+    $app->post('storyboard/add', 'StoryBoardController@store');
+    $app->post('storyboard/modify', 'StoryBoardController@update');
+    $app->post('storyboard/show', 'StoryBoardController@show');
     $app->post('storyboard/sbsbyway', 'StoryBoardController@getSBsByWay');
     $app->post('storyboard/getmodel', 'StoryBoardController@getModel');
     //人员路由
     $app->post('staff', 'StaffController@index');
     $app->post('staff/getmodel', 'StaffController@getModel');
-    //链接路由
-    $app->post('link', 'LinkController@index');
+    //消息路由
+    $app->post('message', 'MessageController@index');
+    $app->post('message/add', 'MessageController@store');
     //地区路由
     $app->post('area/namebyid', 'AreaController@getAreaNameByAreaId');
+    //链接路由
+    $app->post('link', 'LinkController@index');
+    //菜单路由
+    $app->post('menu/menusbytype', 'MenuController@getMenusByType');
 });
 //公司业务路由
 $app->group(['prefix' => 'api/v1/com', 'namespace'=>'App\Http\Controllers\Company'], function () use ($app) {
+    $app->post('main', 'ComMainController@index');
+    $app->post('main/onebyuid', 'ComMainController@getOneByUid');
+    $app->post('main/getmodel', 'ComMainController@getModel');
 });

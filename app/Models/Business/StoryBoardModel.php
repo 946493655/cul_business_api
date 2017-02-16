@@ -13,6 +13,12 @@ class StoryBoardModel extends BaseModel
     protected $genres = [
         1=>'企业供应','企业需求','个人供应','个人需求',
     ];
+    protected $isnews = [
+        1=>'不是','是'
+    ];
+    protected $ishots = [
+        1=>'不是','是'
+    ];
 
     public function getGenreName()
     {
@@ -27,17 +33,17 @@ class StoryBoardModel extends BaseModel
     /**
      * 是否为最新记录
      */
-    public function isnew()
+    public function getIsnewName()
     {
-        return $this->isnew ? '最新' : '非最新';
+        return $this->isnew==2 ? '最新' : '非最新';
     }
 
     /**
      * 是否为最热记录
      */
-    public function ishot()
+    public function getIshotName()
     {
-        return $this->ishot ? '最热' : '非最热';
+        return $this->ishot==2 ? '最热' : '非最热';
     }
 
 //    public function getLike()

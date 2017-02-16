@@ -1,47 +1,37 @@
 <?php
 namespace App\Http\Controllers\Business;
 
-use App\Models\Business\IdeasModel;
+use App\Models\Business\GoodsCusModel;
 
-class IdeaController extends BaseController
+class GoodsCusController extends BaseController
 {
     /**
-     * 创意
+     * 片源定制
      */
 
     public function __construct()
     {
         parent::__construct();
-        $this->selfModel = new IdeasModel();
+        $this->selfModel = new GoodsCusModel();
     }
 
     public function index()
     {
         $uid = $_POST['uid'];
-        $cate = $_POST['cate'];
-        $isshow = $_POST['isshow'];
         $del = $_POST['del'];
         $limit = (isset($_POST['limit'])&&$_POST['limit']) ? $_POST['limit'] : $this->limit;
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
         $start = $limit * ($page - 1);
 
-        $cateArr = $cate ? [$cate] : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-        $isshowArr = $isshow ? [$isshow] : [0,1,2];
         if ($uid) {
-            $models = IdeasModel::where('uid',$uid)
+            $models = GoodsCusModel::where('uid',$uid)
                 ->where('del',$del)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->orderBy('sort','desc')
                 ->orderBy('id','desc')
                 ->skip($start)
                 ->take($limit)
                 ->get();
         } else {
-            $models = IdeasModel::where('del',$del)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->orderBy('sort','desc')
+            $models = GoodsCusModel::where('del',$del)
                 ->orderBy('id','desc')
                 ->skip($start)
                 ->take($limit)
@@ -57,15 +47,11 @@ class IdeaController extends BaseController
             echo json_encode($rstArr);exit;
         }
         $datas = array();
-        static $number = 1;
         foreach ($models as $k=>$model) {
             $datas[$k] = $this->objToArr($model);
             $datas[$k]['createTime'] = $model->createTime();
             $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['cateName'] = $model->getCateName();
-            $datas[$k]['isdetailName'] = $model->getIsDetailName();
-            $datas[$k]['number'] = $number ++;
+            $datas[$k]['statusName'] = $model->getStatusName();
         }
         $rstArr = [
             'error' =>  [
@@ -73,6 +59,81 @@ class IdeaController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function store()
+    {
+        $name = $_POST['name'];
+        $intro = $_POST['intro'];
+        $money = $_POST['money'];
+        $uid = $_POST['uid'];
+        if (!$name || !$intro || !$money || !$uid) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'intro' =>  $intro,
+            'money' =>  $money,
+            'uid'   =>  $uid,
+            'created_at'    =>  time(),
+        ];
+        GoodsCusModel::create($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function update()
+    {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $intro = $_POST['intro'];
+        $money = $_POST['money'];
+        $uid = $_POST['uid'];
+        if (!$id || !$name || !$intro || !$money || !$uid) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = GoodsCusModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'intro' =>  $intro,
+            'money' =>  $money,
+            'uid'   =>  $uid,
+            'updated_at'    =>  time(),
+        ];
+        GoodsCusModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
         ];
         echo json_encode($rstArr);exit;
     }
@@ -89,7 +150,7 @@ class IdeaController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $model = IdeasModel::find($id);
+        $model = GoodsCusModel::find($id);
         if (!$model) {
             $rstArr = [
                 'error' =>  [
@@ -102,123 +163,13 @@ class IdeaController extends BaseController
         $datas = $this->objToArr($model);
         $datas['createTime'] = $model->createTime();
         $datas['updateTime'] = $model->updateTime();
-        $datas['genreName'] = $model->getGenreName();
-        $datas['cateName'] = $model->getCateName();
-        $datas['isdetailName'] = $model->getIsDetailName();
+        $datas['statusName'] = $model->getStatusName();
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
-        ];
-        echo json_encode($rstArr);exit;
-    }
-
-    public function store()
-    {
-        $name = $_POST['name'];
-        $genre = $_POST['genre'];
-        $cate = $_POST['cate'];
-        $intro = $_POST['intro'];
-        $isdetail = $_POST['isdetail'];
-        $detail = $_POST['detail'];
-        $uid = $_POST['uid'];
-        if (!$name || !$genre || !$cate || !$intro || !$isdetail || !$detail || !$uid) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -1,
-                    'msg'   =>  '参数有误！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $data = [
-            'name'  =>  $name,
-            'genre' =>  $genre,
-            'cate'  =>  $cate,
-            'intro' =>  $intro,
-            'isdetail' =>  $isdetail,
-            'detail'    =>  $detail,
-            'uid'   =>  $uid,
-            'created_at'    =>  time(),
-        ];
-        IdeasModel::create($data);
-        $rstArr = [
-            'error' =>  [
-                'code'  =>  0,
-                'msg'   =>  '操作成功！',
-            ],
-        ];
-        echo json_encode($rstArr);exit;
-    }
-
-    public function update()
-    {
-        $id = $_POST['id'];
-        $name = $_POST['name'];
-        $genre = $_POST['genre'];
-        $cate = $_POST['cate'];
-        $intro = $_POST['intro'];
-        $isdetail = $_POST['isdetail'];
-        $detail = $_POST['detail'];
-        $uid = $_POST['uid'];
-        if (!$id || !$name || !$genre || !$cate || !$intro || !$isdetail || !$detail || !$uid) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -1,
-                    'msg'   =>  '参数有误！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $model = IdeasModel::where('id',$id)->where('uid',$uid)->first();
-        if (!$model) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '没有记录！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $data = [
-            'name'  =>  $name,
-            'genre' =>  $genre,
-            'cate'  =>  $cate,
-            'intro' =>  $intro,
-            'isdetail' =>  $isdetail,
-            'detail'    =>  $detail,
-            'uid'   =>  $uid,
-            'updated_at'    =>  time(),
-        ];
-        IdeasModel::where('id',$id)->update($data);
-        $rstArr = [
-            'error' =>  [
-                'code'  =>  0,
-                'msg'   =>  '操作成功！',
-            ],
-        ];
-        echo json_encode($rstArr);exit;
-    }
-
-    /**
-     * 获取 model
-     */
-    public function getModel()
-    {
-        $model = [
-            'genres'    =>  $this->selfModel['genres'],
-            'cates'     =>  $this->selfModel['cates2'],
-            'isdetails'   =>  $this->selfModel['isdetails'],
-            'isshows'   =>  $this->selfModel['isshows'],
-        ];
-        $rstArr = [
-            'error' =>  [
-                'code'  =>  0,
-                'msg'   =>  '操作成功！',
-            ],
-            'model' =>  $model,
         ];
         echo json_encode($rstArr);exit;
     }

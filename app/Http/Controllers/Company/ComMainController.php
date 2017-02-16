@@ -1,13 +1,19 @@
 <?php
-namespace App\Http\Controllers\Business;
+namespace App\Http\Controllers\Company;
 
-use App\Models\Business\OrderModel;
+use App\Models\Company\ComMainModel;
 
-class OrderController extends BaseController
+class ComMainController extends BaseController
 {
     /**
-     * 主体业务订单
+     * 客户公司信息
      */
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->selfModel = new ComMainModel();
+    }
 
     public function index()
     {
@@ -17,7 +23,8 @@ class OrderController extends BaseController
         $start = $limit * ($page - 1);
 
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
-        $models = OrderModel::whereIn('isshow',$isshowArr)
+        $models = ComMainModel::whereIn('isshow',$isshowArr)
+            ->orderBy('sort','desc')
             ->orderBy('id','desc')
             ->skip($start)
             ->take($limit)
@@ -36,9 +43,9 @@ class OrderController extends BaseController
             $datas[$k] = $this->objToArr($model);
             $datas[$k]['createTime'] = $model->createTime();
             $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['statusName'] = $model->getStatusName();
-            $datas[$k]['statusBtn'] = $model->getStatusBtn();
+            $datas[$k]['skin'] = $model->getSkin();
+            $datas[$k]['skinName'] = $model->getSkinName();
+            $datas[$k]['istopName'] = $model->getIsTopName();
         }
         $rstArr = [
             'error' =>  [
@@ -51,12 +58,11 @@ class OrderController extends BaseController
     }
 
     /**
-     * 通过 uid 获取订单列表
+     * 通过 uid 获取客户公司信息
      */
-    public function getOrdersByUid()
+    public function getOneByUid()
     {
         $uid = $_POST['uid'];
-        $status = $_POST['status'];
         if (!$uid) {
             $rstArr = [
                 'error' =>  [
@@ -66,28 +72,8 @@ class OrderController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        if (!$status) {
-            $models = OrderModel::where('buyer',$uid)
-                ->where('isshow',2)
-                ->where('del',0)
-                ->orderBy('id','desc')
-                ->get();
-        } else if (is_array($status)) {
-            $models = OrderModel::where('buyer',$uid)
-                ->whereIn('status',$status)
-                ->where('isshow',2)
-                ->where('del',0)
-                ->orderBy('id','desc')
-                ->get();
-        } else {
-            $models = OrderModel::where('buyer',$uid)
-                ->where('status',$status)
-                ->where('isshow',2)
-                ->where('del',0)
-                ->orderBy('id','desc')
-                ->get();
-        }
-        if (!count($models)) {
+        $model = ComMainModel::where('uid',$uid)->first();
+        if ($model) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -2,
@@ -96,15 +82,12 @@ class OrderController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $datas = array();
-        foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['statusName'] = $model->getStatusName();
-            $datas[$k]['statusBtn'] = $model->getStatusBtn();
-        }
+        $datas = $this->objToArr($model);
+        $datas['createTime'] = $model->createTime();
+        $datas['updateTime'] = $model->updateTime();
+        $datas['skin'] = $model->getSkin();
+        $datas['skinName'] = $model->getSkinName();
+        $datas['istopName'] = $model->getIsTopName();
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -121,21 +104,16 @@ class OrderController extends BaseController
     public function getModel()
     {
         $model = [
-            'genres'    =>  $this->selfModel['genres'],
-            'types'     =>  $this->selfModel['types'],
-            'isshows'   =>  $this->selfModel['isshows'],
-            'status'    =>  [
-                $this->selfModel['status1s'],
-                $this->selfModel['status2s'],
-                $this->selfModel['status3s'],
-            ],
+            'skins'     =>  $this->selfModel['skins'],
+            'skinNames' =>  $this->selfModel['skinNames'],
+            'istops'    =>  $this->selfModel['istops'],
         ];
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
                 'msg'   =>  '操作成功！',
             ],
-            'model' =>  $model,
+            'data'  =>  $model,
         ];
         echo json_encode($rstArr);exit;
     }

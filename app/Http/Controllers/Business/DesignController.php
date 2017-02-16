@@ -84,7 +84,7 @@ class DesignController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
-    public function show($id)
+    public function show()
     {
         $id = $_POST['id'];
         if (!$id) {
@@ -96,6 +96,115 @@ class DesignController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
+        $model = DesignModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = $this->objToArr($model);
+        $datas['createTime'] = $model->createTime();
+        $datas['updateTime'] = $model->updateTime();
+        $datas['genreName'] = $model->getGenreName();
+        $datas['cateName'] = $model->getCateName();
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function store()
+    {
+        $name = $_POST['name'];
+        $genre = $_POST['genre'];
+        $cate = $_POST['cate'];
+        $intro = $_POST['intro'];
+        $detail = $_POST['detail'];
+        $money = $_POST['money'];
+        $uid = $_POST['uid'];
+        if (!$name || !$genre || !$cate || !$uid) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'genre' =>  $genre,
+            'cate'  =>  $cate,
+            'intro' =>  $intro,
+            'detail'    =>  $detail,
+            'money'     =>  $money,
+            'uid'       =>  $uid,
+            'created_at'    =>  time(),
+        ];
+        DesignModel::create($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function update()
+    {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $genre = $_POST['genre'];
+        $cate = $_POST['cate'];
+        $intro = $_POST['intro'];
+        $detail = $_POST['detail'];
+        $money = $_POST['money'];
+        $uid = $_POST['uid'];
+        if (!$id || !$name || !$genre || !$cate || !$uid) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = DesignModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'genre' =>  $genre,
+            'cate'  =>  $cate,
+            'intro' =>  $intro,
+            'detail'    =>  $detail,
+            'money'     =>  $money,
+            'updated_at'    =>  time(),
+        ];
+        DesignModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
     }
 
     /**
