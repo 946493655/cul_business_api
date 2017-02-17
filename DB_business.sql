@@ -996,42 +996,6 @@ INSERT INTO `bs_storyboards` VALUES (1,'ergth',1,4,'','','<p><img src=\"/uploads
 UNLOCK TABLES;
 
 --
--- Table structure for table `bs_works`
---
-
-DROP TABLE IF EXISTS `bs_works`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_works` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT '作品名称',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
-  `cate` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '影片类型：1电视剧，2电影，3微电影，4广告，5宣传片，6专题片，7汇报片，8主题片，9纪录片，10晚会，11淘宝视频，12婚纱摄影，13节日聚会，14个人短片，',
-  `intro` varchar(255) NOT NULL COMMENT '简介',
-  `detail` varchar(1000) NOT NULL COMMENT '详情',
-  `thumb` varchar(255) NOT NULL COMMENT '图片',
-  `linkType` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '视频链接类型：1flash代码，2html代码，3通用代码',
-  `link` varchar(255) NOT NULL DEFAULT '0' COMMENT '视频链接',
-  `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '排序，值越大越靠前，默认10',
-  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '是否显示：1不显示，2显示',
-  `del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '回收站：0不删除，1删除',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='影视作品表 works';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_works`
---
-
-LOCK TABLES `bs_works` WRITE;
-/*!40000 ALTER TABLE `bs_works` DISABLE KEYS */;
-INSERT INTO `bs_works` VALUES (1,'作品26256',1,1,'gggggggggggggggggggggggggggggggggggggggggggg','<p>efdbgesfsdf</p>','0',1,'0',15,2,0,20160614,0);
-/*!40000 ALTER TABLE `bs_works` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `com_funcs`
 --
 
@@ -1177,4 +1141,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-17 11:33:44
+-- Dump completed on 2017-02-17 14:46:12
