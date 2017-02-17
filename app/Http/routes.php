@@ -64,6 +64,7 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     //订单路由
     $app->post('order', 'OrderController@index');
     $app->post('order/ordersbyuid', 'OrderController@getOrdersByUid');
+    $app->post('order/ordersbyweal', 'OrderController@getOrdersByWeal');
     $app->post('order/getmodel', 'OrderController@getModel');
     //租赁路由
     $app->post('rent', 'RentController@index');

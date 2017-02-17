@@ -1,4 +1,5 @@
 vendor/
+.idea/
 bootstrap/compiled.php
 app/storage/
 bootstrap/cache/

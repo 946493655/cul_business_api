@@ -8,7 +8,7 @@ class OrderModel extends BaseModel
      */
     protected $table = 'bs_orders';
     protected $fillable = [
-        'id','name','serial','genre','fromid','seller','sellerName','buyer','buyerName','status','remarks','isshow','del','created_at','updated_at',
+        'id','name','serial','genre','fromid','seller','sellerName','uid','uname','money','weal','status','remarks','isshow','del','created_at','updated_at',
     ];
 
     protected $genres = [

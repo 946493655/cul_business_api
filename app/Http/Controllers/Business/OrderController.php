@@ -12,12 +12,14 @@ class OrderController extends BaseController
     public function index()
     {
         $isshow = $_POST['isshow'];
+        $del = $_POST['del'];
         $limit = (isset($_POST['limit'])&&$_POST['limit']) ? $_POST['limit'] : $this->limit;
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
         $start = $limit * ($page - 1);
 
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
-        $models = OrderModel::whereIn('isshow',$isshowArr)
+        $models = OrderModel::where('del',$del)
+            ->whereIn('isshow',$isshowArr)
             ->orderBy('id','desc')
             ->skip($start)
             ->take($limit)
@@ -85,6 +87,67 @@ class OrderController extends BaseController
                 ->where('isshow',2)
                 ->where('del',0)
                 ->orderBy('id','desc')
+                ->get();
+        }
+        if (!count($models)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有数据！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->objToArr($model);
+            $datas[$k]['createTime'] = $model->createTime();
+            $datas[$k]['updateTime'] = $model->updateTime();
+            $datas[$k]['genreName'] = $model->getGenreName();
+            $datas[$k]['statusName'] = $model->getStatusName();
+            $datas[$k]['statusBtn'] = $model->getStatusBtn();
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 通过 uid、weal 获取已支付福利列表
+     */
+    public function getOrdersByWeal()
+    {
+        $uid = $_POST['uid'];
+        $isshow = $_POST['isshow'];
+        $del = $_POST['del'];
+        $limit = (isset($_POST['limit'])&&$_POST['limit']) ? $_POST['limit'] : $this->limit;
+        $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
+        $start = $limit * ($page - 1);
+
+        $isshowArr = $isshow ? [$isshow] : [0,1,2];
+        if ($uid) {
+            $models = OrderModel::where('del',$del)
+                ->where('uid',$uid)
+                ->where('weal','>',0)
+                ->whereIn('status',[12,13])
+                ->whereIn('isshow',$isshowArr)
+                ->orderBy('id','desc')
+                ->skip($start)
+                ->take($limit)
+                ->get();
+        } else {
+            $models = OrderModel::where('del',$del)
+                ->where('weal','>',0)
+                ->whereIn('status',[12,13])
+                ->whereIn('isshow',$isshowArr)
+                ->orderBy('id','desc')
+                ->skip($start)
+                ->take($limit)
                 ->get();
         }
         if (!count($models)) {
