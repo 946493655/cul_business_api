@@ -64,6 +64,7 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     //订单路由
     $app->post('order', 'OrderController@index');
     $app->post('order/ordersbyuid', 'OrderController@getOrdersByUid');
+    $app->post('order/ordersbylimit', 'OrderController@getOrdersByLimit');
     $app->post('order/ordersbyweal', 'OrderController@getOrdersByWeal');
     $app->post('order/getmodel', 'OrderController@getModel');
     //租赁路由
@@ -110,7 +111,18 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     //链接路由
     $app->post('link', 'LinkController@index');
     //菜单路由
+    $app->post('menu', 'MenuController@index');
     $app->post('menu/menusbytype', 'MenuController@getMenusByType');
+    $app->post('menu/show', 'MenuController@show');
+    $app->post('menu/add', 'MenuController@store');
+    $app->post('menu/modify', 'MenuController@update');
+    $app->post('menu/setshow', 'MenuController@setIsShow');
+    $app->post('menu/parent', 'MenuController@getParent');
+    $app->post('menu/getmodel', 'MenuController@getModel');
+    //权限路由
+    $app->post('menu/auth/authsbyusertype', 'AuthController@getAuthsByUserType');
+    $app->post('menu/auth/setauth', 'AuthController@setAuth');
+    $app->post('menu/auth/getmodel', 'AuthController@getModel');
 });
 //公司业务路由
 $app->group(['prefix' => 'api/v1/com', 'namespace'=>'App\Http\Controllers\Company'], function () use ($app) {

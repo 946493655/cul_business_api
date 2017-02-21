@@ -465,7 +465,7 @@ CREATE TABLE `bs_menu_auths` (
 
 LOCK TABLES `bs_menu_auths` WRITE;
 /*!40000 ALTER TABLE `bs_menu_auths` DISABLE KEYS */;
-INSERT INTO `bs_menu_auths` VALUES (2,1,4,1476866636,0),(4,1,8,1476866643,0),(5,1,6,1476866644,0),(10,1,43,1476868176,0),(11,1,1,1476924977,0),(14,0,3,1476925043,0),(15,0,1,1476925111,0),(17,0,37,1476925149,0),(20,0,36,1476925170,0);
+INSERT INTO `bs_menu_auths` VALUES (2,1,4,1476866636,0),(5,1,6,1476866644,0),(10,1,43,1476868176,0),(11,1,1,1476924977,0);
 /*!40000 ALTER TABLE `bs_menu_auths` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -577,40 +577,6 @@ LOCK TABLES `bs_orders` WRITE;
 /*!40000 ALTER TABLE `bs_orders` DISABLE KEYS */;
 INSERT INTO `bs_orders` VALUES (2,'创意123456','201607031309426817',1,3,2,'jiuge2',1,'jiuge',0,0,12,'',2,0,20160703,20160703),(4,'ergth','201607071804515298',3,1,2,'jiuge2',1,'jiuge',0,0,5,'',2,0,20160707,1474005529);
 /*!40000 ALTER TABLE `bs_orders` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_orders_firm`
---
-
-DROP TABLE IF EXISTS `bs_orders_firm`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_orders_firm` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT '售后订单名称',
-  `orderid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '订单id',
-  `genre` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '订单类型：1(创意，分镜，商品)，2(娱乐，演员，租赁)',
-  `seller` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '供应方，用户id',
-  `sellerName` varchar(255) NOT NULL COMMENT '供应方用户名称',
-  `buyer` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '需求方，用户id',
-  `buyerName` varchar(255) NOT NULL COMMENT '需求方名称',
-  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '服务状态：1新申请，2拒绝，3同意，4开始办理，5完成办理，6确定完成，交易成功，交易失败',
-  `isshow` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '前台是否显示：0不显示，1显示',
-  `del` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '回收站：0不删除，1删除',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='售后服务表 bs_orders_firm';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_orders_firm`
---
-
-LOCK TABLES `bs_orders_firm` WRITE;
-/*!40000 ALTER TABLE `bs_orders_firm` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bs_orders_firm` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1141,4 +1107,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-17 14:46:12
+-- Dump completed on 2017-02-21 16:47:11

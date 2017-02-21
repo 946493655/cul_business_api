@@ -118,6 +118,68 @@ class OrderController extends BaseController
     }
 
     /**
+     * 通过 uid 获取订单列表
+     */
+    public function getOrdersByLimit()
+    {
+        $uid = $_POST['uid'];
+        $limit = $_POST['limit'];
+        if ($uid && $limit) {
+            $models = OrderModel::where('buyer',$uid)
+                ->where('isshow',2)
+                ->where('del',0)
+                ->orderBy('id','desc')
+                ->skip(1)
+                ->take($limit)
+                ->get();
+        } else if (!$uid && $limit) {
+            $models = OrderModel::where('isshow',2)
+                ->where('del',0)
+                ->orderBy('id','desc')
+                ->skip(1)
+                ->take($limit)
+                ->get();
+        } else if ($uid && !$limit) {
+            $models = OrderModel::where('buyer',$uid)
+                ->where('isshow',2)
+                ->where('del',0)
+                ->orderBy('id','desc')
+                ->get();
+        } else {
+            $models = OrderModel::where('isshow',2)
+                ->where('del',0)
+                ->orderBy('id','desc')
+                ->get();
+        }
+        if (!count($models)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有数据！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->objToArr($model);
+            $datas[$k]['createTime'] = $model->createTime();
+            $datas[$k]['updateTime'] = $model->updateTime();
+            $datas[$k]['genreName'] = $model->getGenreName();
+            $datas[$k]['statusName'] = $model->getStatusName();
+            $datas[$k]['statusBtn'] = $model->getStatusBtn();
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
      * 通过 uid、weal 获取已支付福利列表
      */
     public function getOrdersByWeal()
