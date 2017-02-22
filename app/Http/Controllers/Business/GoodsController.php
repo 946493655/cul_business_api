@@ -81,8 +81,9 @@ class GoodsController extends BaseController
             $datas[$k]['createTime'] = $model->createTime();
             $datas[$k]['updateTime'] = $model->updateTime();
             $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['titleName'] = $model->getTitleName();
+            $datas[$k]['cateName'] = $model->getcateName();
             $datas[$k]['recommendName'] = $model->getRecommendName();
+            $datas[$k]['newestName'] = $model->getNewestName();
             $datas[$k]['isshowName'] = $model->getIsshowName();
             $datas[$k]['cateName'] = $model->getCateName();
 //            $datas[$k]['number'] = $number ++;
@@ -122,10 +123,10 @@ class GoodsController extends BaseController
         $datas = $this->objToArr($model);
         $datas['createTime'] = $model->createTime();
         $datas['updateTime'] = $model->updateTime();
-        $datas['titleName'] = $model->getTitleName();
         $datas['genreName'] = $model->getGenreName();
-        $datas['cateName'] = $model->getCateName();
+        $datas['cateName'] = $model->getcateName();
         $datas['recommendName'] = $model->getRecommendName();
+        $datas['newestName'] = $model->getNewestName();
         $datas['isshowName'] = $model->getIsshowName();
         $rstArr = [
             'error' =>  [
@@ -143,6 +144,7 @@ class GoodsController extends BaseController
         $genre = $_POST['genre'];
         $cate = $_POST['cate'];
         $intro = $_POST['intro'];
+        $money = $_POST['money'];
         $uid = $_POST['uid'];
         $uname = $_POST['uname'];
         if (!$name || !$genre || !$cate || !$uid || !$uname) {
@@ -159,6 +161,7 @@ class GoodsController extends BaseController
             'genre' =>  $genre,
             'cate'  =>  $cate,
             'intro' =>  $intro,
+            'money' =>  $money,
             'uid'   =>  $uid,
             'uname' =>  $uname,
             'created_at'    =>  time(),
@@ -180,6 +183,7 @@ class GoodsController extends BaseController
         $genre = $_POST['genre'];
         $cate = $_POST['cate'];
         $intro = $_POST['intro'];
+        $money = $_POST['money'];
         $uid = $_POST['uid'];
         $uname = $_POST['uname'];
         if (!$id || !$name || !$genre || !$cate || !$uid || !$uname) {
@@ -206,6 +210,7 @@ class GoodsController extends BaseController
             'genre' =>  $genre,
             'cate'  =>  $cate,
             'intro' =>  $intro,
+            'money' =>  $money,
             'uid'   =>  $uid,
             'uname' =>  $uname,
             'updated_at'    =>  time(),

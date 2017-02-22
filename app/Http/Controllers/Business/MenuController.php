@@ -152,9 +152,107 @@ class MenuController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
-    public function store(){}
+    public function store()
+    {
+        $name = $_POST['name'];
+        $type = $_POST['type'];
+        $intro = $_POST['intro'];
+        $namespace = $_POST['namespace'];
+        $controller_prefix = $_POST['controller_prefix'];
+        $platUrl = $_POST['platUrl'];
+        $url = $_POST['url'];
+        $action = $_POST['action'];
+        $style_class = $_POST['style_class'];
+        $pid = $_POST['pid'];
+        $sort = $_POST['sort'];
+        if (!$name || !$type || !$namespace || !$controller_prefix || !$platUrl || !$url || !$action) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'type'  =>  $type,
+            'intro' =>  $intro,
+            'namespace' =>  $namespace,
+            'controller_prefix' =>  $controller_prefix,
+            'platUrl'   =>  $platUrl,
+            'url'       =>  $url,
+            'action'    =>  $action,
+            'style_class'   =>  $style_class,
+            'pid'       =>  $pid,
+            'created_at'    =>  time(),
+        ];
+        MenusModel::create($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
 
-    public function update(){}
+    public function update()
+    {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $type = $_POST['type'];
+        $intro = $_POST['intro'];
+        $namespace = $_POST['namespace'];
+        $controller_prefix = $_POST['controller_prefix'];
+        $platUrl = $_POST['platUrl'];
+        $url = $_POST['url'];
+        $action = $_POST['action'];
+        $style_class = $_POST['style_class'];
+        $pid = $_POST['pid'];
+        $sort = $_POST['sort'];
+        if (!$id || !$name || !$type || !$namespace || !$controller_prefix || !$platUrl || !$url || !$action) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = MenusModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'type'  =>  $type,
+            'intro' =>  $intro,
+            'namespace' =>  $namespace,
+            'controller_prefix' =>  $controller_prefix,
+            'platUrl'   =>  $platUrl,
+            'url'       =>  $url,
+            'action'    =>  $action,
+            'style_class'   =>  $style_class,
+            'pid'       =>  $pid,
+            'sort'      =>  $sort,
+            'updated_at'    =>  time(),
+        ];
+        MenusModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
 
     /**
      * 设置是否显示

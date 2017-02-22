@@ -37,22 +37,4 @@ class AreaModel extends BaseModel
         }
         return $areaStr;
     }
-
-//    /**
-//     * 发布方名称：bs_order，bs_order_pro，bs_order_firm
-//     */
-//    public function getSellName()
-//    {
-//        $userModel = $this->getUser($this->seller);
-//        return $userModel ? $userModel['username'] : '';
-//    }
-//
-//    /**
-//     * 申请方名称：bs_order，bs_order_pro，bs_order_firm
-//     */
-//    public function getBuyName()
-//    {
-//        $userModel = $this->getUser($this->buyer);
-//        return $userModel ? $userModel['username'] : '';
-//    }
 }

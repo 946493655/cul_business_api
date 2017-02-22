@@ -9,9 +9,9 @@ class GoodsModel extends BaseModel
 
     protected $table = 'bs_goods';
     protected $fillable = [
-        'id','name','genre','cate','intro','title','thumb','linkType','link','uid','uname','click','recommend','newest','sort','isshow','del','created_at','updated_at',
+        'id','name','genre','cate','intro','thumb','linkType','link','uid','uname','click','recommend','newest','sort','isshow','del','created_at','updated_at',
     ];
-    //片源类型：1个人需求，2设计师供应，3企业需求，4企业供应
+    //片源类型：1个人需求，2设计师供应，3企业需求，4企业供应；0超级用户
     protected $genres = [
         1=>'个人需求','设计师供应','企业需求','企业供应',
     ];
@@ -27,12 +27,7 @@ class GoodsModel extends BaseModel
 
     public function getGenreName()
     {
-        return $this->genre ? $this->genres[$this->genre] : '';
-    }
-
-    public function getTitleName()
-    {
-        return $this->title ? $this->title : $this->name;
+        return array_key_exists($this->genre,$this->genres) ? $this->genres[$this->genre] : '';
     }
 
     public function getRecommendName()
@@ -40,11 +35,16 @@ class GoodsModel extends BaseModel
         return array_key_exists($this->recommend,$this->recommends) ? $this->recommends[$this->recommend] : '';
     }
 
+    public function getNewestName()
+    {
+        return array_key_exists($this->newest,$this->newests) ? $this->newests[$this->newest] : '';
+    }
+
     /**
      *  样片类别
      */
     public function getCateName()
     {
-        return $this->cate ? $this->cates2[$this->cate] : '';
+        return array_key_exists($this->cate,$this->cates2) ? $this->cates2[$this->cate] : '';
     }
 }

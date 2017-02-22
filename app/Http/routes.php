@@ -108,6 +108,7 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('message/add', 'MessageController@store');
     //地区路由
     $app->post('area/namebyid', 'AreaController@getAreaNameByAreaId');
+    $app->post('area/areabyName', 'AreaController@getAreaByName');
     //链接路由
     $app->post('link', 'LinkController@index');
     //菜单路由

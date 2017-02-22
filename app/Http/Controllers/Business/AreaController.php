@@ -50,4 +50,41 @@ class AreaController extends BaseController
         ];
         echo json_encode($rstArr);exit;
     }
+
+    /**
+     * 通过 areaName 获取记录
+     */
+    public function getAreaByName()
+    {
+        $areaName = $_POST['areaName'];
+        if (!$areaName) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = AreaModel::where('cityname',$areaName)->first();
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = $this->objToArr($model);
+        $datas['areaNameStr'] = $model->getAreaStr($model->id);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
 }
