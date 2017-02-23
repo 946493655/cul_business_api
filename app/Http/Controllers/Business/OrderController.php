@@ -69,20 +69,20 @@ class OrderController extends BaseController
             echo json_encode($rstArr);exit;
         }
         if (!$status) {
-            $models = OrderModel::where('buyer',$uid)
+            $models = OrderModel::where('uid',$uid)
                 ->where('isshow',2)
                 ->where('del',0)
                 ->orderBy('id','desc')
                 ->get();
         } else if (is_array($status)) {
-            $models = OrderModel::where('buyer',$uid)
+            $models = OrderModel::where('uid',$uid)
                 ->whereIn('status',$status)
                 ->where('isshow',2)
                 ->where('del',0)
                 ->orderBy('id','desc')
                 ->get();
         } else {
-            $models = OrderModel::where('buyer',$uid)
+            $models = OrderModel::where('uid',$uid)
                 ->where('status',$status)
                 ->where('isshow',2)
                 ->where('del',0)

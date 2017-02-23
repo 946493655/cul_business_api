@@ -32,12 +32,14 @@ class RentModel extends BaseModel
     public function period()
     {
         $statusName = '';
-        if ($this->fromtime>time() && $this->totime<time()) {
+        if ($this->fromtime>time() && $this->totime<time() ) {
             $statusName = '有效期内';
-        } elseif ($this->fromtime < time()) {
+        } else if ($this->fromtime && $this->fromtime<time()) {
             $statusName = '已过期';
-        } elseif ($this->totime > time()) {
+        } else if ($this->totime && $this->totime>time()) {
             $statusName = '未开始';
+        } else if (!$this->fromtime && !$this->totime) {
+            $statusName = '长期有效';
         }
         return $statusName;
     }

@@ -183,7 +183,19 @@ class RentController extends BaseController
         $intro = $_POST['intro'];
         $uid = $_POST['uid'];
         $money = $_POST['money'];
-        if (!$name || !$genre || !$type || !$uid) {
+        $fromtime = $_POST['fromtime'];
+        $totime = $_POST['totime'];
+        $area = $_POST['area'];
+        if (!$name || !$genre || !$type || !$uid || !$area) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        if ((!$fromtime&&$totime) || ($fromtime&&!$totime)) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -199,6 +211,9 @@ class RentController extends BaseController
             'intro' =>  $intro,
             'uid'   =>  $uid,
             'money' =>  $money,
+            'fromtime'  =>  $fromtime,
+            'totime'    =>  $totime,
+            'area'      =>  $area,
             'created_at'    =>  time(),
         ];
         RentModel::create($data);
@@ -220,7 +235,19 @@ class RentController extends BaseController
         $intro = $_POST['intro'];
         $uid = $_POST['uid'];
         $money = $_POST['money'];
-        if (!$id || !$name || !$genre || !$type || !$uid) {
+        $fromtime = $_POST['fromtime'];
+        $totime = $_POST['totime'];
+        $area = $_POST['area'];
+        if (!$id || !$name || !$genre || !$type || !$uid || !$area) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        if ((!$fromtime&&$totime) || ($fromtime&&!$totime)) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -246,9 +273,48 @@ class RentController extends BaseController
             'intro' =>  $intro,
             'uid'   =>  $uid,
             'money' =>  $money,
+            'fromtime'  =>  $fromtime,
+            'totime'    =>  $totime,
+            'area'      =>  $area,
             'updated_at'    =>  time(),
         ];
         RentModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 设置缩略图
+     */
+    public function setThumb()
+    {
+        $id = $_POST['id'];
+        $thumb = $_POST['thumb'];
+        if (!$id || !$thumb) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = RentModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        RentModel::where('id',$id)->update(['thumb'=>$thumb]);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,

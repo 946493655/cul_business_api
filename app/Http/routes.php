@@ -44,6 +44,7 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('goods/modify', 'GoodsController@update');
     $app->post('goods/thumb', 'GoodsController@setThumb');
     $app->post('goods/link', 'GoodsController@setLink');
+    $app->post('goods/setshow', 'GoodsController@setShow');
     $app->post('goods/getmodel', 'GoodsController@getModel');
     //产品(定制)路由
     $app->post('goodscus', 'GoodsCusController@index');
@@ -72,6 +73,7 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('rent/show', 'RentController@show');
     $app->post('rent/add', 'RentController@store');
     $app->post('rent/modify', 'RentController@update');
+    $app->post('rent/setthumb', 'RentController@setThumb');
     $app->post('rent/rentsbymoney', 'RentController@getRentsByMoney');
     $app->post('rent/getmodel', 'RentController@getModel');
     //人员路由
