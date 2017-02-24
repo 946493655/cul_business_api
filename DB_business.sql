@@ -191,6 +191,7 @@ CREATE TABLE `bs_entertains` (
   `thumb` varchar(255) NOT NULL COMMENT '缩略图',
   `intro` varchar(2000) NOT NULL COMMENT '内容',
   `staff` varchar(255) NOT NULL COMMENT '演员组合',
+  `work` varchar(255) NOT NULL COMMENT '影视作品集合',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布方id',
   `uname` varchar(100) NOT NULL COMMENT '用户名称',
   `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '排序字段，值越大越靠前，默认10',
@@ -199,7 +200,7 @@ CREATE TABLE `bs_entertains` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='娱乐表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='娱乐表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +209,7 @@ CREATE TABLE `bs_entertains` (
 
 LOCK TABLES `bs_entertains` WRITE;
 /*!40000 ALTER TABLE `bs_entertains` DISABLE KEYS */;
-INSERT INTO `bs_entertains` VALUES (1,'娱乐001',1,'','rthyngrthgggggggggggggggggggggggggggggggggggggggggggggggggggggggghhhhhhhhhhhhhhh','',1,'',10,2,0,20160322,20160322),(2,'娱乐25',2,'','148484\r\n000000000000000','6',1,'jiuge',10,2,0,1487134516,1487162245);
+INSERT INTO `bs_entertains` VALUES (1,'娱乐001',1,'','rthyngrthgggggggggggggggggggggggggggggggggggggggggggggggggggggggghhhhhhhhhhhhhhh','','',1,'',10,2,0,20160322,20160322),(2,'娱乐25',2,'','148484\r\n000000000000000','6','',1,'jiuge',10,2,0,1487134516,1487162245),(3,'娱乐123',1,'','不管饭不发给你发干嘛呢','','',1,'jiuge',10,2,0,1487907059,0),(4,'娱乐123',1,'','不管饭不发给你发干嘛呢','','',1,'jiuge',10,2,0,1487907095,0),(5,'娱乐123',2,'http://www.jiugewenhua.com/uploads/images/2017-02-24/58afafb63ab90.png','不管饭不发给你发干嘛呢0000000000000000000','6','4',1,'jiuge',10,1,0,1487907146,1487923874);
 /*!40000 ALTER TABLE `bs_entertains` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,7 +250,7 @@ CREATE TABLE `bs_goods` (
 
 LOCK TABLES `bs_goods` WRITE;
 /*!40000 ALTER TABLE `bs_goods` DISABLE KEYS */;
-INSERT INTO `bs_goods` VALUES (4,'nfnfgnn',4,1,'hnrftnhrtfdn00000000000','http://www.jiugewenhua.com/uploads/images/2017-02-15/58a3bdff1ccce.png',4,'https://baidu.com',0,1,'jiuge',0,1,2,10,2,0,1487074631,1487127360),(5,'参数测试',1,1,'','',1,'',10,1,'jiuge',0,1,2,10,2,0,1487752067,1487752327);
+INSERT INTO `bs_goods` VALUES (4,'nfnfgnn',4,1,'hnrftnhrtfdn00000000000','http://www.jiugewenhua.com/uploads/images/2017-02-15/58a3bdff1ccce.png',4,'https://baidu.com',0,1,'jiuge',0,1,2,10,1,0,1487074631,1487821068),(5,'参数测试',1,1,'','http://www.jiugewenhua.com/uploads/images/2017-02-23/58ae51aa50aa4.jpg',4,'https://baidu.com',10,1,'jiuge',0,1,2,10,2,0,1487752067,1487821104);
 /*!40000 ALTER TABLE `bs_goods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -734,7 +735,7 @@ CREATE TABLE `bs_rents` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='租赁表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='租赁表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -743,7 +744,7 @@ CREATE TABLE `bs_rents` (
 
 LOCK TABLES `bs_rents` WRITE;
 /*!40000 ALTER TABLE `bs_rents` DISABLE KEYS */;
-INSERT INTO `bs_rents` VALUES (1,'租赁供应0323',1,1,'','yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',1,0,0,0,0,10,2,0,20160323,20160323);
+INSERT INTO `bs_rents` VALUES (1,'租赁供应0323',2,1,'','yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',1,20,0,0,0,10,2,0,20160323,1487835520),(2,'你发给你发给你们',1,1,'http://www.jiugewenhua.com/uploads/images/2017-02-23/58aea2f2046ee.jpg','',1,20,0,1420041600,1451577600,10,2,0,1487837477,1487838009);
 /*!40000 ALTER TABLE `bs_rents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1107,4 +1108,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-22 16:49:44
+-- Dump completed on 2017-02-24 16:53:36

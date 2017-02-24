@@ -5,7 +5,7 @@ class EntertainModel extends BaseModel
 {
     protected $table = 'bs_entertains';
     protected $fillable = [
-        'id','title','genre','intro','staff','uid','uname','sort','isshow','del','created_at','updated_at',
+        'id','title','genre','intro','staff','work','uid','uname','sort','isshow','del','created_at','updated_at',
     ];
     protected $genres = [
         1=>'企业供应','企业需求',
@@ -21,13 +21,35 @@ class EntertainModel extends BaseModel
         return $this->staff ? explode(',',$this->staff) : [];
     }
 
-    public function getStaffName()
+    //获取演员集合
+    public function getStaffStr()
     {
         if ($staffIds=$this->getStaffs()) {
-            $staffModels = StaffModel::whereIn('id',$staffIds)->get();
-            foreach ($staffModels as $staffModel) { $staffNames[] = $staffModel->name; }
+            $staffModels = StaffModel::whereIn('id',$staffIds)->where('type',1)->get();
+            foreach ($staffModels as $staffModel) {
+                $staffArr[] = $staffModel->name;
+            }
         }
-        return isset($staffNames) ? implode(',',$staffNames) : '';
+        return isset($staffArr) ? implode(',',$staffArr) : '';
+    }
+
+    public function getWorks()
+    {
+        return $this->work ? explode(',',$this->work) : [];
+    }
+
+    public function getWorksStr()
+    {
+        if ($workIds=$this->getWorks()) {
+            $workModels = GoodsModel::whereIn('id',$workIds)
+                ->where('genre',4)
+                ->where('uid',$this->uid)
+                ->get();
+            foreach ($workModels as $workModel) {
+                $workArr[] = $workModel->name;
+            }
+        }
+        return isset($workArr) ? implode(',',$workArr) : '';
     }
 
 //    /**

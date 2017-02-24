@@ -98,6 +98,68 @@ class GoodsController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
+    /**
+     * 通过 uid 获取列表
+     */
+    public function getGoodsByUid()
+    {
+        $uid = $_POST['uid'];
+        $genre = $_POST['genre'];
+        $cate = $_POST['cate'];
+        if (!$uid) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        if (!$genre) {
+            $genreArr = [1,2,3,4];
+        } elseif (is_array($genre)) {
+            $genreArr = $genre;
+        } else {
+            $genreArr = [$genre];
+        }
+        $cateArr = $cate ? [$cate] : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+        $models = GoodsModel::whereIn('genre',$genreArr)
+            ->whereIn('cate',$cateArr)
+            ->where('uid',$uid)
+            ->where('del',0)
+            ->orderBy('id','desc')
+            ->get();
+        if (!$models) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有数据！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->objToArr($model);
+            $datas[$k]['createTime'] = $model->createTime();
+            $datas[$k]['updateTime'] = $model->updateTime();
+            $datas[$k]['genreName'] = $model->getGenreName();
+            $datas[$k]['cateName'] = $model->getcateName();
+            $datas[$k]['recommendName'] = $model->getRecommendName();
+            $datas[$k]['newestName'] = $model->getNewestName();
+            $datas[$k]['isshowName'] = $model->getIsshowName();
+            $datas[$k]['cateName'] = $model->getCateName();
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
     public function show()
     {
         $id = $_POST['id'];

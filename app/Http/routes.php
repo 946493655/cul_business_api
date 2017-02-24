@@ -36,9 +36,12 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('entertain/show', 'EntertainController@show');
     $app->post('entertain/add', 'EntertainController@store');
     $app->post('entertain/modify', 'EntertainController@update');
+    $app->post('entertain/setthumb', 'EntertainController@setThumb');
+    $app->post('entertain/setshow', 'EntertainController@setShow');
     $app->post('entertain/getmodel', 'EntertainController@getModel');
     //产品(发布)路由
     $app->post('goods', 'GoodsController@index');
+    $app->post('goods/goodsbyuid', 'GoodsController@getGoodsByUid');
     $app->post('goods/show', 'GoodsController@show');
     $app->post('goods/add', 'GoodsController@store');
     $app->post('goods/modify', 'GoodsController@update');
@@ -70,11 +73,12 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('order/getmodel', 'OrderController@getModel');
     //租赁路由
     $app->post('rent', 'RentController@index');
+    $app->post('rent/rentsbymoney', 'RentController@getRentsByMoney');
     $app->post('rent/show', 'RentController@show');
     $app->post('rent/add', 'RentController@store');
     $app->post('rent/modify', 'RentController@update');
     $app->post('rent/setthumb', 'RentController@setThumb');
-    $app->post('rent/rentsbymoney', 'RentController@getRentsByMoney');
+    $app->post('rent/setshow', 'RentController@setShow');
     $app->post('rent/getmodel', 'RentController@getModel');
     //人员路由
     $app->post('staff', 'StaffController@index');
@@ -84,9 +88,9 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('staff/staffsbyuid', 'StaffController@getStaffsByUid');
     $app->post('staff/getmodel', 'StaffController@getModel');
     //影视作品路由
-    $app->post('works', 'WorksController@index');
-    $app->post('works/show', 'WorksController@show');
-    $app->post('works/getmodel', 'WorksController@getModel');
+//    $app->post('works', 'WorksController@index');
+//    $app->post('works/show', 'WorksController@show');
+//    $app->post('works/getmodel', 'WorksController@getModel');
     //广告路由
     $app->post('ad', 'AdController@index');
     $app->post('ad/getmodel', 'AdController@getModel');

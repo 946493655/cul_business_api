@@ -76,6 +76,7 @@ class StaffController extends BaseController
             $datas[$k]['hobbys'] = $model->getHobbys();
             $datas[$k]['hobbyName'] = $model->getHobbyName();
             $datas[$k]['etName'] = $model->getEntertainTitle();
+            $datas[$k]['isshowName'] = $model->getIsshowName();
         }
         $rstArr = [
             'error' =>  [
@@ -134,6 +135,7 @@ class StaffController extends BaseController
             $datas[$k]['hobbys'] = $model->getHobbys();
             $datas[$k]['hobbyName'] = $model->getHobbyName();
             $datas[$k]['etName'] = $model->getEntertainTitle();
+            $datas[$k]['isshowName'] = $model->getIsshowName();
         }
         $rstArr = [
             'error' =>  [
@@ -177,6 +179,7 @@ class StaffController extends BaseController
         $datas['hobbys'] = $model->getHobbys();
         $datas['hobbyName'] = $model->getHobbyName();
         $datas['etName'] = $model->getEntertainTitle();
+        $datas['isshowName'] = $model->getIsshowName();
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,

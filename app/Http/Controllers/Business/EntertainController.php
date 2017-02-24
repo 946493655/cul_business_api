@@ -57,7 +57,9 @@ class EntertainController extends BaseController
             $datas[$k]['updateTime'] = $model->updateTime();
             $datas[$k]['genreName'] = $model->getGenreName();
             $datas[$k]['staffs'] = $model->getStaffs();
-            $datas[$k]['staffName'] = $model->getStaffName();
+            $datas[$k]['staffStr'] = $model->getStaffStr();
+            $datas[$k]['works'] = $model->getWorks();
+            $datas[$k]['workStr'] = $model->getWorksStr();
         }
         $rstArr = [
             'error' =>  [
@@ -96,7 +98,9 @@ class EntertainController extends BaseController
         $datas['updateTime'] = $model->updateTime();
         $datas['genreName'] = $model->getGenreName();
         $datas['staffs'] = $model->getStaffs();
-        $datas['staffName'] = $model->getStaffName();
+        $datas['staffStr'] = $model->getStaffStr();
+        $datas['works'] = $model->getWorks();
+        $datas['workStr'] = $model->getWorksStr();
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -114,8 +118,9 @@ class EntertainController extends BaseController
         $intro = $_POST['intro'];
         $uid = $_POST['uid'];
         $uname = $_POST['uname'];
-        $staff = $_POST['staffs'];
-        if (!$title || !$genre || !$uid || !$uname || !$staff) {
+        $staff = $_POST['staff'];
+        $work = $_POST['work'];
+        if (!$title || !$genre || !$uid || !$uname) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -131,6 +136,7 @@ class EntertainController extends BaseController
             'uid'   =>  $uid,
             'uname' =>  $uname,
             'staff' =>  $staff,
+            'work'  =>  $work,
             'created_at'    =>  time(),
         ];
         EntertainModel::create($data);
@@ -152,7 +158,8 @@ class EntertainController extends BaseController
         $uid = $_POST['uid'];
         $uname = $_POST['uname'];
         $staff = $_POST['staff'];
-        if (!$id || !$title || !$genre || !$uid || !$uname || !$staff) {
+        $work = $_POST['work'];
+        if (!$id || !$title || !$genre || !$uid || !$uname) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -176,9 +183,82 @@ class EntertainController extends BaseController
             'genre' =>  $genre,
             'intro' =>  $intro,
             'staff' =>  $staff,
+            'work'  =>  $work,
             'updated_at'    =>  time(),
         ];
         EntertainModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 设置缩略图
+     */
+    public function setThumb()
+    {
+        $id = $_POST['id'];
+        $thumb = $_POST['thumb'];
+        if (!$id || !$thumb) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = EntertainModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        EntertainModel::where('id',$id)->update(['thumb'=>$thumb]);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 设置是否显示
+     */
+    public function setShow()
+    {
+        $id = $_POST['id'];
+        $isshow = $_POST['isshow'];
+        if (!$id || !in_array($isshow,[1,2])) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = EntertainModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        EntertainModel::where('id',$id)->update(['isshow'=>$isshow]);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,

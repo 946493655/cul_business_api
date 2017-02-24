@@ -56,4 +56,12 @@ class BaseModel extends Model
     {
         return $this->isshow==2 ? '前台显示' : '前台不显示';
     }
+
+    /**
+     * 对象转数组
+     */
+    public function objToArr($obj)
+    {
+        return json_decode(json_encode($obj),true);
+    }
 }
