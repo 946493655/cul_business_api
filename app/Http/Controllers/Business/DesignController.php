@@ -130,7 +130,7 @@ class DesignController extends BaseController
         $detail = $_POST['detail'];
         $money = $_POST['money'];
         $uid = $_POST['uid'];
-        if (!$name || !$genre || !$cate || !$uid) {
+        if (!$name || !$cate || !$uid) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -169,7 +169,7 @@ class DesignController extends BaseController
         $detail = $_POST['detail'];
         $money = $_POST['money'];
         $uid = $_POST['uid'];
-        if (!$id || !$name || !$genre || !$cate || !$uid) {
+        if (!$id || !$name || !$cate || !$uid) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -190,7 +190,6 @@ class DesignController extends BaseController
         }
         $data = [
             'name'  =>  $name,
-            'genre' =>  $genre,
             'cate'  =>  $cate,
             'intro' =>  $intro,
             'detail'    =>  $detail,
@@ -208,13 +207,85 @@ class DesignController extends BaseController
     }
 
     /**
+     * 设置缩略图
+     */
+    public function setThumb()
+    {
+        $id = $_POST['id'];
+        $thumb = $_POST['thumb'];
+        if (!$id || !$thumb) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = DesignModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        DesignModel::where('id',$id)->update(['thumb'=>$thumb]);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 设置是否显示
+     */
+    public function setShow()
+    {
+        $id = $_POST['id'];
+        $isshow = $_POST['isshow'];
+        if (!$id || !in_array($isshow,[1,2])) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = DesignModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        DesignModel::where('id',$id)->update(['isshow'=>$isshow]);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
      * 获取 model
      */
     public function getModel()
     {
         $model = [
             'genres'    =>  $this->selfModel['genres'],
-            'cates'     =>  $this->selfModel['cates2'],
+            'cates'     =>  $this->selfModel['cates1'],
             'isshows'   =>  $this->selfModel['isshows'],
         ];
         $rstArr = [

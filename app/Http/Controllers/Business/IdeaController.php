@@ -64,6 +64,7 @@ class IdeaController extends BaseController
             $datas[$k]['updateTime'] = $model->updateTime();
             $datas[$k]['genreName'] = $model->getGenreName();
             $datas[$k]['cateName'] = $model->getCateName();
+            $datas[$k]['isshowName'] = $model->getIsshowName();
             $datas[$k]['isdetailName'] = $model->getIsDetailName();
             $datas[$k]['number'] = $number ++;
         }
@@ -104,6 +105,7 @@ class IdeaController extends BaseController
         $datas['updateTime'] = $model->updateTime();
         $datas['genreName'] = $model->getGenreName();
         $datas['cateName'] = $model->getCateName();
+        $datas['isshowName'] = $model->getIsshowName();
         $datas['isdetailName'] = $model->getIsDetailName();
         $rstArr = [
             'error' =>  [

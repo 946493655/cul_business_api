@@ -139,7 +139,7 @@ CREATE TABLE `bs_designs` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='设计表 bs_designs';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='设计表 bs_designs';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,7 +148,7 @@ CREATE TABLE `bs_designs` (
 
 LOCK TABLES `bs_designs` WRITE;
 /*!40000 ALTER TABLE `bs_designs` DISABLE KEYS */;
-INSERT INTO `bs_designs` VALUES (1,'嘎嘎嘎',1,1,1,'而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧','',55,'',0,10,2,0,1470573399,1470574616),(2,'设计001',3,1,1,'ggggggggggg','',11,'',0,10,2,0,1470816620,0),(3,'设计设计',1,1,1,'办不放过','被告人挺好人头000000',1,'',0,10,2,0,1487209703,1487209773);
+INSERT INTO `bs_designs` VALUES (1,'嘎嘎嘎',1,1,1,'而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧','',55,'',0,10,2,0,1470573399,1470574616),(2,'设计001',3,1,1,'ggggggggggg','',11,'',0,10,2,0,1470816620,0),(3,'设计设计',1,1,1,'办不放过','被告人挺好人头000000',1,'',0,10,2,0,1487209703,1487209773),(4,'设计设计',0,1,1,'vfdvfdbrfgbb','fgbfgrbrtbrtb000000000000',10,'http://www.jiuge_wenhua.com/uploads/images/2017-02-25/58b18c114da63.jpg',0,10,1,0,1488022991,1488025149);
 /*!40000 ALTER TABLE `bs_designs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -457,7 +457,7 @@ CREATE TABLE `bs_menu_auths` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='权限表 bs_authorization（用户权限分配）';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='权限表 bs_authorization（用户权限分配）';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1108,4 +1108,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-24 16:53:36
+-- Dump completed on 2017-02-25 22:24:27

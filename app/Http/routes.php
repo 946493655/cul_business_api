@@ -30,6 +30,8 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('design/show', 'DesignController@show');
     $app->post('design/add', 'DesignController@store');
     $app->post('design/modify', 'DesignController@update');
+    $app->post('design/setthumb', 'DesignController@setThumb');
+    $app->post('design/setshow', 'DesignController@setShow');
     $app->post('design/getmodel', 'DesignController@getModel');
     //娱乐路由
     $app->post('entertain', 'EntertainController@index');
