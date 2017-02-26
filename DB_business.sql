@@ -367,7 +367,7 @@ CREATE TABLE `bs_ideas` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='创意表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='创意表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -376,7 +376,7 @@ CREATE TABLE `bs_ideas` (
 
 LOCK TABLES `bs_ideas` WRITE;
 /*!40000 ALTER TABLE `bs_ideas` DISABLE KEYS */;
-INSERT INTO `bs_ideas` VALUES (1,'创意1',1,4,'efrbgrdfbg',1,'0000',1,0,0,10,2,0,20160417,20160417),(2,'创意部分的白癜风',1,4,'wefdgbefdv',1,'000000',1,0,0,10,2,0,20160421,0),(3,'创意123456',1,4,'fngbvrrthgfbrthf',1,'000000000',1,10,0,10,2,0,20160421,0),(4,'cscs',1,1,'dbfdbfg',2,'ngfnghn123',1,0,0,10,2,0,1487138029,1487140664);
+INSERT INTO `bs_ideas` VALUES (1,'创意1',1,4,'efrbgrdfbg',1,'0000',1,0,0,10,2,0,20160417,20160417),(2,'创意部分的白癜风',1,4,'wefdgbefdv',1,'000000',1,0,0,10,2,0,20160421,0),(3,'创意123456',1,4,'fngbvrrthgfbrthf',1,'000000000',1,10,0,10,2,0,20160421,0),(4,'cscs',1,1,'dbfdbfg',2,'ngfnghn123',1,0,0,10,2,0,1487138029,1487140664),(5,'创意测试测试',1,1,'办公厅农行还给你00000000000000000000000',1,'人方提供那好吧他让你哥还不如斧头帮人防办',1,0,0,10,2,0,1488077172,1488077516);
 /*!40000 ALTER TABLE `bs_ideas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -673,7 +673,7 @@ CREATE TABLE `bs_pro_videos` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='在线定制视频表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='在线定制视频表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -682,6 +682,7 @@ CREATE TABLE `bs_pro_videos` (
 
 LOCK TABLES `bs_pro_videos` WRITE;
 /*!40000 ALTER TABLE `bs_pro_videos` DISABLE KEYS */;
+INSERT INTO `bs_pro_videos` VALUES (1,'效果动画测试',1,1,1,'vfrdevfb','',1,'',2,1488118793,0);
 /*!40000 ALTER TABLE `bs_pro_videos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -893,7 +894,7 @@ CREATE TABLE `bs_staffs` (
 
 LOCK TABLES `bs_staffs` WRITE;
 /*!40000 ALTER TABLE `bs_staffs` DISABLE KEYS */;
-INSERT INTO `bs_staffs` VALUES (1,'拿斧头男',1,1,0,'1',1,'能否规范','个人方法',1,'他人观花','',0,172,10,2,0,20160423,0),(2,'如果它不符合',1,1,0,'1',1,'乳房的不过','而发表格式的风格',1,'而对方不改变','1,2,3',0,150,10,2,0,20160613,20160613),(6,'cscs',1,1,1,'',1,'ccccccccc','cccccccccccccccc',2,'ccccccccccccccccccccc','1,2,7',0,170,10,2,0,1487149129,1487157052);
+INSERT INTO `bs_staffs` VALUES (1,'拿斧头男',1,1,0,'1',1,'能否规范','个人方法',1,'他人观花','',0,172,10,2,0,20160423,0),(2,'如果它不符合',1,1,0,'1',1,'乳房的不过','而发表格式的风格',1,'而对方不改变','1,2,3',0,150,10,2,0,20160613,20160613),(6,'cscs',1,1,1,'',1,'ccccc0000','cccccccccccccccc',2,'ccccccccccccccccccccc','1,2,7',0,170,10,2,0,1487149129,1488089886);
 /*!40000 ALTER TABLE `bs_staffs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -949,7 +950,7 @@ CREATE TABLE `bs_storyboards` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='分镜表 bs_storyboards';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='分镜表 bs_storyboards';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -958,7 +959,7 @@ CREATE TABLE `bs_storyboards` (
 
 LOCK TABLES `bs_storyboards` WRITE;
 /*!40000 ALTER TABLE `bs_storyboards` DISABLE KEYS */;
-INSERT INTO `bs_storyboards` VALUES (1,'ergth',1,4,'','','<p><img src=\"/uploads/ueditor/php/upload/image/20160523/1463995780428079.png\" title=\"1463995780428079.png\" alt=\"QQ截图20150906082002.png\"/>ergtghefrgtfgefrdfgh</p>',1,'',3456,2,1,10,2,0,20160523,20160523),(2,'分镜5254',2,2,'','如果对方改变人股份','<p>玩儿个地方不热的国防部</p>',1,'',55,2,1,10,2,0,1471071989,1487206563);
+INSERT INTO `bs_storyboards` VALUES (1,'ergth',1,4,'','','<p><img src=\"/uploads/ueditor/php/upload/image/20160523/1463995780428079.png\" title=\"1463995780428079.png\" alt=\"QQ截图20150906082002.png\"/>ergtghefrgtfgefrdfgh</p>',1,'',3456,2,1,10,2,0,20160523,20160523),(2,'分镜5254',2,2,'','如果对方改变人股份','<p>玩儿个地方不热的国防部</p>',1,'',55,2,1,10,2,0,1471071989,1487206563),(3,'分镜测试',1,1,'http://www.jiuge_wenhua.com/uploads/images/2017-02-26/58b2ca0692a30.jpg','bgtbgfbngf','',1,'jiuge',0,2,1,10,2,0,1488101753,1488102287);
 /*!40000 ALTER TABLE `bs_storyboards` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1108,4 +1109,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-25 22:24:27
+-- Dump completed on 2017-02-26 22:41:46

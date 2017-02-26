@@ -126,6 +126,7 @@ class IdeaController extends BaseController
         $isdetail = $_POST['isdetail'];
         $detail = $_POST['detail'];
         $uid = $_POST['uid'];
+        $money = $_POST['money'];
         if (!$name || !$genre || !$cate || !$intro || !$isdetail || !$detail || !$uid) {
             $rstArr = [
                 'error' =>  [
@@ -143,6 +144,7 @@ class IdeaController extends BaseController
             'isdetail' =>  $isdetail,
             'detail'    =>  $detail,
             'uid'   =>  $uid,
+            'money' =>  $money,
             'created_at'    =>  time(),
         ];
         IdeasModel::create($data);
@@ -165,6 +167,7 @@ class IdeaController extends BaseController
         $isdetail = $_POST['isdetail'];
         $detail = $_POST['detail'];
         $uid = $_POST['uid'];
+        $money = $_POST['money'];
         if (!$id || !$name || !$genre || !$cate || !$intro || !$isdetail || !$detail || !$uid) {
             $rstArr = [
                 'error' =>  [
@@ -192,9 +195,46 @@ class IdeaController extends BaseController
             'isdetail' =>  $isdetail,
             'detail'    =>  $detail,
             'uid'   =>  $uid,
+            'money' =>  $money,
             'updated_at'    =>  time(),
         ];
         IdeasModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 设置是否显示
+     */
+    public static function setShow()
+    {
+        $id = $_POST['id'];
+        $isshow = $_POST['isshow'];
+        if (!$id || !in_array($isshow,[1,2])) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = IdeasModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        IdeasModel::where('id',$id)->update(['isshow'=>$isshow]);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,

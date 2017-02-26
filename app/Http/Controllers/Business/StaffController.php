@@ -202,6 +202,7 @@ class StaffController extends BaseController
         $height = $_POST['height'];
         $type = $_POST['type'];
         $uid = $_POST['uid'];
+        $genre = $_POST['genre'];
         if (!$name || !$sex || !$realname || !$origin || !$edu || !$school || !$hobby || !$height || !$type || !$uid) {
             $rstArr = [
                 'error' =>  [
@@ -222,6 +223,7 @@ class StaffController extends BaseController
             'height'    =>  $height,
             'type'      =>  $type,
             'uid'       =>  $uid,
+            'genre'     =>  $genre,
             'created_at'    =>  time(),
         ];
         StaffModel::create($data);
@@ -247,6 +249,7 @@ class StaffController extends BaseController
         $height = $_POST['height'];
         $type = $_POST['type'];
         $uid = $_POST['uid'];
+        $genre = $_POST['genre'];
         if (!$id || !$name || !$sex || !$realname || !$origin || !$edu || !$school || !$hobby || !$height || !$type || !$uid) {
             $rstArr = [
                 'error' =>  [

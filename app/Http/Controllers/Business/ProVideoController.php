@@ -25,16 +25,27 @@ class ProVideoController extends BaseController
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
         $start = $limit * ($page - 1);
 
+        $genreArr = $genre ? [$genre] : [0,1,2];
         $cateArr = $cate ? [$cate] : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
-        $models = ProVideoModel::where('uid',$uid)
-            ->where('genre',$genre)
-            ->whereIn('cate',$cateArr)
-            ->whereIn('isshow',$isshowArr)
-            ->orderBy('id','desc')
-            ->skip($start)
-            ->take($limit)
-            ->get();
+        if ($uid) {
+            $models = ProVideoModel::where('uid',$uid)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('cate',$cateArr)
+                ->whereIn('isshow',$isshowArr)
+                ->orderBy('id','desc')
+                ->skip($start)
+                ->take($limit)
+                ->get();
+        } else {
+            $models = ProVideoModel::whereIn('genre',$genreArr)
+                ->whereIn('cate',$cateArr)
+                ->whereIn('isshow',$isshowArr)
+                ->orderBy('id','desc')
+                ->skip($start)
+                ->take($limit)
+                ->get();
+        }
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -59,6 +70,122 @@ class ProVideoController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function show()
+    {
+        $id = $_POST['id'];
+        if (!$id) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = ProVideoModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = $this->objToArr($model);
+        $datas['createTime'] = $model->createTime();
+        $datas['updateTime'] = $model->updateTime();
+        $datas['genreName'] = $model->getGenreName();
+        $datas['cateName'] = $model->getCateName();
+        $datas['linkTypeName'] = $model->getLinkTypeName();
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function store()
+    {
+        $name = $_POST['name'];
+        $genre = $_POST['genre'];
+        $uid = $_POST['uid'];
+        $cate = $_POST['cate'];
+        $intro = $_POST['intro'];
+        if (!$name || !$genre || !$uid || !$cate) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'genre' =>  $genre,
+            'uid'   =>  $uid,
+            'cate'  =>  $cate,
+            'intro' =>  $intro,
+            'created_at'    =>  time(),
+        ];
+        ProVideoModel::create($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function update()
+    {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $genre = $_POST['genre'];
+        $uid = $_POST['uid'];
+        $cate = $_POST['cate'];
+        $intro = $_POST['intro'];
+        if (!$id || !$name || !$genre || !$uid || !$cate) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = ProVideoModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'genre' =>  $genre,
+            'cate'  =>  $cate,
+            'intro' =>  $intro,
+            'updated_at'    =>  time(),
+        ];
+        ProVideoModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
         ];
         echo json_encode($rstArr);exit;
     }

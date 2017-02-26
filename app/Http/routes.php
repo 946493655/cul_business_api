@@ -66,6 +66,7 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('idea/show', 'IdeaController@show');
     $app->post('idea/add', 'IdeaController@store');
     $app->post('idea/modify', 'IdeaController@update');
+    $app->post('idea/setshow', 'IdeaController@setShow');
     $app->post('idea/getmodel', 'IdeaController@getModel');
     //订单路由
     $app->post('order', 'OrderController@index');
@@ -100,13 +101,18 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('message', 'MessageController@index');
     //动画、效果定制路由
     $app->post('provideo', 'ProVideoController@index');
+    $app->post('provideo/show', 'ProVideoController@show');
+    $app->post('provideo/add', 'ProVideoController@store');
+    $app->post('provideo/modify', 'ProVideoController@update');
     $app->post('provideo/getmodel', 'ProVideoController@getmodel');
     //分镜路由
     $app->post('storyboard', 'StoryBoardController@index');
+    $app->post('storyboard/sbsbyway', 'StoryBoardController@getSBsByWay');
     $app->post('storyboard/add', 'StoryBoardController@store');
     $app->post('storyboard/modify', 'StoryBoardController@update');
     $app->post('storyboard/show', 'StoryBoardController@show');
-    $app->post('storyboard/sbsbyway', 'StoryBoardController@getSBsByWay');
+    $app->post('storyboard/setthumb', 'StoryBoardController@setThumb');
+    $app->post('storyboard/setshow', 'StoryBoardController@setShow');
     $app->post('storyboard/getmodel', 'StoryBoardController@getModel');
     //人员路由
     $app->post('staff', 'StaffController@index');
