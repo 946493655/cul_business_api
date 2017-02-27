@@ -419,7 +419,7 @@ CREATE TABLE `bs_links` (
   `name` varchar(255) NOT NULL COMMENT '链接名称',
   `cid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '企业id，0代表本站',
   `title` varchar(255) NOT NULL COMMENT '鼠标移动的提示文字',
-  `type_id` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '页面的哪个部位：1header，2navigate，3footer',
+  `type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '页面的哪个部位：1header，2navigate，3footer',
   `thumb` varchar(255) NOT NULL DEFAULT '' COMMENT '图片链接的缩略图',
   `intro` varchar(500) NOT NULL COMMENT '链接介绍',
   `link` varchar(255) NOT NULL COMMENT '访问地址链接：前台(cid==0，/XXX)，企业前台(cid!=0，/c/{cid}/XXX)',
@@ -682,7 +682,7 @@ CREATE TABLE `bs_pro_videos` (
 
 LOCK TABLES `bs_pro_videos` WRITE;
 /*!40000 ALTER TABLE `bs_pro_videos` DISABLE KEYS */;
-INSERT INTO `bs_pro_videos` VALUES (1,'效果动画测试',1,1,1,'vfrdevfb','',1,'',2,1488118793,0);
+INSERT INTO `bs_pro_videos` VALUES (1,'效果动画测试',1,1,1,'vfrdevfb\r\n0000000000000','http://www.jiugewenhua.com/uploads/images/2017-02-27/58b396d66f991.jpg',4,'https://baidu.com',2,1488118793,1488159260);
 /*!40000 ALTER TABLE `bs_pro_videos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1109,4 +1109,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-26 22:41:46
+-- Dump completed on 2017-02-27 16:51:34

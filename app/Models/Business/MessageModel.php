@@ -21,12 +21,12 @@ class MessageModel extends BaseModel
         return array_key_exists($this->genre,$this->genres) ? $this->genres[$this->genre] : '';
     }
 
-    public function senderTime()
+    public function getSenderTime()
     {
         return $this->senderTime ? date('Y年m月d日 H:i',$this->senderTime) : '未发送';
     }
 
-    public function acceptTime()
+    public function getAcceptTime()
     {
         return $this->acceptTime ? date('Y年m月d日 H:i',$this->acceptTime) : '未接收';
     }

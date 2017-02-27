@@ -62,6 +62,45 @@ class MessageController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
+    public function show()
+    {
+        $id = $_POST['id'];
+        if (!$id) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = MessageModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = $this->objToArr($model);
+        $datas['createTime'] = $model->createTime();
+        $datas['updateTime'] = $model->updateTime();
+        $datas['getSenderTime'] = $model->getSenderTime();
+        $datas['getAcceptTime'] = $model->getAcceptTime();
+        $datas['genreName'] = $model->getGenreName();
+        $datas['statusName'] = $model->getStatusName();
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
     public function store()
     {
         $title = $_POST['title'];

@@ -104,6 +104,9 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('provideo/show', 'ProVideoController@show');
     $app->post('provideo/add', 'ProVideoController@store');
     $app->post('provideo/modify', 'ProVideoController@update');
+    $app->post('provideo/setthumb', 'ProVideoController@setThumb');
+    $app->post('provideo/setlink', 'ProVideoController@setLink');
+    $app->post('provideo/setshow', 'ProVideoController@setShow');
     $app->post('provideo/getmodel', 'ProVideoController@getmodel');
     //分镜路由
     $app->post('storyboard', 'StoryBoardController@index');
@@ -120,11 +123,15 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     //消息路由
     $app->post('message', 'MessageController@index');
     $app->post('message/add', 'MessageController@store');
+    $app->post('message/show', 'MessageController@show');
+    $app->post('message/getmodel', 'MessageController@getModel');
     //地区路由
     $app->post('area/namebyid', 'AreaController@getAreaNameByAreaId');
     $app->post('area/areabyName', 'AreaController@getAreaByName');
     //链接路由
     $app->post('link', 'LinkController@index');
+    $app->post('link/show', 'LinkController@show');
+    $app->post('link/getmodel', 'LinkController@getModel');
     //菜单路由
     $app->post('menu', 'MenuController@index');
     $app->post('menu/menusbytype', 'MenuController@getMenusByType');

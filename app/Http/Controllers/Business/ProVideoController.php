@@ -191,6 +191,119 @@ class ProVideoController extends BaseController
     }
 
     /**
+     * 设置缩略图
+     */
+    public function setThumb()
+    {
+        $id = $_POST['id'];
+        $thumb = $_POST['thumb'];
+        if (!$id || !$thumb) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = ProVideoModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        ProVideoModel::where('id',$id)->update(['thumb'=>$thumb]);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 设置视频链接
+     */
+    public function setLink()
+    {
+        $id = $_POST['id'];
+        $linkType = $_POST['linkType'];
+        $link = $_POST['link'];
+        if (!$id || !$linkType || !$link) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = ProVideoModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'linkType'  =>  $linkType,
+            'link'      =>  $link,
+        ];
+        ProVideoModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 设置是否显示
+     */
+    public function setShow()
+    {
+        $id = $_POST['id'];
+        $isshow = $_POST['isshow'];
+        if (!$id || !in_array($isshow,[1,2])) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = ProVideoModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        ProVideoModel::where('id',$id)->update(['isshow'=>$isshow]);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
      * 获取 model
      */
     public function getModel()
