@@ -5,7 +5,7 @@ class LinkModel extends BaseModel
 {
     protected $table = 'bs_links';
     protected $fillable = [
-        'id','name','cid','title','type','thumb','intro','link','display_way','isshow','pid','sort','created_at','updated_at',
+        'id','type','name','thumb','cid','title','intro','link','display_way','isshow','pid','sort','created_at','updated_at',
     ];
 
     protected $types = [

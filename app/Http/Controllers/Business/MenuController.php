@@ -32,6 +32,9 @@ class MenuController extends BaseController
             ->skip($start)
             ->take($limit)
             ->get();
+        $total = MenusModel::whereIn('type',$typeArr)
+            ->whereIn('isshow',$isshowArr)
+            ->count();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -57,6 +60,9 @@ class MenuController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }

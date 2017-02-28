@@ -13,12 +13,14 @@ class MessageController extends BaseController
     {
         $genre = $_POST['genre'];
         $status = $_POST['status'];
+        $isshow = $_POST['isshow'];
         $del = $_POST['del'];
         $limit = (isset($_POST['limit'])&&$_POST['limit']) ? $_POST['limit'] : $this->limit;
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
         $start = $limit * ($page - 1);
 
         $genreArr = $genre ? [$genre] : [0,1,2];
+        $isshowArr = $isshow ? [$isshow] : [0,1,2,];
         if (!$status) {
             $statusArr = [0,1,2,3,4];
         } else if (is_array($status)) {
@@ -28,6 +30,7 @@ class MessageController extends BaseController
         }
         $models = MessageModel::where('del',$del)
             ->whereIn('genre',$genreArr)
+            ->whereIn('isshow',$isshowArr)
             ->whereIn('status',$statusArr)
             ->orderBy('id','desc')
             ->skip($start)
@@ -47,8 +50,8 @@ class MessageController extends BaseController
             $datas[$k] = $this->objToArr($model);
             $datas[$k]['createTime'] = $model->createTime();
             $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['senderTime'] = $model->senderTime();
-            $datas[$k]['acceptTime'] = $model->acceptTime();
+            $datas[$k]['senderTime'] = $model->getSenderTime();
+            $datas[$k]['acceptTime'] = $model->getAcceptTime();
             $datas[$k]['genreName'] = $model->getGenreName();
             $datas[$k]['statusName'] = $model->getStatusName();
         }
@@ -127,6 +130,42 @@ class MessageController extends BaseController
             'created_at'    =>  time(),
         ];
         MessageModel::create($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 设置是否显示
+     */
+    public function setShow()
+    {
+        $id = $_POST['id'];
+        $isshow = $_POST['isshow'];
+        if (!$id || !in_array($isshow,[1,2])) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = MessageModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        MessageModel::where('id',$id)->update(['isshow'=>$isshow]);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,

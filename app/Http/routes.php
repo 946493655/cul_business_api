@@ -124,13 +124,20 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('message', 'MessageController@index');
     $app->post('message/add', 'MessageController@store');
     $app->post('message/show', 'MessageController@show');
+    $app->post('message/setshow', 'MessageController@setShow');
     $app->post('message/getmodel', 'MessageController@getModel');
     //地区路由
+    $app->post('area', 'AreaController@index');
     $app->post('area/namebyid', 'AreaController@getAreaNameByAreaId');
     $app->post('area/areabyName', 'AreaController@getAreaByName');
     //链接路由
     $app->post('link', 'LinkController@index');
+    $app->post('link/linksbypid', 'LinkController@getLinksByPid');
     $app->post('link/show', 'LinkController@show');
+    $app->post('link/add', 'LinkController@store');
+    $app->post('link/modify', 'LinkController@update');
+    $app->post('link/setthumb', 'LinkController@setThumb');
+    $app->post('link/setshow', 'LinkController@setShow');
     $app->post('link/getmodel', 'LinkController@getModel');
     //菜单路由
     $app->post('menu', 'MenuController@index');

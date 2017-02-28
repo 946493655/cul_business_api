@@ -109,6 +109,194 @@ class LinkController extends BaseController
     }
 
     /**
+     * 通过 pid 获取链接列表
+     */
+    public function getLinksByPid()
+    {
+        $pid = $_POST['pid'];
+        $models = LinkModel::where('pid',$pid)->get();
+        if (!count($models)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->objToArr($model);
+            $datas[$k]['createTime'] = $model->createTime();
+            $datas[$k]['updateTime'] = $model->updateTime();
+            $datas[$k]['typeName'] = $model->getTypeName();
+            $datas[$k]['isshowName'] = $model->getIsshowName();
+            $datas[$k]['wayName'] = $model->getWayName();
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function store()
+    {
+        $name = $_POST['name'];
+        $display_way = $_POST['display_way'];
+        $cid = $_POST['cid'];
+        $title = $_POST['title'];
+        $type = $_POST['type'];
+        $intro = $_POST['intro'];
+        $link = $_POST['link'];
+        $pid = $_POST['pid'];
+        if (!$name || !in_array($display_way,[1,2]) || !in_array($type,[1,2,3]) || !$link) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'display_way'   =>  $display_way,
+            'cid'   =>  $cid,
+            'title' =>  $title,
+            'type'  =>  $type,
+            'intro' =>  $intro,
+            'link'  =>  $link,
+            'pid'   =>  $pid,
+            'created_at'    =>  time(),
+        ];
+        LinkModel::create($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function update()
+    {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $display_way = $_POST['display_way'];
+        $cid = $_POST['cid'];
+        $title = $_POST['title'];
+        $type = $_POST['type'];
+        $intro = $_POST['intro'];
+        $link = $_POST['link'];
+        $pid = $_POST['pid'];
+        if (!$id || !$name || !in_array($display_way,[1,2]) || !in_array($type,[1,2,3]) || !$link) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'  =>  $name,
+            'display_way'   =>  $display_way,
+            'cid'   =>  $cid,
+            'title' =>  $title,
+            'type'  =>  $type,
+            'intro' =>  $intro,
+            'link'  =>  $link,
+            'pid'   =>  $pid,
+            'updated_at'    =>  time(),
+        ];
+        LinkModel::where('id',$id)->update($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 设置图片
+     */
+    public function setThumb()
+    {
+        $id = $_POST['id'];
+        $thumb = $_POST['thumb'];
+        if (!$id || !$thumb) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = LinkModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        LinkModel::where('id',$id)->update(['thumb'=>$thumb]);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 设置是否显示
+     */
+    public function setShow()
+    {
+        $id = $_POST['id'];
+        $isshow = $_POST['isshow'];
+        if (!$id || !$isshow) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = LinkModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        LinkModel::where('id',$id)->update(['isshow'=>$isshow]);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
      * 获取 model
      */
     public function getModel()

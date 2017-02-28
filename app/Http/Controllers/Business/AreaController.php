@@ -9,6 +9,41 @@ class AreaController extends BaseController
      * 城市地址接口
      */
 
+    public function index()
+    {
+        $limit = (isset($_POST['limit'])&&$_POST['limit']) ? $_POST['limit'] : $this->limit;
+        $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
+        $start = $limit * ($page - 1);
+
+        $models = AreaModel::skip($start)
+            ->take($limit)
+            ->get();
+        if (!count($models)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有数据！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->objToArr($model);
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  AreaModel::count(),
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
     /**
      * 通过 area_id 获取地址/字符串
      */

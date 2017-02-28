@@ -5,7 +5,7 @@ class MessageModel extends BaseModel
 {
     protected $table = 'bs_message';
     protected $fillable = [
-        'id','title','genre','intro','sender','senderTime','accept','acceptTime','status','del','created_at','updated_at',
+        'id','title','genre','intro','sender','senderTime','accept','acceptTime','status','isshow','del','created_at','updated_at',
     ];
 
     protected $genres = [
@@ -23,12 +23,12 @@ class MessageModel extends BaseModel
 
     public function getSenderTime()
     {
-        return $this->senderTime ? date('Y年m月d日 H:i',$this->senderTime) : '未发送';
+        return $this->senderTime ? date('Y年m月d日',$this->senderTime) : '未发送';
     }
 
     public function getAcceptTime()
     {
-        return $this->acceptTime ? date('Y年m月d日 H:i',$this->acceptTime) : '未接收';
+        return $this->acceptTime ? date('Y年m月d日',$this->acceptTime) : '未接收';
     }
 
     public function getStatusName()
