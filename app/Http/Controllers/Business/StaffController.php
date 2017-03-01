@@ -44,6 +44,13 @@ class StaffController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = StaffModel::where('uid',$uid)
+                ->where('del',$del)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('type',$typeArr)
+                ->whereIn('type',$typeArr)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
         } else {
             $models = StaffModel::where('del',$del)
                 ->whereIn('genre',$genreArr)
@@ -54,6 +61,11 @@ class StaffController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = StaffModel::where('del',$del)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('type',$typeArr)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
         }
         if (!count($models)) {
             $rstArr = [
@@ -84,6 +96,9 @@ class StaffController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }
@@ -114,6 +129,12 @@ class StaffController extends BaseController
             ->where('del',0)
             ->orderBy('id','desc')
             ->get();
+        $total = StaffModel::where('uid',$uid)
+            ->whereIn('genre',$genreArr)
+            ->whereIn('type',$typeArr)
+            ->where('isshow',2)
+            ->where('del',0)
+            ->count();
         if (!$models) {
             $rstArr = [
                 'error' =>  [
@@ -143,6 +164,9 @@ class StaffController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }

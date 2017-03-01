@@ -36,6 +36,11 @@ class MessageController extends BaseController
             ->skip($start)
             ->take($limit)
             ->get();
+        $total = MessageModel::where('del',$del)
+            ->whereIn('genre',$genreArr)
+            ->whereIn('isshow',$isshowArr)
+            ->whereIn('status',$statusArr)
+            ->count();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -61,6 +66,9 @@ class MessageController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }

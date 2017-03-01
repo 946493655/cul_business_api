@@ -90,6 +90,10 @@ class MenuController extends BaseController
             ->orderBy('sort','desc')
             ->orderBy('id','asc')
             ->get();
+        $total = MenusModel::where('pid',0)
+            ->whereIn('type',$typeArr)
+            ->where('isshow',2)
+            ->count();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -115,6 +119,9 @@ class MenuController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }

@@ -37,6 +37,11 @@ class IdeaController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = IdeasModel::where('uid',$uid)
+                ->where('del',$del)
+                ->whereIn('cate',$cateArr)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
         } else {
             $models = IdeasModel::where('del',$del)
                 ->whereIn('cate',$cateArr)
@@ -46,6 +51,10 @@ class IdeaController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = IdeasModel::where('del',$del)
+                ->whereIn('cate',$cateArr)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
         }
         if (!count($models)) {
             $rstArr = [
@@ -74,6 +83,9 @@ class IdeaController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }

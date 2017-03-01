@@ -15,15 +15,19 @@ class AdModel extends BaseModel
         1=>'使用','不使用',
     ];
 
-    public function isuse()
+    /**
+     * 广告位
+     */
+    public function getAdplaceName()
     {
-        return $this->isuse ? '使用' : '不使用';
+        $adplaceModel = AdPlaceModel::find($this->adplace_id);
+        return $adplaceModel ? $adplaceModel->name : '';
     }
 
     /**
      * 审核状态
      */
-    public function isauth()
+    public function getIsauthName()
     {
         if ($this->uid) {
             $isauth = array_key_exists($this->isauth,$this->isauths) ? $this->isauths[$this->isauth] : '';
@@ -34,26 +38,17 @@ class AdModel extends BaseModel
     }
 
     /**
-     * 关联广告位
+     * 使用状态
      */
-    public function adplace()
+    public function getIsuseName()
     {
-        $adplaceModel = AdPlaceModel::find($this->adplace_id);
-        return $adplaceModel ? $adplaceModel : '';
-    }
-
-    /**
-     * 广告位名称
-     */
-    public function getAdplaceName()
-    {
-        return $this->adplace() ? $this->adplace()->name : '';
+        return array_key_exists($this->isuse,$this->isuses) ? $this->isuses[$this->isuse] : '';
     }
 
     /**
      * 有效开始时间
      */
-    public function fromTime()
+    public function getFromTimeName()
     {
         return date('Y年m月d日 H:i:s',$this->fromTime);
     }
@@ -61,7 +56,7 @@ class AdModel extends BaseModel
     /**
      * 有效结束时间
      */
-    public function toTime()
+    public function getToTimeName()
     {
         return date('Y年m月d日 H:i:s',$this->toTime);
     }

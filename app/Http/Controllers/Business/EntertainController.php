@@ -31,6 +31,11 @@ class EntertainController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = EntertainModel::where('del',$del)
+                ->where('uid',$uid)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
         } else {
             $models = EntertainModel::where('del',$del)
                 ->whereIn('genre',$genreArr)
@@ -40,6 +45,10 @@ class EntertainController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = EntertainModel::where('del',$del)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
         }
         if (!count($models)) {
             $rstArr = [
@@ -67,6 +76,9 @@ class EntertainController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }

@@ -40,6 +40,12 @@ class RentController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = RentModel::where('uid',$uid)
+                ->where('del',$del)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('type',$typeArr)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
         } else {
             $models = RentModel::where('del',$del)
                 ->whereIn('genre',$genreArr)
@@ -50,6 +56,11 @@ class RentController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = RentModel::where('del',$del)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('type',$typeArr)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
         }
         if (!count($models)) {
             $rstArr = [
@@ -75,6 +86,9 @@ class RentController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }
@@ -109,6 +123,11 @@ class RentController extends BaseController
             ->skip($start)
             ->take($limit)
             ->get();
+        $total = RentModel::where('genre',1)
+            ->where('isshow',2)
+            ->whereBetween('money',[$fromMoney,$toMoney])
+            ->whereIn('type',$typeArr)
+            ->count();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -133,6 +152,9 @@ class RentController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }

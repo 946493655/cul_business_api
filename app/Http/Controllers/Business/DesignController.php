@@ -46,6 +46,12 @@ class DesignController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = DesignModel::where('uid',$uid)
+                ->where('del',$del)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('cate',$cateArr)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
         } else {
             $models = DesignModel::where('del',$del)
                 ->whereIn('genre',$genreArr)
@@ -56,6 +62,11 @@ class DesignController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = DesignModel::where('del',$del)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('cate',$cateArr)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
         }
         if (!count($models)) {
             $rstArr = [
@@ -80,6 +91,9 @@ class DesignController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }

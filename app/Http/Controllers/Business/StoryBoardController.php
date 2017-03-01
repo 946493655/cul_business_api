@@ -34,6 +34,10 @@ class StoryBoardController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = StoryBoardModel::where('uid',$uid)
+                ->where('del',$del)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
         } else {
             $models = StoryBoardModel::where('del',$del)
                 ->whereIn('isshow',$isshowArr)
@@ -42,6 +46,10 @@ class StoryBoardController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = StoryBoardModel::where('del',$del)
+                ->whereIn('isshow',$isshowArr)
+                ->orderBy('sort','desc')
+                ->count();
         }
         if (!count($models)) {
             $rstArr = [
@@ -69,6 +77,9 @@ class StoryBoardController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }
@@ -99,6 +110,12 @@ class StoryBoardController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = StoryBoardModel::where('isshow',2)
+                ->where('del',0)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('cate',$cateArr)
+                ->where('isnew',1)
+                ->count();
         } elseif ($way==2) {
             $models = StoryBoardModel::where('isshow',2)
                 ->where('del',0)
@@ -110,6 +127,12 @@ class StoryBoardController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = StoryBoardModel::where('isshow',2)
+                ->where('del',0)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('cate',$cateArr)
+                ->where('ishot',1)
+                ->count();
         } else {
             $models = StoryBoardModel::where('isshow',2)
                 ->where('del',0)
@@ -120,6 +143,11 @@ class StoryBoardController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = StoryBoardModel::where('isshow',2)
+                ->where('del',0)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('cate',$cateArr)
+                ->count();
         }
         if (!count($models)) {
             $rstArr = [
@@ -147,6 +175,9 @@ class StoryBoardController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }

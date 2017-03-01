@@ -94,11 +94,6 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
 //    $app->post('works', 'WorksController@index');
 //    $app->post('works/show', 'WorksController@show');
 //    $app->post('works/getmodel', 'WorksController@getModel');
-    //广告路由
-    $app->post('ad', 'AdController@index');
-    $app->post('ad/getmodel', 'AdController@getModel');
-    $app->post('adplace', 'AdPlaceController@index');
-    $app->post('message', 'MessageController@index');
     //动画、效果定制路由
     $app->post('provideo', 'ProVideoController@index');
     $app->post('provideo/show', 'ProVideoController@show');
@@ -126,6 +121,18 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('message/show', 'MessageController@show');
     $app->post('message/setshow', 'MessageController@setShow');
     $app->post('message/getmodel', 'MessageController@getModel');
+    //广告位路由
+    $app->post('adplace', 'AdPlaceController@index');
+    $app->post('adplace/all', 'AdPlaceController@getAdPlaceAll');
+    $app->post('adplace/show', 'AdPlaceController@show');
+    $app->post('adplace/getmodel', 'AdPlaceController@getModel');
+    //广告路由
+    $app->post('ad', 'AdController@index');
+    $app->post('ad/show', 'AdController@show');
+    $app->post('ad/add', 'AdController@store');
+    $app->post('ad/modify', 'AdController@update');
+    $app->post('ad/setuse', 'AdController@setUse');
+    $app->post('ad/getmodel', 'AdController@getModel');
     //地区路由
     $app->post('area', 'AreaController@index');
     $app->post('area/namebyid', 'AreaController@getAreaNameByAreaId');

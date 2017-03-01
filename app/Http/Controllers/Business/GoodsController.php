@@ -52,6 +52,14 @@ class GoodsController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = GoodsModel::where('uid',$uid)
+                ->whereIn('genre',$genreArr)
+                ->whereIn('cate',$cateArr)
+                ->whereIn('recommend',$recommendArr)
+                ->whereIn('newest',$newestArr)
+                ->whereIn('isshow',$isshowArr)
+                ->where('del',$del)
+                ->count();
         } else {
             $models = GoodsModel::whereIn('genre',$genreArr)
                 ->whereIn('cate',$cateArr)
@@ -64,6 +72,12 @@ class GoodsController extends BaseController
                 ->skip($start)
                 ->take($limit)
                 ->get();
+            $total = GoodsModel::whereIn('genre',$genreArr)
+                ->whereIn('cate',$cateArr)
+                ->whereIn('recommend',$recommendArr)
+                ->whereIn('newest',$newestArr)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
         }
         if (!count($models)) {
             $rstArr = [
@@ -94,6 +108,9 @@ class GoodsController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }
@@ -129,6 +146,11 @@ class GoodsController extends BaseController
             ->where('del',0)
             ->orderBy('id','desc')
             ->get();
+        $total = GoodsModel::whereIn('genre',$genreArr)
+            ->whereIn('cate',$cateArr)
+            ->where('uid',$uid)
+            ->where('del',0)
+            ->count();
         if (!$models) {
             $rstArr = [
                 'error' =>  [
@@ -156,6 +178,9 @@ class GoodsController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }
