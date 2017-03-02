@@ -29,23 +29,20 @@ class ProVideoController extends BaseController
         $cateArr = $cate ? [$cate] : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
         if ($uid) {
-            $models = ProVideoModel::where('uid',$uid)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->orderBy('id','desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
+            $query = ProVideoModel::whereIn('genre',$genreArr)
+                ->where('uid',$uid);
         } else {
-            $models = ProVideoModel::whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->orderBy('id','desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
+            $query = ProVideoModel::whereIn('genre',$genreArr);
         }
+        $models = $query->whereIn('cate',$cateArr)
+            ->whereIn('isshow',$isshowArr)
+            ->orderBy('id','desc')
+            ->skip($start)
+            ->take($limit)
+            ->get();
+        $total = $query->whereIn('cate',$cateArr)
+            ->whereIn('isshow',$isshowArr)
+            ->count();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -70,6 +67,9 @@ class ProVideoController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }

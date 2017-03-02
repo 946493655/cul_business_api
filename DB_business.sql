@@ -44,7 +44,7 @@ CREATE TABLE `bs_ad_places` (
 
 LOCK TABLES `bs_ad_places` WRITE;
 /*!40000 ALTER TABLE `bs_ad_places` DISABLE KEYS */;
-INSERT INTO `bs_ad_places` VALUES (1,'前台首页横幅',1,'前台首页上面宽横幅广告位',0,1500,400,1,9,1472217158,1472303435),(2,'前台供应右侧',1,'前台供应的公司列表右侧广告栏',0,270,300,1,2,1472288234,1472303383),(3,'前台需求右侧',1,'前台需求页面广告栏',0,270,300,1,2,1472303080,1472303369),(4,'前台娱乐右侧',1,'前台娱乐频道右侧广告栏',0,270,500,1,1,1472303732,0),(5,'前台租赁右侧',1,'前台租赁页面右侧广告栏',0,270,300,1,3,1472304513,0),(6,'前台设计右侧',1,'前台设计页面右侧广告栏',0,260,500,1,2,1472345776,0),(7,'公司首页横幅',2,'公司页面的首页横幅广告位',0,1000,300,1,5,1473758944,0);
+INSERT INTO `bs_ad_places` VALUES (1,'前台首页横幅',1,'前台首页上面宽横幅广告位',0,1500,400,1,9,1472217158,1472303435),(2,'前台供应右侧',1,'前台供应的公司列表右侧广告栏',0,270,300,1,2,1472288234,1472303383),(3,'前台需求右侧',1,'前台需求页面广告栏',0,270,300,1,2,1472303080,1472303369),(4,'前台娱乐右侧',1,'前台娱乐频道右侧广告栏',0,270,500,1,1,1472303732,0),(5,'前台租赁右侧',1,'前台租赁页面右侧广告栏',0,270,300,1,3,1472304513,0),(6,'前台设计右侧',1,'前台设计页面右侧广告栏',0,260,500,1,2,1472345776,0),(7,'公司首页横幅',2,'公司页面的首页横幅广告位\r\n0000000000000',0,1000,300,1,5,1473758944,1488421269);
 /*!40000 ALTER TABLE `bs_ad_places` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,7 +72,7 @@ CREATE TABLE `bs_ads` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='类型表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='类型表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,45 +81,8 @@ CREATE TABLE `bs_ads` (
 
 LOCK TABLES `bs_ads` WRITE;
 /*!40000 ALTER TABLE `bs_ads` DISABLE KEYS */;
-INSERT INTO `bs_ads` VALUES (1,'前台横幅001',1,'1111111111111111111111','uploads/images/2016/ppt.png','',1469980800,1472659199,0,0,1,2,10,1472269325,1472277145),(2,'前台横幅002',1,'','uploads/images/2016/ppt2.png','',1470067200,1472659199,0,0,1,2,10,1472285541,0),(3,'前台供应右侧',2,'前台供应公司列表右侧广告栏','','',1469980800,1475251199,0,0,1,2,10,1472289344,0),(4,'测试测试',1,'嘎嘎嘎嘎嘎嘎灌灌灌灌灌\r\n000000000000','','/',1488297600,1490975999,1,0,1,2,10,1488355290,1488357747);
+INSERT INTO `bs_ads` VALUES (1,'前台横幅001',1,'1111111111111111111111','uploads/images/2016/ppt.png','',1469980800,1472659199,0,0,1,2,10,1472269325,1472277145),(2,'前台横幅002',1,'','uploads/images/2016/ppt2.png','',1470067200,1472659199,0,0,1,2,10,1472285541,0),(3,'前台供应右侧',2,'前台供应公司列表右侧广告栏','','',1469980800,1475251199,0,0,1,2,10,1472289344,0);
 /*!40000 ALTER TABLE `bs_ads` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_ads_copy`
---
-
-DROP TABLE IF EXISTS `bs_ads_copy`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_ads_copy` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT '广告名称',
-  `adplace_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '广告位id，关联bs_ad_place',
-  `intro` varchar(500) NOT NULL COMMENT '广告内容',
-  `img` varchar(255) NOT NULL COMMENT '图片链接',
-  `link` varchar(255) NOT NULL COMMENT '广告链接',
-  `fromTime` int(10) unsigned NOT NULL COMMENT '投放开始时间',
-  `toTime` int(10) unsigned NOT NULL COMMENT '投放结束时间',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布会员id',
-  `isauth` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '审核状态：0未审核，1未通过审核，2通过审核',
-  `isuse` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '控制开关：0关闭，1开启，默认1',
-  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '前台是否显示：1不显示，2显示，默认2',
-  `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '排序，值越大越靠前',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='类型表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_ads_copy`
---
-
-LOCK TABLES `bs_ads_copy` WRITE;
-/*!40000 ALTER TABLE `bs_ads_copy` DISABLE KEYS */;
-INSERT INTO `bs_ads_copy` VALUES (1,'前台横幅001',1,'1111111111111111111111','uploads/images/2016/ppt.png','',1469980800,1472659199,0,0,1,2,10,1472269325,1472277145),(2,'前台横幅002',1,'','uploads/images/2016/ppt2.png','',1470067200,1472659199,0,0,1,2,10,1472285541,0),(3,'前台供应右侧',2,'前台供应公司列表右侧广告栏','','',1469980800,1475251199,0,0,1,2,10,1472289344,0);
-/*!40000 ALTER TABLE `bs_ads_copy` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1147,4 +1110,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-01 16:53:10
+-- Dump completed on 2017-03-02 16:45:35

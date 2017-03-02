@@ -125,12 +125,15 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('adplace', 'AdPlaceController@index');
     $app->post('adplace/all', 'AdPlaceController@getAdPlaceAll');
     $app->post('adplace/show', 'AdPlaceController@show');
+    $app->post('adplace/add', 'AdPlaceController@store');
+    $app->post('adplace/modify', 'AdPlaceController@update');
     $app->post('adplace/getmodel', 'AdPlaceController@getModel');
     //广告路由
     $app->post('ad', 'AdController@index');
     $app->post('ad/show', 'AdController@show');
     $app->post('ad/add', 'AdController@store');
     $app->post('ad/modify', 'AdController@update');
+    $app->post('ad/setthumb', 'AdController@setThumb');
     $app->post('ad/setuse', 'AdController@setUse');
     $app->post('ad/getmodel', 'AdController@getModel');
     //地区路由

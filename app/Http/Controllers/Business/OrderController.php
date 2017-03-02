@@ -24,6 +24,9 @@ class OrderController extends BaseController
             ->skip($start)
             ->take($limit)
             ->get();
+        $total = OrderModel::where('del',$del)
+            ->whereIn('isshow',$isshowArr)
+            ->count();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -35,12 +38,7 @@ class OrderController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['statusName'] = $model->getStatusName();
-            $datas[$k]['statusBtn'] = $model->getStatusBtn();
+            $datas[$k] = $this->modelToArray($model);
         }
         $rstArr = [
             'error' =>  [
@@ -48,6 +46,9 @@ class OrderController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }
@@ -69,26 +70,19 @@ class OrderController extends BaseController
             echo json_encode($rstArr);exit;
         }
         if (!$status) {
-            $models = OrderModel::where('uid',$uid)
-                ->where('isshow',2)
-                ->where('del',0)
-                ->orderBy('id','desc')
-                ->get();
+            $query = OrderModel::where('del',0);
         } else if (is_array($status)) {
-            $models = OrderModel::where('uid',$uid)
-                ->whereIn('status',$status)
-                ->where('isshow',2)
-                ->where('del',0)
-                ->orderBy('id','desc')
-                ->get();
+            $query = OrderModel::where('del',0)->whereIn('status',$status);
         } else {
-            $models = OrderModel::where('uid',$uid)
-                ->where('status',$status)
-                ->where('isshow',2)
-                ->where('del',0)
-                ->orderBy('id','desc')
-                ->get();
+            $query = OrderModel::where('del',0)->where('status',$status);
         }
+        $models = $query->where('isshow',2)
+            ->where('uid',$uid)
+            ->orderBy('id','desc')
+            ->get();
+        $total = $query->where('isshow',2)
+            ->where('uid',$uid)
+            ->count();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -100,12 +94,7 @@ class OrderController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['statusName'] = $model->getStatusName();
-            $datas[$k]['statusBtn'] = $model->getStatusBtn();
+            $datas[$k] = $this->modelToArray($model);
         }
         $rstArr = [
             'error' =>  [
@@ -113,6 +102,9 @@ class OrderController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }
@@ -132,6 +124,10 @@ class OrderController extends BaseController
                 ->skip(1)
                 ->take($limit)
                 ->get();
+            $total = OrderModel::where('buyer',$uid)
+                ->where('isshow',2)
+                ->where('del',0)
+                ->count();
         } else if (!$uid && $limit) {
             $models = OrderModel::where('isshow',2)
                 ->where('del',0)
@@ -139,17 +135,27 @@ class OrderController extends BaseController
                 ->skip(1)
                 ->take($limit)
                 ->get();
+            $total = OrderModel::where('isshow',2)
+                ->where('del',0)
+                ->count();
         } else if ($uid && !$limit) {
             $models = OrderModel::where('buyer',$uid)
                 ->where('isshow',2)
                 ->where('del',0)
                 ->orderBy('id','desc')
                 ->get();
+            $total = OrderModel::where('buyer',$uid)
+                ->where('isshow',2)
+                ->where('del',0)
+                ->count();
         } else {
             $models = OrderModel::where('isshow',2)
                 ->where('del',0)
                 ->orderBy('id','desc')
                 ->get();
+            $total = OrderModel::where('isshow',2)
+                ->where('del',0)
+                ->count();
         }
         if (!count($models)) {
             $rstArr = [
@@ -162,12 +168,7 @@ class OrderController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['statusName'] = $model->getStatusName();
-            $datas[$k]['statusBtn'] = $model->getStatusBtn();
+            $datas[$k] = $this->modelToArray($model);
         }
         $rstArr = [
             'error' =>  [
@@ -175,6 +176,9 @@ class OrderController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }
@@ -193,25 +197,21 @@ class OrderController extends BaseController
 
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
         if ($uid) {
-            $models = OrderModel::where('del',$del)
-                ->where('uid',$uid)
-                ->where('weal','>',0)
-                ->whereIn('status',[12,13])
-                ->whereIn('isshow',$isshowArr)
-                ->orderBy('id','desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
+            $query = OrderModel::where('del',$del)->where('uid',$uid);
         } else {
-            $models = OrderModel::where('del',$del)
-                ->where('weal','>',0)
-                ->whereIn('status',[12,13])
-                ->whereIn('isshow',$isshowArr)
-                ->orderBy('id','desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
+            $query = OrderModel::where('del',$del);
         }
+        $models = $query->where('weal','>',0)
+            ->whereIn('status',[12,13])
+            ->whereIn('isshow',$isshowArr)
+            ->orderBy('id','desc')
+            ->skip($start)
+            ->take($limit)
+            ->get();
+        $total = $query->where('weal','>',0)
+            ->whereIn('status',[12,13])
+            ->whereIn('isshow',$isshowArr)
+            ->count();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -223,12 +223,7 @@ class OrderController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['statusName'] = $model->getStatusName();
-            $datas[$k]['statusBtn'] = $model->getStatusBtn();
+            $datas[$k] = $this->modelToArray($model);
         }
         $rstArr = [
             'error' =>  [
@@ -236,8 +231,27 @@ class OrderController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
+    }
+
+    public function store(){}
+
+    /**
+     * 对象统一转数组
+     */
+    public function modelToArray($model)
+    {
+        $arr = $this->objToArr($model);
+        $arr['createTime'] = $model->createTime();
+        $arr['updateTime'] = $model->updateTime();
+        $arr['genreName'] = $model->getGenreName();
+        $arr['statusName'] = $model->getStatusName();
+        $arr['statusBtn'] = $model->getStatusBtn();
+        return $arr;
     }
 
     /**
