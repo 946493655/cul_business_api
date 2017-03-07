@@ -18,30 +18,15 @@ class ComFuncModel extends BaseModel
         1=>'简介','历程','新闻','资讯','服务','团队','招聘',
         21=>'单页'
     ];
-    protected $isshows = [
-        '不显示','显示'
-    ];
 
-    public function company()
-    {
-        $rstCompany = ApiCompany::show($this->cid);
-        return $rstCompany['code']==0 ? $rstCompany['data']['name'] : '';
-    }
-
-    public function type()
+    public function getTypeName()
     {
         return array_key_exists($this->type,$this->types) ? $this->types[$this->type] : '';
     }
 
-    public function genre()
+    public function getGenreName()
     {
         return $this->type<21 ? '默认模块' : '新加单页';
-    }
-
-
-    public function isshow()
-    {
-        return array_key_exists($this->isshow,$this->isshows) ? $this->isshows[$this->isshow] : '';
     }
 
     public function small()
@@ -49,43 +34,17 @@ class ComFuncModel extends BaseModel
         return $this->small ? explode('|',$this->small) : '';
     }
 
-    public function singelModules($cid=null)
-    {
-        if (!$cid) { $cid = 0; }
-        return ComModuleModel::where('genre','>',20)->whereIn('cid',[0,$cid])->get();
-    }
+//    public function singelModules($cid)
+//    {
+//        return ComModuleModel::where('genre','>',20)->whereIn('cid',[0,$cid])->get();
+//    }
 
     /**
-     * 该用户的公司页面模块
-     */
-    public function getModules()
-    {
-        return ComModuleModel::whereIn('cid',[0,$this->cid])->where('isshow',1)->get();
-    }
-
-    /**
-     * 得到对应模块
-     */
-    public function getModule()
-    {
-        $module_id = $this->module_id ? $this->module_id : 0;
-        $moduleModel = ComModuleModel::find($module_id);
-        return $moduleModel ? $moduleModel : '';
-    }
-
-    /**
-     * 得到对应模块的名称
+     * 得到对应模块名称
      */
     public function getModuleName()
     {
-        return $this->getModule() ? $this->getModule()->name : '';
-    }
-
-    /**
-     * 得到对应模块的介绍
-     */
-    public function getModuleIntro()
-    {
-        return $this->getModule() ? $this->getModule()->intro : '';
+        $moduleModel = ComModuleModel::find($this->module_id);
+        return $moduleModel ? $moduleModel->name : '';
     }
 }

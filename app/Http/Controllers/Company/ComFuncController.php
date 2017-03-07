@@ -1,34 +1,48 @@
 <?php
 namespace App\Http\Controllers\Company;
 
-use App\Models\Company\ComMainModel;
+use App\Models\Company\ComFuncModel;
 
-class ComMainController extends BaseController
+class ComFuncController extends BaseController
 {
     /**
-     * 客户公司信息
+     * 公司功能信息
      */
 
     public function __construct()
     {
         parent::__construct();
-        $this->selfModel = new ComMainModel();
+        $this->selfModel = new ComFuncModel();
     }
 
     public function index()
     {
+        $cid = $_POST['cid'];
         $isshow = $_POST['isshow'];
         $limit = (isset($_POST['limit'])&&$_POST['limit']) ? $_POST['limit'] : $this->limit;
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
         $start = $limit * ($page - 1);
 
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
-        $models = ComMainModel::whereIn('isshow',$isshowArr)
-            ->orderBy('sort','desc')
-            ->orderBy('id','desc')
-            ->skip($start)
-            ->take($limit)
-            ->get();
+        if ($cid) {
+            $models = ComFuncModel::where('cid',$cid)
+                ->whereIn('isshow',$isshowArr)
+                ->orderBy('id','desc')
+                ->skip($start)
+                ->take($limit)
+                ->get();
+            $total = ComFuncModel::where('cid',$cid)
+                ->whereIn('isshow',$isshowArr)
+                ->count();
+        } else {
+            $models = ComFuncModel::whereIn('isshow',$isshowArr)
+                ->orderBy('id','desc')
+                ->skip($start)
+                ->take($limit)
+                ->get();
+            $total = ComFuncModel::whereIn('isshow',$isshowArr)
+                ->count();
+        }
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -40,12 +54,7 @@ class ComMainController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['skin'] = $model->getSkin();
-            $datas[$k]['skinName'] = $model->getSkinName();
-            $datas[$k]['istopName'] = $model->getIsTopName();
+            $datas[$k] = $this->getFuncModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -53,17 +62,17 @@ class ComMainController extends BaseController
                 'msg'   =>  '操作成功！',
             ],
             'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
         ];
         echo json_encode($rstArr);exit;
     }
 
-    /**
-     * 通过 uid 获取客户公司信息
-     */
-    public function getOneByUid()
+    public function show()
     {
-        $uid = $_POST['uid'];
-        if (!$uid) {
+        $id = $_POST['id'];
+        if (!$id) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -72,22 +81,8 @@ class ComMainController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $model = ComMainModel::where('uid',$uid)->first();
-        if ($model) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '没有数据！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
-        $datas = $this->objToArr($model);
-        $datas['createTime'] = $model->createTime();
-        $datas['updateTime'] = $model->updateTime();
-        $datas['skin'] = $model->getSkin();
-        $datas['skinName'] = $model->getSkinName();
-        $datas['istopName'] = $model->getIsTopName();
+        $model = ComFuncModel::find($id);
+        $datas = $this->getFuncModel($model);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -104,17 +99,30 @@ class ComMainController extends BaseController
     public function getModel()
     {
         $model = [
-            'skins'     =>  $this->selfModel['skins'],
-            'skinNames' =>  $this->selfModel['skinNames'],
-            'istops'    =>  $this->selfModel['istops'],
+            'types'     =>  $this->selfModel['types'],
+            'isshows'   =>  $this->selfModel['isshows'],
         ];
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
                 'msg'   =>  '操作成功！',
             ],
-            'data'  =>  $model,
+            'model'  =>  $model,
         ];
         echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 获取 model 集合
+     */
+    public function getFuncModel($model)
+    {
+        $datas = $this->objToArr($model);
+        $datas['createTime'] = $model->createTime();
+        $datas['updateTime'] = $model->updateTime();
+        $datas['isshowName'] = $model->getIsshowName();
+        $datas['moduleName'] = $model->getModuleName();
+        $datas['typeName'] = $model->getTypeName();
+        return $datas;
     }
 }

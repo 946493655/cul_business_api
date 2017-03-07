@@ -165,7 +165,17 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
 });
 //公司业务路由
 $app->group(['prefix' => 'api/v1/com', 'namespace'=>'App\Http\Controllers\Company'], function () use ($app) {
-    $app->post('main', 'ComMainController@index');
-    $app->post('main/onebyuid', 'ComMainController@getOneByUid');
-    $app->post('main/getmodel', 'ComMainController@getModel');
+    //模块路由
+    $app->post('module', 'ComModuleController@index');
+    $app->post('module/show', 'ComModuleController@show');
+    $app->post('module/add', 'ComModuleController@store');
+    $app->post('module/modify', 'ComModuleController@update');
+    $app->post('module/getmodel', 'ComModuleController@getModel');
+    //功能路由
+    $app->post('func', 'ComFuncController@index');
+    $app->post('func/show', 'ComFuncController@show');
+    $app->post('func/getmodel', 'ComFuncController@getModel');
+    //访问路由
+    $app->post('visit', 'VisitlogController@index');
+    $app->post('visit/show', 'VisitlogController@show');
 });
