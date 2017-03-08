@@ -167,13 +167,19 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
 $app->group(['prefix' => 'api/v1/com', 'namespace'=>'App\Http\Controllers\Company'], function () use ($app) {
     //模块路由
     $app->post('module', 'ComModuleController@index');
+    $app->post('module/modulesbycid', 'ComModuleController@getModulesByCid');
+    $app->post('module/modulebygenre', 'ComModuleController@getOneByGenre');
     $app->post('module/show', 'ComModuleController@show');
     $app->post('module/add', 'ComModuleController@store');
     $app->post('module/modify', 'ComModuleController@update');
+    $app->post('module/init', 'ComModuleController@initModule');
     $app->post('module/getmodel', 'ComModuleController@getModel');
     //功能路由
     $app->post('func', 'ComFuncController@index');
     $app->post('func/show', 'ComFuncController@show');
+    $app->post('func/add', 'ComFuncController@store');
+    $app->post('func/modify', 'ComFuncController@update');
+    $app->post('func/init', 'ComFuncController@initFunc');
     $app->post('func/getmodel', 'ComFuncController@getModel');
     //访问路由
     $app->post('visit', 'VisitlogController@index');

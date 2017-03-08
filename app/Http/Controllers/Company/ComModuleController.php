@@ -53,11 +53,7 @@ class ComModuleController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['isshowName'] = $model->getIsshowName();
+            $datas[$k] = $this->getModuleModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -68,6 +64,87 @@ class ComModuleController extends BaseController
             'pagelist'  =>  [
                 'total' =>  $total,
             ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 通过 cid 获取模块集合
+     */
+    public function getModulesByCid()
+    {
+        $cid = $_POST['cid'];
+        $isshow = $_POST['isshow'];
+        if (!$cid || !in_array($isshow,[0,1,2])) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $models = ComModuleModel::where('cid',$cid)
+            ->where('isshow',$isshow)
+            ->get();
+        if (!count($models)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->getModuleModel($model);
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 通过 cid、genre 获取记录
+     */
+    public function getOneByGenre()
+    {
+        $cid = $_POST['cid'];
+        $genre = $_POST['genre'];
+        if (!$genre) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = ComModuleModel::where('cid',$cid)
+            ->where('genre',$genre)
+            ->first();
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = $this->getModuleModel($model);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
         ];
         echo json_encode($rstArr);exit;
     }
@@ -94,11 +171,7 @@ class ComModuleController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $datas = $this->objToArr($model);
-        $datas['createTime'] = $model->createTime();
-        $datas['updateTime'] = $model->updateTime();
-        $datas['genreName'] = $model->getGenreName();
-        $datas['isshowName'] = $model->getIsshowName();
+        $datas = $this->getModuleModel($model);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -115,11 +188,20 @@ class ComModuleController extends BaseController
         $genre = $_POST['genre'];
         $intro = $_POST['intro'];
         $cid = $_POST['cid'];
-        if (!$name || !$genre || !$intro || !$cid) {
+        if (!$name || !$genre || !$intro) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
                     'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        if (!$this->selfModel->initModule($cid)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '初始化错误！',
                 ],
             ];
             echo json_encode($rstArr);exit;
@@ -148,7 +230,7 @@ class ComModuleController extends BaseController
         $genre = $_POST['genre'];
         $intro = $_POST['intro'];
         $cid = $_POST['cid'];
-        if (!$id || !$name || !$genre || !$intro || !$cid) {
+        if (!$id || !$name || !$genre || !$intro) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -173,6 +255,66 @@ class ComModuleController extends BaseController
     }
 
     /**
+     * 初始化公司模块
+     */
+    public function initModule()
+    {
+        $cid = $_POST['cid'];
+        if (!$cid) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $modules = ComModuleModel::where('cid',$cid)->get();
+        if (count($modules)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  0,
+                    'msg'   =>  '已有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $module0s = ComModuleModel::where('cid',0)->get();
+        if (count($module0s)!=6) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '数据错误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        foreach ($module0s as $module0) {
+            $data = [
+                'name'  =>  $module0->name,
+                'cid'   =>  $cid,
+                'genre' =>  $module0->genre,
+                'intro' =>  $module0->intro,
+                'created_at'    =>  time(),
+            ];
+            ComModuleModel::create($data);
+        }
+        $models = ComModuleModel::where('cid',$cid)->get();
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->getModuleModel($model);
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    /**
      * 获取 model
      */
     public function getModel()
@@ -188,5 +330,18 @@ class ComModuleController extends BaseController
             'model'  =>  $model,
         ];
         echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 获取 model 集合
+     */
+    public function getModuleModel($model)
+    {
+        $datas = $this->objToArr($model);
+        $datas['createTime'] = $model->createTime();
+        $datas['updateTime'] = $model->updateTime();
+        $datas['genreName'] = $model->getGenreName();
+        $datas['isshowName'] = $model->getIsshowName();
+        return $datas;
     }
 }
