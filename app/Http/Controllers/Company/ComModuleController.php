@@ -75,7 +75,7 @@ class ComModuleController extends BaseController
     {
         $cid = $_POST['cid'];
         $isshow = $_POST['isshow'];
-        if (!$cid || !in_array($isshow,[0,1,2])) {
+        if (!in_array($isshow,[0,1,2])) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -299,6 +299,7 @@ class ComModuleController extends BaseController
             ];
             ComModuleModel::create($data);
         }
+        //获取模块数据
         $models = ComModuleModel::where('cid',$cid)->get();
         $datas = array();
         foreach ($models as $k=>$model) {

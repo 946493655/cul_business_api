@@ -13,11 +13,6 @@ class ComFuncModel extends BaseModel
     protected $fillable = [
         'id','name','cid','module_id','img','intro','small','sort','isshow','created_at','updated_at',
     ];
-    //功能类型：1简介，2历程，3新闻，4资讯，5服务，6团队，7招聘，单页
-    protected $types = [
-        1=>'简介','历程','新闻','资讯','服务','团队','招聘',
-        51=>'单页'
-    ];
 
     public function small()
     {

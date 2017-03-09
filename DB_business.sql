@@ -980,11 +980,11 @@ CREATE TABLE `com_funcs` (
   `intro` varchar(255) NOT NULL COMMENT '详情',
   `small` varchar(1000) NOT NULL COMMENT '备用字段：\r\n如果是服务，为小字，多组用|隔开；\r\n如果是招聘，为数字；\r\n如果是合作伙伴，为链接；\r\n如果是联系方式，为具体方式，用|隔开',
   `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '用户企业排序，值越大越靠前，默认10',
-  `isshow` tinyint(3) unsigned NOT NULL DEFAULT '2' COMMENT '用户的公司后台控制是否显示：1不显示，2显示',
+  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '用户的公司后台控制是否显示：1不显示，2显示',
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='企业功能表 com_funcs';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='企业功能表 com_funcs';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -993,40 +993,8 @@ CREATE TABLE `com_funcs` (
 
 LOCK TABLES `com_funcs` WRITE;
 /*!40000 ALTER TABLE `com_funcs` DISABLE KEYS */;
+INSERT INTO `com_funcs` VALUES (1,'公司简介',0,1,'','公司简单介绍','',10,2,1489021367,0),(2,'公司历程',0,1,'','公司历史','',10,2,1489022124,0),(3,'公司新闻',0,1,'','新闻新闻','',10,2,1489022165,0),(4,'行业资讯',0,1,'','资讯资讯','',10,2,1489022197,0),(5,'服务项目',0,2,'','服务项目服务项目','小字|小字|小字|小字|',10,2,1489022271,0),(6,'团队成员',0,3,'','团队成员团队成员','',10,2,1489022309,0),(7,'招聘管理',0,4,'','招聘人才招聘人才','',10,2,1489022376,0),(8,'合作伙伴',0,5,'','合作伙伴合作伙伴','',10,2,1489022418,0),(9,'联系方式',0,6,'','联系方式：座机、手机、邮箱、具体地址、地图坐标、、、、、、','',10,2,1489022522,0),(10,'公司简介',1,1,'','公司简单介绍ggggggggggggggggggggggggggggggggggggggg','',10,2,1489023482,1489029814),(11,'公司历程',1,1,'','公司历史','',10,2,1489023482,0),(12,'公司新闻',1,1,'','新闻新闻','',10,2,1489023482,0),(13,'行业资讯',1,1,'','资讯资讯','',10,2,1489023482,0),(14,'服务项目',1,2,'','服务项目服务项目','小字|小字|小字|小字|',10,2,1489023482,0),(15,'团队成员',1,3,'','团队成员团队成员','',10,2,1489023482,0),(16,'招聘管理',1,4,'','招聘人才招聘人才','',10,2,1489023482,0),(17,'合作伙伴',1,5,'','合作伙伴合作伙伴','',10,2,1489023482,0),(18,'联系方式',1,6,'','联系方式：座机、手机、邮箱、具体地址、地图坐标、、、','',10,2,1489023482,1489025086);
 /*!40000 ALTER TABLE `com_funcs` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `com_funcs_copy`
---
-
-DROP TABLE IF EXISTS `com_funcs_copy`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `com_funcs_copy` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT '功能名称',
-  `cid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公司id',
-  `module_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属模块id：1公司信息，2服务，3团队，4招聘，5合作伙伴',
-  `img` varchar(255) NOT NULL COMMENT '图片链接',
-  `intro` varchar(255) NOT NULL COMMENT '详情',
-  `small` varchar(1000) NOT NULL COMMENT '备用字段：\r\n如果是服务，为小字，多组用|隔开；\r\n如果是招聘，为数字；\r\n如果是合作伙伴，为链接；\r\n如果是联系方式，为具体方式，用|隔开',
-  `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '用户企业排序，值越大越靠前，默认10',
-  `isshow` tinyint(3) unsigned NOT NULL DEFAULT '2' COMMENT '用户的公司后台控制是否显示：1不显示，2显示',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='企业功能表 com_funcs';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `com_funcs_copy`
---
-
-LOCK TABLES `com_funcs_copy` WRITE;
-/*!40000 ALTER TABLE `com_funcs_copy` DISABLE KEYS */;
-INSERT INTO `com_funcs_copy` VALUES (1,'公司简介',1,1,'1','<p>公司简单介绍</p>','',10,2,1472474573,1473663705),(2,'公司历程',1,1,'0','<p>公司历史</p>','',10,2,1472474631,0),(3,'公司新闻',1,1,'2','<p>新闻新闻</p>','',10,2,1472474666,0),(4,'行业资讯',1,1,'2','<p>资讯资讯</p>','',10,2,1472474698,1473733267),(5,'服务项目',1,2,'0','<p>服务项目服务项目00000000000</p>','小字|小字|小字|小字|',10,2,1472474749,1473733351),(6,'团队',1,3,'2','<p>团队成员团队成员</p>','',10,2,1472474821,1473733330),(7,'招聘',1,4,'0','<p>招聘人才招聘人才000000000</p>','2',10,2,1472474999,1473733339);
-/*!40000 ALTER TABLE `com_funcs_copy` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1047,7 +1015,7 @@ CREATE TABLE `com_modules` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8 COMMENT='企业模块表 com_modules';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='企业模块表 com_modules';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1056,39 +1024,8 @@ CREATE TABLE `com_modules` (
 
 LOCK TABLES `com_modules` WRITE;
 /*!40000 ALTER TABLE `com_modules` DISABLE KEYS */;
-INSERT INTO `com_modules` VALUES (1,'公司信息',0,1,'公司简介、公司历史、公司新闻、行业资讯',10,2,1488944661,0),(2,'服务',0,2,'公司的服务项目',10,2,1488944690,0),(3,'团队',0,1,'公司成员',10,2,1488948222,1488948262),(4,'招聘',0,4,'公司所需人员',10,2,1488948250,0),(5,'合作伙伴',0,5,'合作方名称、介绍、链接、形象图',10,2,1488948652,0),(6,'联系方式',0,6,'公司电话、邮箱、地图坐标......',10,2,1488948702,0),(61,'公司信息',1,1,'公司简介、公司历史、公司新闻、行业资讯',10,2,1488960409,0),(62,'服务',1,2,'公司的服务项目',10,2,1488960409,0),(63,'团队',1,1,'公司成员',10,2,1488960409,0),(64,'招聘',1,4,'公司所需人员',10,2,1488960409,0),(65,'合作伙伴',1,5,'合作方名称、介绍、链接、形象图',10,2,1488960409,0),(66,'联系方式00',1,6,'公司电话、邮箱、地图坐标......',10,2,1488960409,1488960533);
+INSERT INTO `com_modules` VALUES (1,'公司信息',0,1,'公司简介、公司历史、公司新闻、行业资讯',10,2,1488944661,0),(2,'服务项目',0,2,'公司的服务项目',10,2,1488944690,0),(3,'团队成员',0,1,'公司成员',10,2,1488948222,1488948262),(4,'招聘管理',0,4,'公司所需人员',10,2,1488948250,0),(5,'合作伙伴',0,5,'合作方名称、介绍、链接、形象图',10,2,1488948652,0),(6,'联系方式',0,6,'公司电话、邮箱、地图坐标......',10,2,1488948702,0),(7,'公司信息',1,1,'公司简介、公司历史、公司新闻、行业资讯、、、',10,2,1489020406,1489023548),(8,'服务项目',1,2,'公司的服务项目',10,2,1489020406,0),(9,'团队成员',1,1,'公司成员',10,2,1489020406,0),(10,'招聘管理',1,4,'公司所需人员',10,2,1489020406,0),(11,'合作伙伴',1,5,'合作方名称、介绍、链接、形象图',10,2,1489020406,0),(12,'联系方式',1,6,'公司电话、邮箱、地图坐标......',10,2,1489020406,0);
 /*!40000 ALTER TABLE `com_modules` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `com_modules_copy`
---
-
-DROP TABLE IF EXISTS `com_modules_copy`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `com_modules_copy` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL COMMENT '模块名称',
-  `cid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公司id',
-  `genre` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '功能类型：1公司信息，2服务，3团队，4招聘，5合作伙伴，6备用单页',
-  `intro` varchar(255) NOT NULL COMMENT '介绍',
-  `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '用户企业排序，值越大越靠前，默认10',
-  `isshow` tinyint(3) unsigned NOT NULL DEFAULT '2' COMMENT '用户的公司后台控制是否显示：1不显示，2显示',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='企业模块表 com_modules';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `com_modules_copy`
---
-
-LOCK TABLES `com_modules_copy` WRITE;
-/*!40000 ALTER TABLE `com_modules_copy` DISABLE KEYS */;
-INSERT INTO `com_modules_copy` VALUES (1,'公司信息',0,1,'公司简介、公司历史、公司新闻、行业资讯',10,2,1488944661,0),(2,'服务',0,2,'公司的服务项目',10,2,1488944690,0),(3,'团队',0,1,'公司成员',10,2,1488948222,1488948262),(4,'招聘',0,4,'公司所需人员',10,2,1488948250,0),(5,'合作伙伴',0,5,'合作方名称、介绍、链接、形象图',10,2,1488948652,0),(6,'联系方式',0,6,'公司电话、邮箱、地图坐标......',10,2,1488948702,0);
-/*!40000 ALTER TABLE `com_modules_copy` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1135,4 +1072,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-08 16:45:25
+-- Dump completed on 2017-03-09 16:48:59

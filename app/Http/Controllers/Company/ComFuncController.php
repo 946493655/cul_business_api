@@ -101,7 +101,7 @@ class ComFuncController extends BaseController
         $module_id = $_POST['module_id'];
         $intro = $_POST['intro'];
         $small = $_POST['small'];
-        if (!$name || !$module_id || !$small) {
+        if (!$name || !$module_id) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -136,7 +136,7 @@ class ComFuncController extends BaseController
         $module_id = $_POST['module_id'];
         $intro = $_POST['intro'];
         $small = $_POST['small'];
-        if (!$id || !$name || !$module_id || !$small) {
+        if (!$id || !$name || !$module_id) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -177,7 +177,7 @@ class ComFuncController extends BaseController
             echo json_encode($rstArr);exit;
         }
         //判断模块
-        if ($this->initModule($cid)) {
+        if (!$this->initModule($cid)) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -3,
@@ -196,7 +196,7 @@ class ComFuncController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $func0s = ComFuncModel::where('cid',$cid)->get();
+        $func0s = ComFuncModel::where('cid',0)->get();
         if (count($func0s)!=9) {
             $rstArr = [
                 'error' =>  [
@@ -217,10 +217,21 @@ class ComFuncController extends BaseController
             ];
             ComFuncModel::create($data);
         }
-        $models = ComFuncModel::where('cid',$cid)->get();
+//        //获取功能数据
+//        $models = ComFuncModel::where('cid',$cid)->get();
+//        $datas = array();
+//        foreach ($models as $k=>$model) {
+//            $datas[$k] = $this->getFuncModel($model);
+//        }
+        //获取模块数据
+        $models = ComModuleModel::where('cid',$cid)->get();
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->getFuncModel($model);
+            $datas[$k] = $this->objToArr($model);
+            $datas[$k]['createTime'] = $model->createTime();
+            $datas[$k]['updateTime'] = $model->updateTime();
+            $datas[$k]['genreName'] = $model->getGenreName();
+            $datas[$k]['isshowName'] = $model->getIsshowName();
         }
         $rstArr = [
             'error' =>  [
