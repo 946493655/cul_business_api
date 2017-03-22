@@ -18,6 +18,7 @@ class IdeaController extends BaseController
     public function index()
     {
         $uid = $_POST['uid'];
+        $genre = $_POST['genre'];
         $cate = $_POST['cate'];
         $isshow = $_POST['isshow'];
         $del = $_POST['del'];
@@ -25,11 +26,13 @@ class IdeaController extends BaseController
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
         $start = $limit * ($page - 1);
 
+        $genreArr = $genre ? [$genre] : [0,1,2];
         $cateArr = $cate ? [$cate] : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
         if ($uid) {
             $models = IdeasModel::where('uid',$uid)
                 ->where('del',$del)
+                ->whereIn('genre',$genreArr)
                 ->whereIn('cate',$cateArr)
                 ->whereIn('isshow',$isshowArr)
                 ->orderBy('sort','desc')
@@ -39,11 +42,13 @@ class IdeaController extends BaseController
                 ->get();
             $total = IdeasModel::where('uid',$uid)
                 ->where('del',$del)
+                ->whereIn('genre',$genreArr)
                 ->whereIn('cate',$cateArr)
                 ->whereIn('isshow',$isshowArr)
                 ->count();
         } else {
             $models = IdeasModel::where('del',$del)
+                ->whereIn('genre',$genreArr)
                 ->whereIn('cate',$cateArr)
                 ->whereIn('isshow',$isshowArr)
                 ->orderBy('sort','desc')
@@ -52,6 +57,7 @@ class IdeaController extends BaseController
                 ->take($limit)
                 ->get();
             $total = IdeasModel::where('del',$del)
+                ->whereIn('genre',$genreArr)
                 ->whereIn('cate',$cateArr)
                 ->whereIn('isshow',$isshowArr)
                 ->count();

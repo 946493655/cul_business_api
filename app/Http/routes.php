@@ -51,16 +51,11 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('goods/link', 'GoodsController@setLink');
     $app->post('goods/setshow', 'GoodsController@setShow');
     $app->post('goods/getmodel', 'GoodsController@getModel');
-    //产品(定制)路由
-    $app->post('goodscus', 'GoodsCusController@index');
-    $app->post('goodscus/add', 'GoodsCusController@store');
-    $app->post('goodscus/modify', 'GoodsCusController@update');
-    $app->post('goodscus/show', 'GoodsCusController@show');
     //产品(定制)之用户竞价路由
-    $app->post('goodscususer', 'GoodsCusUsersController@index');
-    $app->post('goodscususer/add', 'GoodsCusUsersController@store');
-    $app->post('goodscususer/modify', 'GoodsCusUsersController@update');
-    $app->post('goodscususer/show', 'GoodsCusUsersController@show');
+    $app->post('goodsuser', 'GoodsUsersController@index');
+    $app->post('goodsuser/add', 'GoodsUsersController@store');
+    $app->post('goodsuser/modify', 'GoodsUsersController@update');
+    $app->post('goodsuser/show', 'GoodsUsersController@show');
     //创意路由
     $app->post('idea', 'IdeaController@index');
     $app->post('idea/show', 'IdeaController@show');
@@ -89,31 +84,6 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('staff/modify', 'StaffController@update');
     $app->post('staff/show', 'StaffController@show');
     $app->post('staff/staffsbyuid', 'StaffController@getStaffsByUid');
-    $app->post('staff/getmodel', 'StaffController@getModel');
-    //影视作品路由
-//    $app->post('works', 'WorksController@index');
-//    $app->post('works/show', 'WorksController@show');
-//    $app->post('works/getmodel', 'WorksController@getModel');
-    //动画、效果定制路由
-    $app->post('provideo', 'ProVideoController@index');
-    $app->post('provideo/show', 'ProVideoController@show');
-    $app->post('provideo/add', 'ProVideoController@store');
-    $app->post('provideo/modify', 'ProVideoController@update');
-    $app->post('provideo/setthumb', 'ProVideoController@setThumb');
-    $app->post('provideo/setlink', 'ProVideoController@setLink');
-    $app->post('provideo/setshow', 'ProVideoController@setShow');
-    $app->post('provideo/getmodel', 'ProVideoController@getmodel');
-    //分镜路由
-    $app->post('storyboard', 'StoryBoardController@index');
-    $app->post('storyboard/sbsbyway', 'StoryBoardController@getSBsByWay');
-    $app->post('storyboard/add', 'StoryBoardController@store');
-    $app->post('storyboard/modify', 'StoryBoardController@update');
-    $app->post('storyboard/show', 'StoryBoardController@show');
-    $app->post('storyboard/setthumb', 'StoryBoardController@setThumb');
-    $app->post('storyboard/setshow', 'StoryBoardController@setShow');
-    $app->post('storyboard/getmodel', 'StoryBoardController@getModel');
-    //人员路由
-    $app->post('staff', 'StaffController@index');
     $app->post('staff/getmodel', 'StaffController@getModel');
     //消息路由
     $app->post('message', 'MessageController@index');

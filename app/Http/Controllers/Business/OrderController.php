@@ -250,7 +250,6 @@ class OrderController extends BaseController
         $arr['updateTime'] = $model->updateTime();
         $arr['genreName'] = $model->getGenreName();
         $arr['statusName'] = $model->getStatusName();
-        $arr['statusBtn'] = $model->getStatusBtn();
         return $arr;
     }
 
@@ -263,11 +262,7 @@ class OrderController extends BaseController
             'genres'    =>  $this->selfModel['genres'],
             'types'     =>  $this->selfModel['types'],
             'isshows'   =>  $this->selfModel['isshows'],
-            'status'    =>  [
-                $this->selfModel['status1s'],
-                $this->selfModel['status2s'],
-                $this->selfModel['status3s'],
-            ],
+            'status'    =>  $this->selfModel['statuss'],
         ];
         $rstArr = [
             'error' =>  [

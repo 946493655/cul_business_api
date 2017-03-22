@@ -46,13 +46,7 @@ class MenuController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['typeName'] = $model->getTypeName();
-            $datas[$k]['isshowName'] = $model->getIsshowName();
-            $datas[$k]['urlStr'] = $model->getUrl();
-            $datas[$k]['child'] = $model->getChild();
+            $datas[$k] = $this->getArrByModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -105,13 +99,7 @@ class MenuController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['typeName'] = $model->getTypeName();
-            $datas[$k]['isshowName'] = $model->getIsshowName();
-            $datas[$k]['urlStr'] = $model->getUrl();
-            $datas[$k]['child'] = $model->getChild();
+            $datas[$k] = $this->getArrByModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -148,13 +136,7 @@ class MenuController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $datas = $this->objToArr($model);
-        $datas['createTime'] = $model->createTime();
-        $datas['updateTime'] = $model->updateTime();
-        $datas['typeName'] = $model->getTypeName();
-        $datas['isshowName'] = $model->getIsshowName();
-        $datas['urlStr'] = $model->getUrl();
-        $datas['child'] = $model->getChild();
+        $datas = $this->getArrByModel($model);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -320,13 +302,7 @@ class MenuController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['typeName'] = $model->getTypeName();
-            $datas[$k]['isshowName'] = $model->getIsshowName();
-            $datas[$k]['urlStr'] = $model->getUrl();
-//            $datas[$k]['child'] = $model->getChild();
+            $datas[$k] = $this->getArrByModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -354,5 +330,22 @@ class MenuController extends BaseController
             'model' =>  $model,
         ];
         echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 讲 model 转为 array
+     */
+    public function getArrByModel($model)
+    {
+        $data = $this->objToArr($model);
+        $data['createTime'] = $model->createTime();
+        $data['updateTime'] = $model->updateTime();
+        $data['typeName'] = $model->getTypeName();
+        $data['isshowName'] = $model->getIsshowName();
+        $data['parentName'] = $model->getParentName();
+        $data['controller'] = $model->getController();
+        $data['urlStr'] = $model->getUrl();
+        $data['child'] = $model->getChild();
+        return $data;
     }
 }

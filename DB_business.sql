@@ -222,26 +222,22 @@ DROP TABLE IF EXISTS `bs_goods`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bs_goods` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT '视频名称',
-  `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '产品主体：1个人需求，2设计师供应，3企业需求，4企业供应',
-  `cate` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '样片类型：1电视剧，2电影，3微电影，4广告，5宣传片，6专题片，7汇报片，8主题片，9纪录片，10晚会，11淘宝视频，12婚纱摄影，13节日聚会，14个人短片，',
-  `intro` varchar(1000) NOT NULL COMMENT '视频简介',
-  `thumb` varchar(255) NOT NULL COMMENT '图片链接',
-  `linkType` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '视频链接类型：1flash代码，2html代码，3通用代码',
-  `link` varchar(255) NOT NULL COMMENT '视频链接',
-  `money` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '预报价，单位元',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布人：需求用户，设计师，公司',
-  `uname` varchar(255) NOT NULL COMMENT '发布人名称',
-  `read` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '浏览自增，与会员无关，象征性的',
-  `recommend` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否推荐：1不推荐，2推荐，默认2',
-  `newest` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '是否最新的：1不是，2是',
-  `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '排序字段，值越大越靠前，默认10',
-  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '前台列表是否显示：1不显示，2显示，默认2',
-  `del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '回收站功能：0不放入回收站，1放入回收站',
+  `name` varchar(50) NOT NULL COMMENT '视频名称',
+  `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '制作类型：1动画片段供应，2动画片段需求，3视频供应，4视频需求',
+  `cate` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '样片类型：1电视剧，2电影，3微电影，4广告，5宣传片，6专题片，7汇报片，8主题片，9纪录片，10晚会，11淘宝视频，12婚纱摄影，13个人短片，',
+  `intro` varchar(1000) NOT NULL COMMENT '制作要求',
+  `tech` varchar(255) NOT NULL COMMENT '技术参数说明',
+  `thumb` varchar(255) NOT NULL COMMENT '缩略图',
+  `linkType` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '参考片链接类型：1flash代码，2html代码，3通用代码，4其他网址',
+  `link` varchar(255) NOT NULL COMMENT '参考片链接',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布用户',
+  `money` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '估价，单位元',
+  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '是否显示：1不显示，2显示',
+  `del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '回收站：0不放入回收站，1放入回收站',
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='产品表（上传的视频）：供应方提供的产品、需求方提供的需求样片';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='视频定制要求表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -250,97 +246,39 @@ CREATE TABLE `bs_goods` (
 
 LOCK TABLES `bs_goods` WRITE;
 /*!40000 ALTER TABLE `bs_goods` DISABLE KEYS */;
-INSERT INTO `bs_goods` VALUES (4,'nfnfgnn',4,1,'hnrftnhrtfdn00000000000','http://www.jiugewenhua.com/uploads/images/2017-02-15/58a3bdff1ccce.png',4,'https://baidu.com',0,1,'jiuge',0,1,2,10,1,0,1487074631,1487821068),(5,'参数测试',1,1,'','http://www.jiugewenhua.com/uploads/images/2017-02-23/58ae51aa50aa4.jpg',4,'https://baidu.com',10,1,'jiuge',0,1,2,10,2,0,1487752067,1487821104);
+INSERT INTO `bs_goods` VALUES (1,'个人需求001',1,0,'hrtjmntyjm','','',1,'',1,1000,2,0,1474253357,0),(2,'gregbre',1,1,'gbrehbrth000','','',1,'',1,10,2,0,1487220819,1490154393),(3,'测试测试',4,13,'gggggggg\r\n000000000000','','',4,'https://baidu.com',1,0,2,0,1490166914,1490167101);
 /*!40000 ALTER TABLE `bs_goods` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `bs_goodsCus`
+-- Table structure for table `bs_goods_users`
 --
 
-DROP TABLE IF EXISTS `bs_goodsCus`;
+DROP TABLE IF EXISTS `bs_goods_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_goodsCus` (
+CREATE TABLE `bs_goods_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL COMMENT '视频名称',
-  `intro` varchar(1000) NOT NULL COMMENT '制作要求',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布用户',
-  `money` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '客户准备预算，单位元',
-  `money2` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最终定价，单位元',
-  `supply` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '供应方的uid',
-  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '是否显示：1不显示，2显示',
-  `del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '回收站：0不放入回收站，1放入回收站',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='视频定制要求表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_goodsCus`
---
-
-LOCK TABLES `bs_goodsCus` WRITE;
-/*!40000 ALTER TABLE `bs_goodsCus` DISABLE KEYS */;
-INSERT INTO `bs_goodsCus` VALUES (1,'个人需求001','hrtjmntyjm',1,1000,0,1,2,0,1474253357,0),(2,'gregbre','gbrehbrth',1,10,0,0,2,0,1487220819,1487226464);
-/*!40000 ALTER TABLE `bs_goodsCus` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_goodsCus_users`
---
-
-DROP TABLE IF EXISTS `bs_goodsCus_users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_goodsCus_users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cus_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '片源定制id',
+  `gid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '片源定制id',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '竞选用户',
   `intro` varchar(1000) NOT NULL COMMENT '竞选说明',
   `money` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '参考价格，单位元',
   `period` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '制作周期，单位天',
+  `issel` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否被选择：1未选，2被选择',
   `del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '回收站：0不删除，1删除',
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户作品竞选表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='样片需求竞选表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `bs_goodsCus_users`
+-- Dumping data for table `bs_goods_users`
 --
 
-LOCK TABLES `bs_goodsCus_users` WRITE;
-/*!40000 ALTER TABLE `bs_goodsCus_users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bs_goodsCus_users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_goods_read`
---
-
-DROP TABLE IF EXISTS `bs_goods_read`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_goods_read` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `gid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '产品goodid',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录用户id',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='产品阅读表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_goods_read`
---
-
-LOCK TABLES `bs_goods_read` WRITE;
-/*!40000 ALTER TABLE `bs_goods_read` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bs_goods_read` ENABLE KEYS */;
+LOCK TABLES `bs_goods_users` WRITE;
+/*!40000 ALTER TABLE `bs_goods_users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bs_goods_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -381,33 +319,6 @@ INSERT INTO `bs_ideas` VALUES (1,'创意1',1,4,'efrbgrdfbg',1,'0000',1,0,0,10,2,
 UNLOCK TABLES;
 
 --
--- Table structure for table `bs_ideas_read`
---
-
-DROP TABLE IF EXISTS `bs_ideas_read`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_ideas_read` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `ideaid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创意id',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '登录用户id',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COMMENT='创意阅读表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_ideas_read`
---
-
-LOCK TABLES `bs_ideas_read` WRITE;
-/*!40000 ALTER TABLE `bs_ideas_read` DISABLE KEYS */;
-INSERT INTO `bs_ideas_read` VALUES (1,0,2,20160703,0),(2,0,2,20160703,0),(3,0,2,20160703,0),(4,0,2,20160703,0),(5,0,2,20160703,0),(6,0,2,20160703,0),(7,0,2,20160703,0),(8,0,2,20160703,0),(9,0,2,20160703,0),(10,0,2,20160703,0),(11,0,2,20160703,0),(12,0,2,20160703,0),(13,0,2,20160703,0),(14,0,2,20160705,0),(15,0,2,20160705,0),(16,0,2,20160705,0),(17,0,2,20160705,0),(18,0,2,20160705,0),(19,0,2,20160705,0),(20,0,2,20160705,0),(21,0,2,20160705,0),(22,0,2,20160705,0),(23,0,2,20160705,0),(24,0,2,20160705,0),(25,0,2,20160705,0),(26,0,2,20160705,0),(27,0,2,20160705,0),(28,0,2,20160705,0),(29,0,2,20160707,0),(30,0,2,20160707,0),(31,0,2,20160707,0),(32,0,2,20160707,0),(33,0,2,20160707,0),(34,0,2,20160707,0),(35,0,2,20160707,0),(36,0,2,20160707,0),(37,0,2,20160707,0),(38,0,2,20160707,0),(39,0,2,20160707,0),(40,0,2,2016,0),(41,0,2,2016,0),(42,0,2,2016,0),(43,0,2,2016,0),(44,0,2,2016,0),(45,0,2,2016,0),(46,0,2,2016,0),(47,0,2,2016,0),(48,0,2,2016,0),(49,0,2,2016,0),(50,0,2,2016,0),(51,0,2,2016,0);
-/*!40000 ALTER TABLE `bs_ideas_read` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `bs_links`
 --
 
@@ -439,7 +350,7 @@ CREATE TABLE `bs_links` (
 
 LOCK TABLES `bs_links` WRITE;
 /*!40000 ALTER TABLE `bs_links` DISABLE KEYS */;
-INSERT INTO `bs_links` VALUES (1,'首页',0,'',2,'','','/',1,0,2,0,20160113,0),(2,'产品样片',0,'',2,'','','/product',1,10,2,0,20160417,0),(3,'在线作品',0,'',2,'','','/creation',1,0,2,0,20160417,0),(4,'供应企业',0,'',2,'','','/supply',1,10,2,0,20160417,0),(5,'需求信息',0,'',2,'','','/demand',1,10,2,0,20160417,0),(6,'娱乐频道',0,'',2,'','','/entertain',1,10,2,0,20160417,0),(7,'租赁频道',0,'',2,'','','/rent',1,10,2,0,20160417,0),(8,'设计频道',0,'',2,'','','/design',1,10,2,0,20160417,0),(9,'关于本站',0,'',2,'','','/about',1,10,1,0,20160417,0),(10,'创意点子',0,'',2,'','','/idea',1,10,2,0,20160417,0),(11,'用户意见',0,'请留下您的宝贵意见哦',2,'','','/opinion',1,10,1,0,20160417,0),(12,'首页',0,'底部链接，此链接带修改',3,'','','/',1,10,2,0,20160417,20160417),(13,'友情链接',0,'此链接带修改',3,'','','/',1,10,2,0,20160417,20160417),(14,'安全网盾',0,'此链接带修改',3,'','','/',1,10,2,0,20160417,0),(15,'链接1',0,'此链接带修改',3,'','','/',1,10,2,0,20160417,0),(16,'链接2',0,'此链接带修改',3,'','','/',1,10,2,0,20160417,0),(17,'链接3',0,'此链接带修改',3,'','','/',1,10,2,0,20160417,0),(18,'首页',1,'',2,'','','/c/1',1,10,2,0,20160506,20160506),(19,'关于公司',1,'',2,'','','/c/1/about',1,10,2,0,20160506,0),(20,'产品',1,'',2,'','','/c/1/product',1,10,2,0,20160506,0),(21,'花絮',1,'',2,'','','/c/1/part',1,10,2,0,20160506,0),(22,'服务',1,'',2,'','','/c/1/firm',1,10,2,0,20160506,0),(23,'团队',1,'',2,'','','/c/1/team',1,10,2,0,20160506,0),(24,'招聘',1,'',2,'','','/c/1/recruit',1,10,2,0,20160506,0),(25,'联系方式',1,'',2,'','','/c/1/contact',1,10,2,0,20160506,0),(26,'故事分镜',0,'分镜画面列表',2,'','','/storyboard',1,20,2,0,20160624,0);
+INSERT INTO `bs_links` VALUES (1,'首页',0,'',2,'','','/',1,0,2,0,20160113,0),(2,'产品样片',0,'',2,'','','/product',1,10,2,0,20160417,0),(3,'动画片段',0,'',2,'','','/creation',1,0,2,0,20160417,1490085738),(4,'供应企业',0,'',2,'','','/supply',1,10,2,0,20160417,0),(5,'需求信息',0,'',2,'','','/demand',1,10,2,0,20160417,0),(6,'娱乐频道',0,'',2,'','','/entertain',1,10,2,0,20160417,0),(7,'租赁频道',0,'',2,'','','/rent',1,10,2,0,20160417,0),(8,'设计频道',0,'',2,'','','/design',1,10,2,0,20160417,0),(9,'最新活动',0,'',2,'','','/newest',1,10,1,0,20160417,1490140495),(10,'故事脚本',0,'',2,'','','/idea',1,10,2,0,20160417,1490085580),(11,'用户意见',0,'请留下您的宝贵意见哦',2,'','','/opinion',1,10,1,0,20160417,0),(12,'首页',0,'底部链接，此链接带修改',3,'','','/',1,10,2,0,20160417,20160417),(13,'友情链接',0,'此链接带修改',3,'','','/',1,10,2,0,20160417,20160417),(14,'安全网盾',0,'此链接带修改',3,'','','/',1,10,2,0,20160417,0),(15,'链接1',0,'此链接带修改',3,'','','/',1,10,2,0,20160417,0),(16,'链接2',0,'此链接带修改',3,'','','/',1,10,2,0,20160417,0),(17,'链接3',0,'此链接带修改',3,'','','/',1,10,2,0,20160417,0),(18,'首页',1,'',2,'','','/c/1',1,10,2,0,20160506,20160506),(19,'关于公司',1,'',2,'','','/c/1/about',1,10,2,0,20160506,0),(20,'产品',1,'',2,'','','/c/1/product',1,10,2,0,20160506,0),(21,'花絮',1,'',2,'','','/c/1/part',1,10,2,0,20160506,0),(22,'服务',1,'',2,'','','/c/1/firm',1,10,2,0,20160506,0),(23,'团队',1,'',2,'','','/c/1/team',1,10,2,0,20160506,0),(24,'招聘',1,'',2,'','','/c/1/recruit',1,10,2,0,20160506,0),(25,'联系方式',1,'',2,'','','/c/1/contact',1,10,2,0,20160506,0),(26,'故事分镜',0,'分镜画面列表',2,'','','/storyboard',1,20,1,0,20160624,0);
 /*!40000 ALTER TABLE `bs_links` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -503,7 +414,7 @@ CREATE TABLE `bs_menus` (
 
 LOCK TABLES `bs_menus` WRITE;
 /*!40000 ALTER TABLE `bs_menus` DISABLE KEYS */;
-INSERT INTO `bs_menus` VALUES (1,'账户首页',1,'会员后台左侧菜单控制','App\\Http\\Controllers\\Member','Home','member','home','index','',0,2,20,20160306,20160306),(2,'会员账户',1,'','App\\Http\\Controllers\\Member','Setting','member','setting','index','',0,2,20,20160229,20160412),(3,'在线创作',1,'','App\\Http\\Controllers\\Member','Product','member','product','index','',0,2,10,20160312,20160314),(4,'供求管理',1,'','App\\Http\\Controllers\\Member','PersonD','member','goods','index','',0,2,10,20160229,1479431301),(5,'企业供求',1,'','App\\Http\\Controllers\\Member','CompanyD','member','companyD','index','',0,1,10,20160312,20160319),(6,'视频管理',1,'','App\\Http\\Controllers\\Member','Goods','member','goods','index','',4,2,10,20160312,1479440336),(7,'视频作品',1,'','App\\Http\\Controllers\\Member','GoodsS','member','goodsS','index','',4,1,10,20160312,1479440109),(8,'企业需求',1,'','App\\Http\\Controllers\\Member','CompanyD','member','companyD','index','',4,1,10,20160312,1479431725),(9,'企业作品',1,'','App\\Http\\Controllers\\Member','CompanyS','member','companyS','index','',4,1,10,20160312,1479431746),(10,'租赁管理',1,'','App\\Http\\Controllers\\Member','Rent','member','rent','index','',4,2,10,20160312,1479431864),(11,'娱乐管理',1,'','App\\Http\\Controllers\\Member','Entertain','member','entertain','index','',4,2,10,20160312,1479432012),(12,'基本管理',1,'','App\\Http\\Controllers\\Member','Message','member','message','index','',0,2,10,20160313,1479432274),(13,'话题管理',1,'','App\\Http\\Controllers\\Member','Talk','member','talk','index','',0,1,0,20160313,20160319),(14,'创意管理',1,'','App\\Http\\Controllers\\Member','Idea','member','idea','index','',4,2,10,20160416,1479948831),(15,'个人主页',1,'','App\\Http\\Controllers\\Person','Home','person','s','index','',4,2,20,20160417,20160422),(16,'企业后台',1,'','App\\Http\\Controllers\\Company','Home','company/admin','home','index','',4,2,20,20160417,1479431623),(17,'艺人管理',1,'','App\\Http\\Controllers\\Member','Actor','member','actor','index','',4,2,10,20160423,1479431952),(18,'我的图片',1,'','App\\Http\\Controllers\\Member','Pic','member','pic','index','',12,1,20,20160424,20160424),(19,'我的视频',1,'','App\\Http\\Controllers\\Member','Videos','member','video','index','',12,1,20,20160424,20160424),(20,'首页',3,'','App\\Http\\Controllers\\Company','Home','company/admin','home','index','',0,2,10,20160426,0),(21,'后台权限',3,'页面布局','App\\Http\\Controllers\\Company','Auth','company/admin','auth','index','',0,1,10,20160426,20160426),(22,'公司信息',3,'','App\\Http\\Controllers\\Company','Info','company/admin','info','index','',0,2,10,20160426,20160426),(23,'内容设置',3,'','App\\Http\\Controllers\\Company','Content','company/admin','content','index','',0,2,10,20160426,20160426),(24,'页面布局',3,'','App\\Http\\Controllers\\Company','Layout','company/admin','layout','index','',22,2,10,20160426,20160426),(25,'基本设置',3,'','App\\Http\\Controllers\\Company','Basic','company/admin','basic','index','',22,2,10,20160426,20160426),(26,'其他页面',3,'','App\\Http\\Controllers\\Company','Single','company/admin','single','index','',22,2,10,20160426,20160426),(27,'广告编辑',3,'','App\\Http\\Controllers\\Company','Ppt','company/admin','ppt','index','',37,2,5,20160426,0),(28,'产品编辑',3,'','App\\Http\\Controllers\\Company','Product','company/admin','product','index','',23,2,10,20160426,0),(29,'团队编辑',3,'','App\\Http\\Controllers\\Company','Team','company/admin','team','index','',23,2,10,20160426,20160429),(30,'招聘编辑',3,'','App\\Http\\Controllers\\Company','Job','company/admin','job','index','',23,2,10,20160426,0),(31,'联系编辑',3,'','App\\Http\\Controllers\\Company','Contact','company/admin','contact','index','',23,2,10,20160426,20160428),(32,'花絮编辑',3,'','App\\Http\\Controllers\\Company','Part','company/admin','part','index','',23,2,10,20160428,20160428),(33,'图片管理',3,'','App\\Http\\Controllers\\Company','Pic','company/admin','pic','index','',37,2,10,20160428,20160428),(34,'视频管理',3,'','App\\Http\\Controllers\\Company','Video','company/admin','video','index','',37,2,10,20160428,20160428),(35,'关于公司',3,'','App\\Http\\Controllers\\Company','About','company/admin','about','index','',23,2,10,20160428,20160429),(36,'服务编辑',3,'','App\\Http\\Controllers\\Company','Firm','company/admin','firm','index','',23,2,10,20160428,20160429),(37,'综合应用',3,'','App\\Http\\Controllers\\Company','General','company/admin','general','index','',0,2,10,20160428,20160429),(38,'链接管理',3,'','App\\Http\\Controllers\\Company','Link','company/admin','link','index','',22,2,10,20160506,0),(39,'会员特惠',1,'','App\\Http\\Controllers\\Member','Wallet','member','wallet','index','',0,2,20,20160513,20160513),(40,'创作定制',1,'','App\\Http\\Controllers\\Member','OrderVideo','member','orderVideo','index','',42,1,5,20160513,0),(41,'在线动画',1,'','App\\Http\\Controllers\\Member','Product','member','product','index','',3,2,10,20160513,20160513),(42,'订单管理',1,'','App\\Http\\Controllers\\Member','OrderProduct','member','orderpro','index','',0,2,10,20160524,20160524),(43,'综合订单',1,'','App\\Http\\Controllers\\Member','Order','member','order','index','',42,2,10,20160524,0),(44,'效果定制',1,'','App\\Http\\Controllers\\Member','ProductVideo','member','provideo','index','',3,2,10,20160524,0),(45,'创作订单',1,'00000000000000','App\\Http\\Controllers\\Member','OrderProduct','member','orderpro','index','',42,2,20,20160524,1487735494),(46,'分镜管理',1,'','App\\Http\\Controllers\\Member','StoryBoard','member','storyboard','index','',4,2,10,20160524,1479432155),(47,'设计管理',1,'','App\\Http\\Controllers\\Member','Design','member','design','index','',4,2,10,2016,1470818534),(48,'企业主页',1,'','App\\Http\\Controllers\\Member','Home','c','home','index','',4,2,10,1470818610,1479949724),(49,'话题列表',1,'','App\\Http\\Controllers\\Member','Talk','member','talk','index','',13,1,10,1470819935,0),(50,'片源定制',1,'','App\\Http\\Controllers\\Member','GoodsCus','member','goodscus','index','',4,2,10,1479036907,1479432063),(51,'消息管理',1,'','App\\Http\\Controllers\\Member','Message','member','message','index','',12,2,10,1479037234,0),(52,'创作订单',1,'','App\\Http\\Controllers\\Member','OrderProduct','member','orderpro','index','',42,2,10,1487731953,0);
+INSERT INTO `bs_menus` VALUES (1,'账户首页',1,'会员后台左侧菜单控制','App\\Http\\Controllers\\Member','Home','member','home','index','',0,2,20,20160306,20160306),(2,'会员账户',1,'','App\\Http\\Controllers\\Member','Setting','member','setting','index','',0,2,20,20160229,20160412),(3,'在线创作',1,'','App\\Http\\Controllers\\Member','Product','member','product','index','',0,2,10,20160312,20160314),(4,'供求管理',1,'','App\\Http\\Controllers\\Member','PersonD','member','goods','index','',0,2,10,20160229,1479431301),(5,'企业供求',1,'','App\\Http\\Controllers\\Member','CompanyD','member','companyD','index','',0,1,10,20160312,20160319),(6,'视频管理',1,'','App\\Http\\Controllers\\Member','Video','member','video','index','',4,2,10,20160312,1490164892),(7,'视频作品',1,'','App\\Http\\Controllers\\Member','GoodsS','member','goodsS','index','',4,1,10,20160312,1479440109),(8,'企业需求',1,'','App\\Http\\Controllers\\Member','CompanyD','member','companyD','index','',4,1,10,20160312,1479431725),(9,'企业作品',1,'','App\\Http\\Controllers\\Member','CompanyS','member','companyS','index','',4,1,10,20160312,1479431746),(10,'租赁管理',1,'','App\\Http\\Controllers\\Member','Rent','member','rent','index','',4,2,10,20160312,1479431864),(11,'娱乐管理',1,'','App\\Http\\Controllers\\Member','Entertain','member','entertain','index','',4,2,10,20160312,1479432012),(12,'基本管理',1,'','App\\Http\\Controllers\\Member','Message','member','message','index','',0,2,10,20160313,1479432274),(13,'话题管理',1,'','App\\Http\\Controllers\\Member','Talk','member','talk','index','',0,1,0,20160313,20160319),(14,'故事管理',1,'','App\\Http\\Controllers\\Member','Idea','member','idea','index','',4,2,10,20160416,1490164535),(15,'个人主页',1,'','App\\Http\\Controllers\\Person','Home','person','s','index','',4,2,20,20160417,20160422),(16,'企业后台',1,'','App\\Http\\Controllers\\Company','Home','company/admin','home','index','',4,2,20,20160417,1479431623),(17,'艺人管理',1,'','App\\Http\\Controllers\\Member','Actor','member','actor','index','',4,2,10,20160423,1479431952),(18,'我的图片',1,'','App\\Http\\Controllers\\Member','Pic','member','pic','index','',12,1,20,20160424,20160424),(19,'我的视频',1,'','App\\Http\\Controllers\\Member','Videos','member','video','index','',12,1,20,20160424,20160424),(20,'首页',3,'','App\\Http\\Controllers\\Company','Home','company/admin','home','index','',0,2,10,20160426,0),(21,'后台权限',3,'页面布局','App\\Http\\Controllers\\Company','Auth','company/admin','auth','index','',0,1,10,20160426,20160426),(22,'公司信息',3,'','App\\Http\\Controllers\\Company','Info','company/admin','info','index','',0,2,10,20160426,20160426),(23,'内容设置',3,'','App\\Http\\Controllers\\Company','Content','company/admin','content','index','',0,2,10,20160426,20160426),(24,'页面布局',3,'','App\\Http\\Controllers\\Company','Layout','company/admin','layout','index','',22,2,10,20160426,20160426),(25,'基本设置',3,'','App\\Http\\Controllers\\Company','Basic','company/admin','basic','index','',22,2,10,20160426,20160426),(26,'其他页面',3,'','App\\Http\\Controllers\\Company','Single','company/admin','single','index','',22,2,10,20160426,20160426),(27,'广告编辑',3,'','App\\Http\\Controllers\\Company','Ppt','company/admin','ppt','index','',37,2,5,20160426,0),(28,'产品编辑',3,'','App\\Http\\Controllers\\Company','Product','company/admin','product','index','',23,2,10,20160426,0),(29,'团队编辑',3,'','App\\Http\\Controllers\\Company','Team','company/admin','team','index','',23,2,10,20160426,20160429),(30,'招聘编辑',3,'','App\\Http\\Controllers\\Company','Job','company/admin','job','index','',23,2,10,20160426,0),(31,'联系编辑',3,'','App\\Http\\Controllers\\Company','Contact','company/admin','contact','index','',23,2,10,20160426,20160428),(32,'花絮编辑',3,'','App\\Http\\Controllers\\Company','Part','company/admin','part','index','',23,2,10,20160428,20160428),(33,'图片管理',3,'','App\\Http\\Controllers\\Company','Pic','company/admin','pic','index','',37,2,10,20160428,20160428),(34,'视频管理',3,'','App\\Http\\Controllers\\Company','Video','company/admin','video','index','',37,2,10,20160428,20160428),(35,'关于公司',3,'','App\\Http\\Controllers\\Company','About','company/admin','about','index','',23,2,10,20160428,20160429),(36,'服务编辑',3,'','App\\Http\\Controllers\\Company','Firm','company/admin','firm','index','',23,2,10,20160428,20160429),(37,'综合应用',3,'','App\\Http\\Controllers\\Company','General','company/admin','general','index','',0,2,10,20160428,20160429),(38,'链接管理',3,'','App\\Http\\Controllers\\Company','Link','company/admin','link','index','',22,2,10,20160506,0),(39,'会员特惠',1,'','App\\Http\\Controllers\\Member','Wallet','member','wallet','index','',0,2,20,20160513,20160513),(40,'创作定制',1,'','App\\Http\\Controllers\\Member','OrderVideo','member','orderVideo','index','',42,1,5,20160513,0),(41,'在线动画',1,'','App\\Http\\Controllers\\Member','Product','member','product','index','',3,2,10,20160513,20160513),(42,'订单管理',1,'','App\\Http\\Controllers\\Member','OrderProduct','member','orderpro','index','',0,2,10,20160524,20160524),(43,'综合订单',1,'','App\\Http\\Controllers\\Member','Order','member','order','index','',42,2,10,20160524,0),(44,'效果定制',1,'','App\\Http\\Controllers\\Member','ProductVideo','member','provideo','index','',3,2,10,20160524,0),(45,'创作订单',1,'00000000000000','App\\Http\\Controllers\\Member','OrderProduct','member','orderpro','index','',42,2,20,20160524,1487735494),(46,'分镜管理',1,'','App\\Http\\Controllers\\Member','StoryBoard','member','storyboard','index','',4,1,10,20160524,1479432155),(47,'设计管理',1,'','App\\Http\\Controllers\\Member','Design','member','design','index','',4,2,10,2016,1470818534),(48,'企业主页',1,'','App\\Http\\Controllers\\Member','Home','c','home','index','',4,2,20,1470818610,1490167999),(49,'话题列表',1,'','App\\Http\\Controllers\\Member','Talk','member','talk','index','',13,1,10,1470819935,0),(50,'动画管理',1,'','App\\Http\\Controllers\\Member','Part','member','part','index','',4,2,20,1479036907,1490166321),(51,'消息管理',1,'','App\\Http\\Controllers\\Member','Message','member','message','index','',12,2,10,1479037234,0),(52,'创作订单',1,'','App\\Http\\Controllers\\Member','OrderProduct','member','orderpro','index','',42,2,10,1487731953,0);
 /*!40000 ALTER TABLE `bs_menus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -553,7 +464,7 @@ CREATE TABLE `bs_orders` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL COMMENT '订单名称',
   `serial` varchar(50) NOT NULL DEFAULT '0' COMMENT '订单编号',
-  `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '订单来源：1创意供应，2创意需求，3分镜供应，4分镜需求，5视频供应，6视频需求，7娱乐供应，8娱乐需求，9演员供应，10演员需求，1租赁供应，12租赁需求',
+  `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '订单来源：1故事供应，2故事需求，3动画供应，4动画需求，5视频供应，6视频需求，7演员供应，8演员需求，9租赁供应，10租赁需求，',
   `fromid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '订单来源表中的id',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '买家id',
   `uname` varchar(20) NOT NULL COMMENT '买家名称',
@@ -611,80 +522,6 @@ LOCK TABLES `bs_pay` WRITE;
 /*!40000 ALTER TABLE `bs_pay` DISABLE KEYS */;
 INSERT INTO `bs_pay` VALUES (1,1,4,1,100,0,0,1,1474005529,1474024833),(2,3,1,1,65,0,0,0,1475647683,0),(3,3,7,1,70,0,0,0,1476581293,0),(5,3,10,1,120,20,0,0,1476699760,0);
 /*!40000 ALTER TABLE `bs_pay` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_pro_orders`
---
-
-DROP TABLE IF EXISTS `bs_pro_orders`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_pro_orders` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `productid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '在线创作产品id',
-  `serial` varchar(20) NOT NULL DEFAULT '0' COMMENT '订单编号',
-  `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '类型：1离线模板，2无模板',
-  `cate` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '样片类型：1电视剧，2电影，3微电影，4广告，5宣传片，6专题片，7汇报片，8主题片，9纪录片，10晚会，11淘宝视频，12婚纱摄影，13节日聚会，14个人短片，',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
-  `uname` varchar(50) NOT NULL COMMENT '用户名称，便于搜索',
-  `format` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '输出格式：',
-  `money1` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '应支付金额，单位元',
-  `money2` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '已支付金额，单位元',
-  `weal` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '已支付福利，单位元',
-  `record` varchar(3000) NOT NULL COMMENT '更新的记录，序列化存储：\r\n动画设置的添加layerAdd、更新layerEdit；\r\n关键帧的添加layerAttrAdd、更新layerAttrEdit；\r\n内容得添加conAdd、更新conEdit；\r\n属性样式更新attrEdit；',
-  `thumb` varchar(255) NOT NULL COMMENT '缩略图',
-  `link` varchar(255) NOT NULL COMMENT '视频链接',
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '订单状态：1待定价，待打款，款不对或过期，已付款处理中，已处理待评价，评价不好，好评并返利',
-  `isshow` tinyint(3) unsigned NOT NULL DEFAULT '2' COMMENT '前台列表是否显示：1不显示，2显示，默认2',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='订单（在线创作订单）表 bs_pro_orders';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_pro_orders`
---
-
-LOCK TABLES `bs_pro_orders` WRITE;
-/*!40000 ALTER TABLE `bs_pro_orders` DISABLE KEYS */;
-INSERT INTO `bs_pro_orders` VALUES (1,10,'201610051408034436',1,1,1,'jiuge',1,0,0,0,'','','2',7,2,1475647683,1475805230),(7,10,'201610160928136080',2,1,1,'jiuge',1,0,0,0,'','','0',2,2,1476581293,0),(10,14,'201610171742188306',3,1,1,'jiuge',1,0,0,0,'','','0',2,2,1476697338,0);
-/*!40000 ALTER TABLE `bs_pro_orders` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_pro_videos`
---
-
-DROP TABLE IF EXISTS `bs_pro_videos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_pro_videos` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL COMMENT '视频名称',
-  `genre` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '对应在线模板，2动画定制，3效果定制',
-  `cate` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '样片类型：1电视剧，2电影，3微电影，4广告，5宣传片，6专题片，7汇报片，8主题片，9纪录片，10晚会，11淘宝视频，12婚纱摄影，13节日聚会，14个人短片，',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '提供者，只对效果定制有效：需求用户，设计师，公司',
-  `intro` varchar(255) NOT NULL COMMENT '视频介绍',
-  `thumb` varchar(255) NOT NULL COMMENT '缩略图',
-  `linkType` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '视频链接类型：1flash代码，2html代码，3通用代码',
-  `link` varchar(255) NOT NULL COMMENT '视频链接',
-  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '是否显示：0所有，1前台不显示，2前台显示',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='在线定制视频表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_pro_videos`
---
-
-LOCK TABLES `bs_pro_videos` WRITE;
-/*!40000 ALTER TABLE `bs_pro_videos` DISABLE KEYS */;
-INSERT INTO `bs_pro_videos` VALUES (1,'效果动画测试',1,1,1,'vfrdevfb\r\n0000000000000','http://www.jiugewenhua.com/uploads/images/2017-02-27/58b396d66f991.jpg',4,'https://baidu.com',2,1488118793,1488159260);
-/*!40000 ALTER TABLE `bs_pro_videos` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -746,64 +583,8 @@ CREATE TABLE `bs_rents` (
 
 LOCK TABLES `bs_rents` WRITE;
 /*!40000 ALTER TABLE `bs_rents` DISABLE KEYS */;
-INSERT INTO `bs_rents` VALUES (1,'租赁供应0323',2,1,'','yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',1,20,0,0,0,10,2,0,20160323,1487835520),(2,'你发给你发给你们',1,1,'http://www.jiugewenhua.com/uploads/images/2017-02-23/58aea2f2046ee.jpg','',1,20,0,1420041600,1451577600,10,2,0,1487837477,1487838009);
+INSERT INTO `bs_rents` VALUES (1,'租赁供应0323',2,1,'','yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\r\n0000000',1,20,0,0,0,10,2,0,20160323,1490170119),(2,'你发给你发给你们',1,1,'http://www.jiugewenhua.com/uploads/images/2017-02-23/58aea2f2046ee.jpg','',1,20,0,1420041600,1451577600,10,2,0,1487837477,1487838009);
 /*!40000 ALTER TABLE `bs_rents` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_search待处理`
---
-
-DROP TABLE IF EXISTS `bs_search待处理`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_search待处理` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `keyword` varchar(2000) NOT NULL COMMENT '关键字',
-  `genre` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '检索条件：样片，创意，分镜，设计师，企业，影视，演员，设备，设计，',
-  `fromid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '来源表的id',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='用户搜索表 bs_search';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_search待处理`
---
-
-LOCK TABLES `bs_search待处理` WRITE;
-/*!40000 ALTER TABLE `bs_search待处理` DISABLE KEYS */;
-INSERT INTO `bs_search待处理` VALUES (1,'产品1',1,1,1474250650,1474255699),(2,'产品333jiuge',1,2,1474250650,1474255699),(3,'创意1广告0元',3,1,1474250650,1474255699),(4,'创意部分的白癜风广告0元',3,2,1474250650,1474255699),(5,'创意123456广告10元',3,3,1474250650,1474255699),(6,'ergth广告3456元',4,1,1474250650,1474255699),(7,'分镜5254电影55元',4,2,1474250650,1474255699),(8,'这是广告公司普通企业江苏省杭州市滨江区滨盛路1870号',5,1,1474250650,1474255699),(9,'',5,2,1474250650,1474255699),(10,'作品26256电视剧',6,1,1474250650,1474255699),(11,'拿斧头男能否规范个人方法小学及以下他人观花',7,1,1474250650,1474255699),(12,'如果它不符合乳房的不过而发表格式的风格小学及以下而对方不改变',7,2,1474250650,1474255699),(13,'租赁供应03230元',8,1,1474250650,1474255699),(14,'嘎嘎嘎房产漫游55元',9,1,1474250650,1474255699),(15,'设计001房产漫游11元',9,2,1474250650,1474255699),(16,'个人需求001jiuge宣传片0元',2,1,1474255699,0);
-/*!40000 ALTER TABLE `bs_search待处理` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_search_keyword待处理`
---
-
-DROP TABLE IF EXISTS `bs_search_keyword待处理`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_search_keyword待处理` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `search_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '搜索id',
-  `keyword` varchar(20) NOT NULL COMMENT '关键字',
-  `rate` int(10) unsigned NOT NULL DEFAULT '1' COMMENT '搜索频率',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户搜索表 bs_search';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_search_keyword待处理`
---
-
-LOCK TABLES `bs_search_keyword待处理` WRITE;
-/*!40000 ALTER TABLE `bs_search_keyword待处理` DISABLE KEYS */;
-INSERT INTO `bs_search_keyword待处理` VALUES (1,16,'需求',17,1474256475,1474272406);
-/*!40000 ALTER TABLE `bs_search_keyword待处理` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -897,71 +678,6 @@ LOCK TABLES `bs_staffs` WRITE;
 /*!40000 ALTER TABLE `bs_staffs` DISABLE KEYS */;
 INSERT INTO `bs_staffs` VALUES (1,'拿斧头男',1,1,0,'1',1,'能否规范','个人方法',1,'他人观花','',0,172,10,2,0,20160423,0),(2,'如果它不符合',1,1,0,'1',1,'乳房的不过','而发表格式的风格',1,'而对方不改变','1,2,3',0,150,10,2,0,20160613,20160613),(6,'cscs',1,1,1,'',1,'ccccc0000','cccccccccccccccc',2,'ccccccccccccccccccccc','1,2,7',0,170,10,2,0,1487149129,1488089886);
 /*!40000 ALTER TABLE `bs_staffs` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_storyboard_img`
---
-
-DROP TABLE IF EXISTS `bs_storyboard_img`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_storyboard_img` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `sb_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分镜id',
-  `link` varchar(255) NOT NULL COMMENT '图片',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工图片关联表 bs_ storyboard_img';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_storyboard_img`
---
-
-LOCK TABLES `bs_storyboard_img` WRITE;
-/*!40000 ALTER TABLE `bs_storyboard_img` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bs_storyboard_img` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_storyboards`
---
-
-DROP TABLE IF EXISTS `bs_storyboards`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_storyboards` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT '名称',
-  `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '供求类型：1供应，2需求',
-  `cate` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '分镜类型：1电视剧，2电影，3微电影，4广告，5宣传片，6专题片，7汇报片，8主题片，9纪录片，10晚会，11淘宝视频，12婚纱摄影，13节日聚会，14个人短片，',
-  `thumb` varchar(255) NOT NULL COMMENT '分镜缩略图',
-  `intro` varchar(255) NOT NULL COMMENT '简单介绍',
-  `detail` varchar(2000) NOT NULL COMMENT '分镜细节',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布的用户id',
-  `uname` varchar(50) NOT NULL COMMENT '用户名称',
-  `money` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '价格，单位元',
-  `isnew` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '是否最新：1不是，2是',
-  `ishot` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否最热：1不是，2是',
-  `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '排序，值越大越靠前，默认10',
-  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '前台列表是否显示：1不显示，2显示',
-  `del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '回收站功能：0不放入回收站，1放入回收站',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='分镜表 bs_storyboards';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_storyboards`
---
-
-LOCK TABLES `bs_storyboards` WRITE;
-/*!40000 ALTER TABLE `bs_storyboards` DISABLE KEYS */;
-INSERT INTO `bs_storyboards` VALUES (1,'ergth',1,4,'','','<p><img src=\"/uploads/ueditor/php/upload/image/20160523/1463995780428079.png\" title=\"1463995780428079.png\" alt=\"QQ截图20150906082002.png\"/>ergtghefrgtfgefrdfgh</p>',1,'',3456,2,1,10,2,0,20160523,20160523),(2,'分镜5254',2,2,'','如果对方改变人股份','<p>玩儿个地方不热的国防部</p>',1,'',55,2,1,10,2,0,1471071989,1487206563),(3,'分镜测试',1,1,'http://www.jiuge_wenhua.com/uploads/images/2017-02-26/58b2ca0692a30.jpg','bgtbgfbngf','',1,'jiuge',0,2,1,10,2,0,1488101753,1488102287);
-/*!40000 ALTER TABLE `bs_storyboards` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1072,4 +788,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-09 16:48:59
+-- Dump completed on 2017-03-22 16:45:50

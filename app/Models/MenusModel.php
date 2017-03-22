@@ -43,4 +43,22 @@ class MenusModel extends BaseModel
         }
         return $url;
     }
+
+    /**
+     * 获取父名称
+     */
+    public function getParentName()
+    {
+        if ($this->pid==0) { return '顶级菜单'; }
+        $parent = MenusModel::find($this->pid);
+        return $parent ? $parent->name : '';
+    }
+
+    /**
+     * 控制器名称
+     */
+    public function getController()
+    {
+        return $this->controller_prefix.'Controller';
+    }
 }
