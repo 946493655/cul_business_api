@@ -11,7 +11,8 @@ class MessageController extends BaseController
 
     public function index()
     {
-        $genre = $_POST['genre'];
+        $uid = $_POST['uid'];
+        $menu = $_POST['menu'];
         $status = $_POST['status'];
         $isshow = $_POST['isshow'];
         $del = $_POST['del'];
@@ -19,7 +20,6 @@ class MessageController extends BaseController
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
         $start = $limit * ($page - 1);
 
-        $genreArr = $genre ? [$genre] : [0,1,2];
         $isshowArr = $isshow ? [$isshow] : [0,1,2,];
         if (!$status) {
             $statusArr = [0,1,2,3,4];
@@ -28,17 +28,22 @@ class MessageController extends BaseController
         } else {
             $statusArr = [$status];
         }
-        $models = MessageModel::where('del',$del)
-            ->whereIn('genre',$genreArr)
-            ->whereIn('isshow',$isshowArr)
+        if ($menu==1) {
+            $query = MessageModel::where('accept',$uid)
+                ->where('del',$del);
+        } else if ($menu==2) {
+            $query = MessageModel::where('sender',$uid)
+                ->where('del',$del);
+        } else {
+            $query = MessageModel::where('del',$del);
+        }
+        $models = $query->whereIn('isshow',$isshowArr)
             ->whereIn('status',$statusArr)
             ->orderBy('id','desc')
             ->skip($start)
             ->take($limit)
             ->get();
-        $total = MessageModel::where('del',$del)
-            ->whereIn('genre',$genreArr)
-            ->whereIn('isshow',$isshowArr)
+        $total = $query->whereIn('isshow',$isshowArr)
             ->whereIn('status',$statusArr)
             ->count();
         if (!count($models)) {
@@ -52,13 +57,7 @@ class MessageController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['senderTime'] = $model->getSenderTime();
-            $datas[$k]['acceptTime'] = $model->getAcceptTime();
-            $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['statusName'] = $model->getStatusName();
+            $datas[$k] = $this->getArrByModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -95,13 +94,11 @@ class MessageController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $datas = $this->objToArr($model);
-        $datas['createTime'] = $model->createTime();
-        $datas['updateTime'] = $model->updateTime();
-        $datas['getSenderTime'] = $model->getSenderTime();
-        $datas['getAcceptTime'] = $model->getAcceptTime();
-        $datas['genreName'] = $model->getGenreName();
-        $datas['statusName'] = $model->getStatusName();
+        //更新状态
+        if ($model->status==3) {
+            MessageModel::where('id',$id)->update(['status'=>4]);
+        }
+        $datas = $this->getArrByModel($model);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -181,5 +178,20 @@ class MessageController extends BaseController
             ],
         ];
         echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 将 model 转化为 array
+     */
+    public function getArrByModel($model)
+    {
+        $data = $this->objToArr($model);
+        $data['createTime'] = $model->createTime();
+        $data['updateTime'] = $model->updateTime();
+        $data['getSenderTime'] = $model->getSenderTime();
+        $data['getAcceptTime'] = $model->getAcceptTime();
+        $data['genreName'] = $model->getGenreName();
+        $data['statusName'] = $model->getStatusName();
+        return $data;
     }
 }
