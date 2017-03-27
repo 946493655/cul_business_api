@@ -19,6 +19,7 @@ class LinkController extends BaseController
     {
         $cid = $_POST['cid'];
         $type = $_POST['type'];
+        $sortid = $_POST['sortid'];
         $isshow = (isset($_POST['isshow'])&&$_POST['isshow']) ? $_POST['isshow'] : 0;
         $limit = (isset($_POST['limit'])&&$_POST['limit']) ? $_POST['limit'] : $this->limit;
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
@@ -38,7 +39,7 @@ class LinkController extends BaseController
         $models = LinkModel::where('cid', $cid)
             ->whereIn('type', $typeArr)
             ->whereIn('isshow', $isshowArr)
-            ->orderBy('sort', 'asc')
+            ->orderBy('id', $sortid)
             ->skip($start)
             ->take($limit)
             ->get();
@@ -57,12 +58,7 @@ class LinkController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['typeName'] = $model->getTypeName();
-            $datas[$k]['isshowName'] = $model->getIsshowName();
-            $datas[$k]['wayName'] = $model->getWayName();
+            $datas[$k] = $this->getArrByModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -99,12 +95,7 @@ class LinkController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $datas = $this->objToArr($model);
-        $datas['createTime'] = $model->createTime();
-        $datas['updateTime'] = $model->updateTime();
-        $datas['typeName'] = $model->getTypeName();
-        $datas['isshowName'] = $model->getIsshowName();
-        $datas['wayName'] = $model->getWayName();
+        $datas = $this->getArrByModel($model);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -133,12 +124,7 @@ class LinkController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['typeName'] = $model->getTypeName();
-            $datas[$k]['isshowName'] = $model->getIsshowName();
-            $datas[$k]['wayName'] = $model->getWayName();
+            $datas[$k] = $this->getArrByModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -321,5 +307,19 @@ class LinkController extends BaseController
             'model' =>  $model,
         ];
         echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 将 model 转化为 array
+     */
+    public function getArrByModel($model)
+    {
+        $data = $this->objToArr($model);
+        $data['createTime'] = $model->createTime();
+        $data['updateTime'] = $model->updateTime();
+        $data['typeName'] = $model->getTypeName();
+        $data['isshowName'] = $model->getIsshowName();
+        $data['wayName'] = $model->getWayName();
+        return $data;
     }
 }

@@ -11,7 +11,7 @@ class ComFuncModel extends BaseModel
 
     protected $table = 'com_funcs';
     protected $fillable = [
-        'id','name','cid','module_id','img','intro','small','sort','isshow','created_at','updated_at',
+        'id','name','cid','module_id','thumb','intro','small','sort','isshow','created_at','updated_at',
     ];
 
     public function small()

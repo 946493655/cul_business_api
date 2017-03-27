@@ -19,31 +19,31 @@ class ComFuncController extends BaseController
     public function index()
     {
         $cid = $_POST['cid'];
+        $module = $_POST['module'];
         $isshow = $_POST['isshow'];
         $limit = (isset($_POST['limit'])&&$_POST['limit']) ? $_POST['limit'] : $this->limit;
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
         $start = $limit * ($page - 1);
 
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
-        if ($cid) {
-            $models = ComFuncModel::where('cid',$cid)
-                ->whereIn('isshow',$isshowArr)
-                ->orderBy('id','desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
-            $total = ComFuncModel::where('cid',$cid)
-                ->whereIn('isshow',$isshowArr)
-                ->count();
+        if ($cid && $module) {
+            $query = ComFuncModel::whereIn('isshow',$isshowArr)
+                ->where('cid',$cid)
+                ->where('module_id',$module);
+        } else if (!$cid && $module) {
+            $query = ComFuncModel::whereIn('isshow',$isshowArr)
+                ->where('module_id',$module);
+        } else if ($cid && !$module) {
+            $query = ComFuncModel::whereIn('isshow',$isshowArr)
+                ->where('cid',$cid);
         } else {
-            $models = ComFuncModel::whereIn('isshow',$isshowArr)
-                ->orderBy('id','desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
-            $total = ComFuncModel::whereIn('isshow',$isshowArr)
-                ->count();
+            $query = ComFuncModel::whereIn('isshow',$isshowArr);
         }
+        $models = $query->orderBy('id','desc')
+            ->skip($start)
+            ->take($limit)
+            ->get();
+        $total = $query->count();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [

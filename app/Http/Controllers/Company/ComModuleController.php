@@ -197,15 +197,15 @@ class ComModuleController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        if (!$this->selfModel->initModule($cid)) {
-            $rstArr = [
-                'error' =>  [
-                    'code'  =>  -2,
-                    'msg'   =>  '初始化错误！',
-                ],
-            ];
-            echo json_encode($rstArr);exit;
-        }
+//        if (!$this->initModule($cid)) {
+//            $rstArr = [
+//                'error' =>  [
+//                    'code'  =>  -2,
+//                    'msg'   =>  '初始化错误！',
+//                ],
+//            ];
+//            echo json_encode($rstArr);exit;
+//        }
         $data = [
             'name'  =>  $name,
             'genre' =>  $genre,
@@ -280,7 +280,7 @@ class ComModuleController extends BaseController
             echo json_encode($rstArr);exit;
         }
         $module0s = ComModuleModel::where('cid',0)->get();
-        if (count($module0s)!=6) {
+        if (count($module0s)!=9) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -2,
