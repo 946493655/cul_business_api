@@ -288,12 +288,14 @@ class ComFuncController extends BaseController
      */
     public function getFuncModel($model)
     {
-        $datas = $this->objToArr($model);
-        $datas['createTime'] = $model->createTime();
-        $datas['updateTime'] = $model->updateTime();
-        $datas['isshowName'] = $model->getIsshowName();
-        $datas['moduleName'] = $model->getModuleName();
-        $datas['typeName'] = $model->getModuleTypeName();
-        return $datas;
+        $data = $this->objToArr($model);
+        $data['createTime'] = $model->createTime();
+        $data['updateTime'] = $model->updateTime();
+        $data['isshowName'] = $model->getIsshowName();
+        $data['moduleName'] = $model->getModuleName();
+        $data['typeName'] = $model->getModuleTypeName();
+        $data['smallArr'] = $model->getSmallArr();
+        $data['moduleIntro'] = $model->getModuleIntro();
+        return $data;
     }
 }
