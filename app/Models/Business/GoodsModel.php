@@ -11,7 +11,7 @@ class GoodsModel extends BaseModel
     protected $fillable = [
         'id','name','genre','cate','intro','thumb','linkType','link','uid','money','isshow','del','created_at','updated_at',
     ];
-    //制作类型：1动画片段供应，2动画片段需求，3视频供应，4视频需求
+    //制作类型：1动画片段供应，2动画片段需求，3视频供应，4视频需求，
     protected $genres = [
         1=>'动画供应','动画需求','视频供应','视频需求',
     ];

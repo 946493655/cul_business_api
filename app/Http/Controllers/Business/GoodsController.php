@@ -26,7 +26,6 @@ class GoodsController extends BaseController
         $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
         $start = $limit * ($page - 1);
 
-//        $genreArr = $genre ? [$genre] : [0,1,2,3,4];
         if (!$genre) {
             $genreArr = [0,1,2,3,4];
         } elseif (is_array($genre)) {
@@ -37,36 +36,22 @@ class GoodsController extends BaseController
         $cateArr = $cate ? [$cate] : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
         if ($uid) {
-            $models = GoodsModel::where('uid',$uid)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->where('del',$del)
-                ->orderBy('id','desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
-            $total = GoodsModel::where('uid',$uid)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->where('del',$del)
-                ->count();
+            $query = GoodsModel::where('uid',$uid)
+                ->whereIn('genre',$genreArr);
         } else {
-            $models = GoodsModel::whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->where('del',$del)
-                ->orderBy('id','desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
-            $total = GoodsModel::whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->where('del',$del)
-                ->count();
+            $query = GoodsModel::whereIn('genre',$genreArr);
         }
+        $models = $query->whereIn('cate',$cateArr)
+            ->whereIn('isshow',$isshowArr)
+            ->where('del',$del)
+            ->orderBy('id','desc')
+            ->skip($start)
+            ->take($limit)
+            ->get();
+        $total = $query->whereIn('cate',$cateArr)
+            ->whereIn('isshow',$isshowArr)
+            ->where('del',$del)
+            ->count();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [

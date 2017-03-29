@@ -56,6 +56,9 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('goodsuser/add', 'GoodsUsersController@store');
     $app->post('goodsuser/modify', 'GoodsUsersController@update');
     $app->post('goodsuser/show', 'GoodsUsersController@show');
+    //视频制作花絮
+    $app->post('goodshuaxu', 'GoodsHuaxuController@index');
+    $app->post('goodshuaxu/getmodel', 'GoodsHuaxuController@getModel');
     //创意路由
     $app->post('idea', 'IdeaController@index');
     $app->post('idea/show', 'IdeaController@show');
