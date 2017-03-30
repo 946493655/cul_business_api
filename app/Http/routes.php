@@ -146,6 +146,8 @@ $app->group(['prefix' => 'api/v1/com', 'namespace'=>'App\Http\Controllers\Compan
     $app->post('module/add', 'ComModuleController@store');
     $app->post('module/modify', 'ComModuleController@update');
     $app->post('module/init', 'ComModuleController@initModule');
+    $app->post('module/setshow', 'ComModuleController@setShow');
+    $app->post('module/setsort', 'ComModuleController@setSort');
     $app->post('module/getmodel', 'ComModuleController@getModel');
     //功能路由
     $app->post('func', 'ComFuncController@index');
