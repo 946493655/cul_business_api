@@ -57,8 +57,11 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('goodsuser/modify', 'GoodsUsersController@update');
     $app->post('goodsuser/show', 'GoodsUsersController@show');
     //视频制作花絮
-    $app->post('goodshuaxu', 'GoodsHuaxuController@index');
-    $app->post('goodshuaxu/getmodel', 'GoodsHuaxuController@getModel');
+    $app->post('huaxu', 'HuaxuController@index');
+    $app->post('huaxu/add', 'HuaxuController@store');
+    $app->post('huaxu/modify', 'HuaxuController@modify');
+    $app->post('huaxu/show', 'HuaxuController@show');
+    $app->post('huaxu/getmodel', 'HuaxuController@getModel');
     //创意路由
     $app->post('idea', 'IdeaController@index');
     $app->post('idea/show', 'IdeaController@show');
@@ -156,6 +159,10 @@ $app->group(['prefix' => 'api/v1/com', 'namespace'=>'App\Http\Controllers\Compan
     $app->post('func/modify', 'ComFuncController@update');
     $app->post('func/init', 'ComFuncController@initFunc');
     $app->post('func/getmodel', 'ComFuncController@getModel');
+    //单页模块路由
+    $app->post('singlemodule', 'ComModuleController@getSingleModuleList');
+    //单页路由
+    $app->post('single', 'ComFuncController@getSingleList');
     //访问路由
     $app->post('visit', 'VisitlogController@index');
     $app->post('visit/show', 'VisitlogController@show');

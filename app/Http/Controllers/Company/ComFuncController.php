@@ -70,6 +70,67 @@ class ComFuncController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
+    /**
+     * 获取单页列表
+     */
+    public function getSingleList()
+    {
+        $cid = $_POST['cid'];
+        $module = $_POST['module'];
+        $isshow = $_POST['isshow'];
+        $limit = (isset($_POST['limit'])&&$_POST['limit']) ? $_POST['limit'] : $this->limit;
+        $page = (isset($_POST['page'])&&$_POST['page']) ? $_POST['page'] : 1;
+        $start = $limit * ($page - 1);
+
+        if (!$module) {
+            $modules = ComModuleModel::where('genre',51)->get();
+            if (!count($modules)) { $moduleIdArr = array(); }
+            foreach ($modules as $vmodule) { $moduleIdArr[] = $vmodule->id; }
+        }
+        $isshowArr = $isshow ? [$isshow] : [0,1,2];
+        if ($cid && $module) {
+            $query = ComFuncModel::where('cid',$cid)
+                ->where('module_id',$module);
+        } else if (!$cid && $module) {
+            $query = ComFuncModel::where('module_id',$module);
+        } else if ($cid && !$module) {
+            $query = ComFuncModel::whereIn('module_id',$moduleIdArr)
+                ->where('cid',$cid);
+        } else {
+            $query = ComFuncModel::whereIn('module_id',$moduleIdArr);
+        }
+        $models = $query->whereIn('isshow',$isshowArr)
+            ->orderBy('id','desc')
+            ->skip($start)
+            ->take($limit)
+            ->get();
+        $total = $query->count();
+        if (!count($models)) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有数据！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = array();
+        foreach ($models as $k=>$model) {
+            $datas[$k] = $this->getFuncModel($model);
+        }
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+            'pagelist'  =>  [
+                'total' =>  $total,
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
     public function show()
     {
         $id = $_POST['id'];
