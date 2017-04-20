@@ -74,6 +74,8 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('order/ordersbyuid', 'OrderController@getOrdersByUid');
     $app->post('order/ordersbylimit', 'OrderController@getOrdersByLimit');
     $app->post('order/ordersbyweal', 'OrderController@getOrdersByWeal');
+    $app->post('order/onebygenre', 'OrderController@getOneByGenre');
+    $app->post('order/show', 'OrderController@show');
     $app->post('order/getmodel', 'OrderController@getModel');
     //租赁路由
     $app->post('rent', 'RentController@index');

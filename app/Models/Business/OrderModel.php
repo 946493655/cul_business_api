@@ -8,17 +8,37 @@ class OrderModel extends BaseModel
      */
     protected $table = 'bs_orders';
     protected $fillable = [
-        'id','name','serial','genre','fromid','seller','sellerName','uid','uname','money','weal','status','remarks','isshow','del','created_at','updated_at',
+        'id','name','serial','genre','fromid','uid','uname','seller','sellerName',
+        'money','weal','status','reason','ucLevel','userComment','scLevel','sellerComment',
+        'isshow','del','created_at','updated_at',
     ];
 
+    /**
+     * 更新时间updated_at：状态更新的时间集合
+     * statusTime2、statusTime3、statusTime4、statusTime5、statusTime6、statusTime7、statusTime8、statusTime9、
+     * statusTime10、statusTime11、statusTime12、statusTime13、statusTime14、statusTime15、statusTime16、
+     */
+
+    /**
+     * 订单来源类型genre：
+     * 1故事供应，2故事需求，3动画供应，4动画需求，5视频供应，6视频需求，
+     * 7人员供应，8人员需求，9租赁供应，10租赁需求，11设计供应，12设计需求，
+     */
     protected $genres = [
-        //1故事供应，2故事需求，3视频供应，4视频需求，5演员供应，6演员需求，7租赁供应，8租赁需求
-        1=>'故事供应','故事需求','视频供应','视频需求','演员供应','演员需求','租赁供应','租赁需求',
+        1=>'故事供应','故事需求','动画供应','动画需求','视频供应','视频需求',
+        '人员供应','人员需求','租赁供应','租赁需求','设计供应','设计需求',
     ];
 
-    //订单状态：1待付首款至平台，2已付款，3办理中，4看样品，5待修改，6付尾款至平台,7交成品，8收款，9失败，10成功
+    /**
+     * 订单状态：
+     * 1新订单，2协商中，3放弃订单，4确认订单，5提交资料/首款，6确认提交（资料意见/首款备份至平台），
+     * 7开始办理（期限内），8完成半成品，9校验半成品（成功继续|失败退回），10验货成功，
+     * 11支付尾款（期限内至平台）,12交付成品，13确定成品，14商家收款（扣除平台佣金-交易成功），15客户评价，16商家评价
+     */
     protected $statuss = [
-        1=>'新订单','协商中','拒绝','确认','订单免费','订单收费','办理订单','确认收到','订单成功','订单失败'
+        1=>'新订单','协商中','放弃订单','确认订单','提交资料与首款','确认提交',
+        '开始办理','完成半成品','校验半成品','验货成功',
+        '支付尾款','交付成品','确定成品','商家收款','客户评价','商家评价',
     ];
 
     public function getGenreName()

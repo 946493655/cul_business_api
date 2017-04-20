@@ -236,7 +236,7 @@ CREATE TABLE `bs_goods` (
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='视频表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='视频表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,41 +245,8 @@ CREATE TABLE `bs_goods` (
 
 LOCK TABLES `bs_goods` WRITE;
 /*!40000 ALTER TABLE `bs_goods` DISABLE KEYS */;
-INSERT INTO `bs_goods` VALUES (1,'个人需求001',1,0,'hrtjmntyjm','',1,'',1,1000,2,0,1474253357,0),(2,'gregbre',1,1,'gbrehbrth000','',1,'',1,10,2,0,1487220819,1490154393),(3,'测试测试',4,13,'gggggggg\r\n000000000000','',4,'https://baidu.com',1,0,2,0,1490166914,1490167101);
+INSERT INTO `bs_goods` VALUES (1,'个人需求001',1,0,'hrtjmntyjm','',1,'',1,1000,2,0,1474253357,0),(2,'gregbre',1,1,'gbrehbrth000','',1,'',1,10,2,0,1487220819,1490154393),(3,'测试测试',4,13,'gggggggg\r\n000000000000','',4,'https://baidu.com',1,0,2,0,1490166914,1490167101),(4,'测试测试',1,1,'0000000000000','',1,'',1,0,2,0,1490940288,1490940574);
 /*!40000 ALTER TABLE `bs_goods` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_goods_huaxu`
---
-
-DROP TABLE IF EXISTS `bs_goods_huaxu`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_goods_huaxu` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `gid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'goods视频id',
-  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
-  `name` varchar(50) NOT NULL COMMENT '视频名称',
-  `tech` varchar(255) NOT NULL COMMENT '技术参数说明',
-  `thumb` varchar(255) NOT NULL COMMENT '缩略图',
-  `linkType` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '参考片链接类型：1flash代码，2html代码，3通用代码，4其他网址',
-  `link` varchar(255) NOT NULL COMMENT '参考片链接',
-  `del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '回收站：0不放入回收站，1放入回收站',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='视频花絮表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_goods_huaxu`
---
-
-LOCK TABLES `bs_goods_huaxu` WRITE;
-/*!40000 ALTER TABLE `bs_goods_huaxu` DISABLE KEYS */;
-INSERT INTO `bs_goods_huaxu` VALUES (1,1,1,'个人需求001','','',1,'',0,1474253357,0),(2,2,1,'gregbre','','',1,'',0,1487220819,1490154393),(3,3,1,'测试测试','','',4,'https://baidu.com',0,1490166914,1490167101);
-/*!40000 ALTER TABLE `bs_goods_huaxu` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -311,6 +278,40 @@ CREATE TABLE `bs_goods_users` (
 LOCK TABLES `bs_goods_users` WRITE;
 /*!40000 ALTER TABLE `bs_goods_users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `bs_goods_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bs_huaxu`
+--
+
+DROP TABLE IF EXISTS `bs_huaxu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bs_huaxu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '花絮类型：1样片花絮，2故事脚本花絮，3租赁花絮，4娱乐花絮，5设计花絮',
+  `fromid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '来源表的id',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `name` varchar(50) NOT NULL COMMENT '视频名称',
+  `intro` varchar(255) NOT NULL COMMENT '技术参数说明',
+  `thumb` varchar(255) NOT NULL COMMENT '缩略图',
+  `linkType` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '参考片链接类型：1flash代码，2html代码，3通用代码，4其他网址',
+  `link` varchar(255) NOT NULL COMMENT '参考片链接',
+  `del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '回收站：0不放入回收站，1放入回收站',
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='视频花絮表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bs_huaxu`
+--
+
+LOCK TABLES `bs_huaxu` WRITE;
+/*!40000 ALTER TABLE `bs_huaxu` DISABLE KEYS */;
+INSERT INTO `bs_huaxu` VALUES (1,1,0,1,'个人需求001','','',1,'',0,1474253357,0),(2,1,0,1,'gregbre','','',1,'',0,1487220819,1490154393),(3,1,0,1,'测试测试','','',4,'https://baidu.com',0,1490166914,1490167101);
+/*!40000 ALTER TABLE `bs_huaxu` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -495,7 +496,7 @@ CREATE TABLE `bs_orders` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL COMMENT '订单名称',
   `serial` varchar(50) NOT NULL DEFAULT '0' COMMENT '订单编号',
-  `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '订单来源：1故事供应，2故事需求，3动画供应，4动画需求，5视频供应，6视频需求，7演员供应，8演员需求，9租赁供应，10租赁需求，',
+  `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '订单来源：\r\n1故事供应，2故事需求，3动画供应，4动画需求，5视频供应，6视频需求，\r\n7人员供应，8人员需求，9租赁供应，10租赁需求，11设计供应，12设计需求',
   `fromid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '订单来源表中的id',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '买家id',
   `uname` varchar(20) NOT NULL COMMENT '买家名称',
@@ -503,12 +504,16 @@ CREATE TABLE `bs_orders` (
   `sellerName` varchar(20) NOT NULL COMMENT '卖家名称',
   `money` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '总价格，单位元',
   `weal` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '已支付福利，单位元',
-  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '订单状态：创意订单状态：1新的创意，2确定创意，3拒绝创意，4创意免费，5创意收费，6办理订单，7确认收到，12订单成功，13订单失败。\r\n分镜订单状态：1新的分镜，2确定分镜，3拒绝分镜，4分镜免费，5分镜收费，6办理订单，7确认收到，12订单成功，13订单失败。\r\n视频制作订单状态：1新的样片，2确认制作，3拒绝制作，4分期收费，5效果协商，6二期收费，7确定成片，8三期收费，9出片交付，10尾款结清，11确认完成，12订单成功，13订单失败。',
-  `remarks` varchar(255) NOT NULL COMMENT '拒绝理由',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '订单状态：\r\n1新订单，2协商中，3放弃订单，4确认订单，5提交资料/首款，6确认提交（资料意见/首款备份至平台），\r\n7开始办理（期限内），8完成半成品，9校验半成品（成功继续|失败退回），10验货成功，\r\n11支付尾款（期限内至平台）,12交付成品，13确定成品，14商家收款（扣除平台佣金-交易成功），15客户评价，16商家评价',
+  `reason` varchar(255) NOT NULL COMMENT '放弃订单的理由',
+  `ucLevel` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'userCommentLevel 用户评价等级：0未评价，1差评，2一般，3好评',
+  `userComment` varchar(255) NOT NULL COMMENT '用户评价',
+  `scLevel` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'sellerCommentLevel 商家评价等级：0未评价，1差评，2一般，3好评',
+  `sellerComment` varchar(255) NOT NULL COMMENT '商家评价',
   `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '前台列表是否显示：1不显示，2显示，默认2',
   `del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '回收站：0不删除，1删除',
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '确定时间',
+  `updated_at` varchar(500) NOT NULL COMMENT '状态更新的时间集合：',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='订单表 bs_orders';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -519,7 +524,7 @@ CREATE TABLE `bs_orders` (
 
 LOCK TABLES `bs_orders` WRITE;
 /*!40000 ALTER TABLE `bs_orders` DISABLE KEYS */;
-INSERT INTO `bs_orders` VALUES (2,'创意123456','201607031309426817',1,3,2,'jiuge2',1,'jiuge',0,0,12,'',2,0,20160703,20160703),(4,'ergth','201607071804515298',3,1,2,'jiuge2',1,'jiuge',0,0,5,'',2,0,20160707,1474005529);
+INSERT INTO `bs_orders` VALUES (2,'创意123456','201607031309426817',1,3,2,'jiuge2',1,'jiuge',0,0,12,'',0,'',0,'',2,0,20160703,''),(4,'ergth','201607071804515298',3,1,2,'jiuge2',1,'jiuge',0,0,5,'',0,'',0,'',2,0,20160707,'');
 /*!40000 ALTER TABLE `bs_orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -532,12 +537,12 @@ DROP TABLE IF EXISTS `bs_pay`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bs_pay` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '来自哪一张订单表：1orders，2orders_firm，3orders_pro，',
+  `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '来自哪一张订单表：1orders，2orders_firm',
   `order_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '订单id',
   `uid` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '支付方',
   `money` float unsigned NOT NULL DEFAULT '0' COMMENT '支付金额，单位元',
   `weal` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '福利数量，单位元',
-  `isfine` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否延时赔付，视频制作订单专用，赔付付款额的10%：0不延时，1延时罚款，2罚款已经到位',
+  `isfine` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '违规违约赔付：0没有，1等待赔付，2赔付已经到位',
   `ispay` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '付款是否到位：0未到支付宝或款不对，1支付宝已收款',
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
@@ -725,7 +730,7 @@ CREATE TABLE `com_funcs` (
   `module_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '所属模块id：1公司简介，2公司历程，3公司新闻，4公司资讯，5服务，6团队，7招聘，8合作伙伴，9联系方式',
   `thumb` varchar(255) NOT NULL COMMENT '图片链接',
   `intro` varchar(255) NOT NULL COMMENT '详情',
-  `small` varchar(1000) NOT NULL COMMENT '备用字段：\r\n如果是服务，为小字，多组用|隔开；\r\n如果是招聘，为数字；\r\n如果是合作伙伴，为链接；\r\n如果是联系方式，为具体方式，用|隔开',
+  `small` varchar(1000) NOT NULL COMMENT '备用字段：\r\n如果是服务，为小字，多组用|隔开；\r\n如果是招聘，为数字；\r\n如果是合作伙伴，为链接；\r\n如果是联系方式，为具体方式',
   `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '用户企业排序，值越大越靠前，默认10',
   `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '用户的公司后台控制是否显示：1不显示，2显示',
   `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
@@ -819,4 +824,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-30 16:49:30
+-- Dump completed on 2017-04-20 16:47:51

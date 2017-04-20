@@ -238,7 +238,126 @@ class OrderController extends BaseController
         echo json_encode($rstArr);exit;
     }
 
-    public function store(){}
+    /**
+     * 通过 genre、fromid、uid、seller
+     * 获取唯一订单记录
+     */
+    public function getOneByGenre()
+    {
+        $genre = $_POST['genre'];
+        $fromid = $_POST['fromid'];
+        $uid = $_POST['uid'];
+        $seller = $_POST['seller'];
+        if (!$genre || !$fromid || !$uid || $seller) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = OrderModel::where('genre',$genre)
+            ->where('fromid',$fromid)
+            ->where('uid',$uid)
+            ->where('seller',$seller)
+            ->first();
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = $this->modelToArray($model);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function show()
+    {
+        $id = $_POST['id'];
+        if (!$id) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $model = OrderModel::find($id);
+        if (!$model) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -2,
+                    'msg'   =>  '没有记录！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $datas = $this->modelToArray($model);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+            'data'  =>  $datas,
+        ];
+        echo json_encode($rstArr);exit;
+    }
+
+    public function store()
+    {
+        /**
+         * 订单来源类型genre：
+         * 1故事供应，2故事需求，3动画供应，4动画需求，5视频供应，6视频需求，
+         * 7演员供应，8演员需求，9租赁供应，10租赁需求，11设计供应，12设计需求，
+         */
+        $name = $_POST['name'];
+        $genre = $_POST['genre'];
+        $fromid = $_POST['fromid'];
+        $uid = $_POST['uid'];
+        $uname = $_POST['uname'];
+        $seller = $_POST['seller'];
+        $sellerName = $_POST['sellerName'];
+        if (!$name || !$genre || !$fromid || !$uid || !$uname || !$seller || !$sellerName) {
+            $rstArr = [
+                'error' =>  [
+                    'code'  =>  -1,
+                    'msg'   =>  '参数有误！',
+                ],
+            ];
+            echo json_encode($rstArr);exit;
+        }
+        $data = [
+            'name'      =>  $name,
+            'serial'    =>  date('YmdHis',time()).rand(0,10000),
+            'genre'     =>  $genre,
+            'fromid'    =>  $fromid,
+            'uid'       =>  $uid,
+            'uname'     =>  $uname,
+            'seller'    =>  $seller,
+            'sellerName'    =>  $sellerName,
+            'created_at'    =>  time(),
+        ];
+        OrderModel::create($data);
+        $rstArr = [
+            'error' =>  [
+                'code'  =>  0,
+                'msg'   =>  '操作成功！',
+            ],
+        ];
+        echo json_encode($rstArr);exit;
+    }
 
     /**
      * 对象统一转数组
