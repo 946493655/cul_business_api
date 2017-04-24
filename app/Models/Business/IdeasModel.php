@@ -9,7 +9,7 @@ class IdeasModel extends BaseModel
 
     protected $table = 'bs_ideas';
     protected $fillable = [
-        'id','name','genre','cate','intro','isdetail','detail','money','read','uid','sort','isshow','del','created_at','updated_at',
+        'id','name','genre','cate','intro','file','money','read','uid','sort','isshow','del','created_at','updated_at',
     ];
 
     protected $genres = [
@@ -30,8 +30,46 @@ class IdeasModel extends BaseModel
         return array_key_exists($this->genre,$this->genres) ? $this->genres[$this->genre] : '';
     }
 
-    public function getIsDetailName()
+    public function getFileArr()
     {
-        return array_key_exists($this->isdetail,$this->isdetails) ? $this->isdetails[$this->isdetail] : '';
+        return $this->file ? explode(',',$this->file) : [];
+    }
+
+    /**
+     * 文件类型
+     */
+    public function getFileType()
+    {
+        $arr = $this->getFileArr();
+        if (!$arr) { return 0; }
+        if ($arr[0]==1) {
+            return '站内上传的文件';
+        } else {
+            return '站外分享的文件';
+        }
+    }
+
+    /**
+     * 文件链接
+     */
+    public function getFileLink()
+    {
+        if ($arr = $this->getFileArr()) {
+            return $arr[2];
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * 文件分享码
+     */
+    public function getFileCode()
+    {
+        if ($arr = $this->getFileArr()) {
+            return $arr[3];
+        } else {
+            return '';
+        }
     }
 }

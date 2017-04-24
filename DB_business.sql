@@ -129,9 +129,9 @@ CREATE TABLE `bs_designs` (
   `cate` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '设计类型：房产，效果图，平面，漫游',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布者id',
   `intro` varchar(255) NOT NULL COMMENT '简介',
-  `detail` varchar(1000) NOT NULL COMMENT '详情',
-  `money` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '价格，单位元',
   `thumb` varchar(255) NOT NULL COMMENT '缩略图',
+  `money` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '价格，单位元',
+  `file` varchar(255) NOT NULL COMMENT '上传的文件或文件外部链接：文件类型（1站内/2外部），链接，分享码（没有则空着）',
   `click` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '点击量',
   `sort` int(10) unsigned NOT NULL DEFAULT '10' COMMENT '排序字段，值越大越靠前，默认10',
   `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '是否显示：1不显示，2显示',
@@ -148,33 +148,8 @@ CREATE TABLE `bs_designs` (
 
 LOCK TABLES `bs_designs` WRITE;
 /*!40000 ALTER TABLE `bs_designs` DISABLE KEYS */;
-INSERT INTO `bs_designs` VALUES (1,'嘎嘎嘎',1,1,1,'而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧','',55,'',0,10,2,0,1470573399,1470574616),(2,'设计001',3,1,1,'ggggggggggg','',11,'',0,10,2,0,1470816620,0),(3,'设计设计',1,1,1,'办不放过','被告人挺好人头000000',1,'',0,10,2,0,1487209703,1487209773),(4,'设计设计',1,1,1,'vfdvfdbrfgbb','fgbfgrbrtbrtb000000000000',10,'http://www.jiuge_wenhua.com/uploads/images/2017-02-25/58b18c114da63.jpg',0,10,1,0,1488022991,1488025149),(5,'测试测试',2,3,1,'00000000000\r\n111','0000000000',0,'',0,10,2,0,1490237539,1490237552);
+INSERT INTO `bs_designs` VALUES (1,'嘎嘎嘎',1,1,1,'而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧','',55,'',0,10,2,0,1470573399,1470574616),(2,'设计001',3,1,1,'ggggggggggg','',11,'',0,10,2,0,1470816620,0),(3,'设计设计',1,1,1,'办不放过','',1,'',0,10,2,0,1487209703,1487209773),(4,'设计设计',1,1,1,'vfdvfdbrfgbb','http://www.jiuge_wenhua.com/uploads/images/2017-02-25/58b18c114da63.jpg',10,'',0,10,1,0,1488022991,1488025149),(5,'测试测试',2,3,1,'00000000000\r\n111','',0,'',0,10,2,0,1490237539,1490237552);
 /*!40000 ALTER TABLE `bs_designs` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bs_designs_img`
---
-
-DROP TABLE IF EXISTS `bs_designs_img`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bs_designs_img` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `design_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '设计id',
-  `link` varchar(255) NOT NULL COMMENT '图片链接',
-  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='设计图片关联表 bs_designs_img';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bs_designs_img`
---
-
-LOCK TABLES `bs_designs_img` WRITE;
-/*!40000 ALTER TABLE `bs_designs_img` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bs_designs_img` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -323,12 +298,11 @@ DROP TABLE IF EXISTS `bs_ideas`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bs_ideas` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT '名称',
+  `name` varchar(50) NOT NULL COMMENT '名称',
   `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '供求类型：1供应，2需求',
   `cate` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '创意类型：1电视剧，2电影，3微电影，4广告，5宣传片，6专题片，7汇报片，8主题片，9纪录片，10晚会，11淘宝视频，12婚纱摄影，13节日聚会，14个人短片，',
-  `intro` varchar(255) NOT NULL COMMENT '简介',
-  `isdetail` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否显示细节：1不显示，2显示',
-  `detail` varchar(1000) NOT NULL COMMENT '创意内容',
+  `intro` varchar(1000) NOT NULL COMMENT '简介',
+  `file` varchar(255) NOT NULL COMMENT '上传的文件或文件外部链接：文件类型（1站内/2外部），链接，分享码（没有则空着）',
   `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '发布的用户id',
   `money` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '价格，单位元',
   `read` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '阅读自增，与用户无关，象征性的',
@@ -347,7 +321,7 @@ CREATE TABLE `bs_ideas` (
 
 LOCK TABLES `bs_ideas` WRITE;
 /*!40000 ALTER TABLE `bs_ideas` DISABLE KEYS */;
-INSERT INTO `bs_ideas` VALUES (1,'创意1',1,4,'efrbgrdfbg',1,'0000',1,0,0,10,2,0,20160417,20160417),(2,'创意部分的白癜风',1,4,'wefdgbefdv',1,'000000',1,0,0,10,2,0,20160421,0),(3,'创意123456',1,4,'fngbvrrthgfbrthf',1,'000000000',1,10,0,10,2,0,20160421,0),(4,'cscs',1,1,'dbfdbfg',2,'ngfnghn123',1,0,0,10,2,0,1487138029,1487140664),(5,'创意测试测试',1,1,'办公厅农行还给你00000000000000000000000',1,'人方提供那好吧他让你哥还不如斧头帮人防办',1,0,0,10,2,0,1488077172,1488077516);
+INSERT INTO `bs_ideas` VALUES (1,'创意1',1,4,'efrbgrdfbg','',1,0,0,10,2,0,20160417,20160417),(2,'创意部分的白癜风',1,4,'wefdgbefdv','',1,0,0,10,2,0,20160421,0),(3,'创意123456',1,4,'fngbvrrthgfbrthf','',1,10,0,10,2,0,20160421,0),(4,'cscs',1,1,'dbfdbfg','',1,0,0,10,2,0,1487138029,1487140664),(5,'创意测试测试',1,1,'办公厅农行还给你00000000000000000000000','',1,0,0,10,2,0,1488077172,1488077516);
 /*!40000 ALTER TABLE `bs_ideas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -824,4 +798,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-21 16:58:55
+-- Dump completed on 2017-04-24 16:42:43

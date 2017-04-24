@@ -30,38 +30,23 @@ class IdeaController extends BaseController
         $cateArr = $cate ? [$cate] : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
         if ($uid) {
-            $models = IdeasModel::where('uid',$uid)
-                ->where('del',$del)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->orderBy('sort','desc')
-                ->orderBy('id','desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
-            $total = IdeasModel::where('uid',$uid)
-                ->where('del',$del)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->count();
+            $query = IdeasModel::where('del',$del)
+                ->where('uid',$uid);
         } else {
-            $models = IdeasModel::where('del',$del)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->orderBy('sort','desc')
-                ->orderBy('id','desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
-            $total = IdeasModel::where('del',$del)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->count();
+            $query = IdeasModel::where('del',$del);
         }
+        $models = $query->whereIn('genre',$genreArr)
+            ->whereIn('cate',$cateArr)
+            ->whereIn('isshow',$isshowArr)
+            ->orderBy('sort','desc')
+            ->orderBy('id','desc')
+            ->skip($start)
+            ->take($limit)
+            ->get();
+        $total = $query->whereIn('genre',$genreArr)
+            ->whereIn('cate',$cateArr)
+            ->whereIn('isshow',$isshowArr)
+            ->count();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -74,13 +59,7 @@ class IdeaController extends BaseController
         $datas = array();
         static $number = 1;
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['cateName'] = $model->getCateName();
-            $datas[$k]['isshowName'] = $model->getIsshowName();
-            $datas[$k]['isdetailName'] = $model->getIsDetailName();
+            $datas[$k] = $this->getArrByModel($model);
             $datas[$k]['number'] = $number ++;
         }
         $rstArr = [
@@ -118,13 +97,7 @@ class IdeaController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $datas = $this->objToArr($model);
-        $datas['createTime'] = $model->createTime();
-        $datas['updateTime'] = $model->updateTime();
-        $datas['genreName'] = $model->getGenreName();
-        $datas['cateName'] = $model->getCateName();
-        $datas['isshowName'] = $model->getIsshowName();
-        $datas['isdetailName'] = $model->getIsDetailName();
+        $datas = $this->getArrByModel($model);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -141,11 +114,9 @@ class IdeaController extends BaseController
         $genre = $_POST['genre'];
         $cate = $_POST['cate'];
         $intro = $_POST['intro'];
-        $isdetail = $_POST['isdetail'];
-        $detail = $_POST['detail'];
         $uid = $_POST['uid'];
         $money = $_POST['money'];
-        if (!$name || !$genre || !$cate || !$intro || !$isdetail || !$detail || !$uid) {
+        if (!$name || !$genre || !$cate || !$intro || !$uid) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -159,8 +130,6 @@ class IdeaController extends BaseController
             'genre' =>  $genre,
             'cate'  =>  $cate,
             'intro' =>  $intro,
-            'isdetail' =>  $isdetail,
-            'detail'    =>  $detail,
             'uid'   =>  $uid,
             'money' =>  $money,
             'created_at'    =>  time(),
@@ -182,11 +151,9 @@ class IdeaController extends BaseController
         $genre = $_POST['genre'];
         $cate = $_POST['cate'];
         $intro = $_POST['intro'];
-        $isdetail = $_POST['isdetail'];
-        $detail = $_POST['detail'];
         $uid = $_POST['uid'];
         $money = $_POST['money'];
-        if (!$id || !$name || !$genre || !$cate || !$intro || !$isdetail || !$detail || !$uid) {
+        if (!$id || !$name || !$genre || !$cate || !$intro || !$uid) {
             $rstArr = [
                 'error' =>  [
                     'code'  =>  -1,
@@ -270,7 +237,6 @@ class IdeaController extends BaseController
         $model = [
             'genres'    =>  $this->selfModel['genres'],
             'cates'     =>  $this->selfModel['cates2'],
-            'isdetails'   =>  $this->selfModel['isdetails'],
             'isshows'   =>  $this->selfModel['isshows'],
         ];
         $rstArr = [
@@ -281,5 +247,22 @@ class IdeaController extends BaseController
             'model' =>  $model,
         ];
         echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 数据对象转数组
+     */
+    public function getArrByModel($model)
+    {
+        $data = $this->objToArr($model);
+        $data['createTime'] = $model->createTime();
+        $data['updateTime'] = $model->updateTime();
+        $data['genreName'] = $model->getGenreName();
+        $data['cateName'] = $model->getCateName();
+        $data['isshowName'] = $model->getIsshowName();
+        $data['fileType'] = $model->getFileType();
+        $data['fileLink'] = $model->getFileLink();
+        $data['fileCode'] = $model->getFileCode();
+        return $data;
     }
 }

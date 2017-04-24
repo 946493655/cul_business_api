@@ -36,38 +36,23 @@ class DesignController extends BaseController
         $cateArr = $cate ? [$cate] : [0,1,2,3,4];
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
         if ($uid) {
-            $models = DesignModel::where('uid',$uid)
-                ->where('del',$del)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->orderBy('sort','desc')
-                ->orderBy('id','desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
-            $total = DesignModel::where('uid',$uid)
-                ->where('del',$del)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->count();
+            $query = DesignModel::where('del',$del)
+                ->where('uid',$uid);
         } else {
-            $models = DesignModel::where('del',$del)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->orderBy('sort','desc')
-                ->orderBy('id','desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
-            $total = DesignModel::where('del',$del)
-                ->whereIn('genre',$genreArr)
-                ->whereIn('cate',$cateArr)
-                ->whereIn('isshow',$isshowArr)
-                ->count();
+            $query = DesignModel::where('del',$del);
         }
+        $models = $query->whereIn('genre',$genreArr)
+            ->whereIn('cate',$cateArr)
+            ->whereIn('isshow',$isshowArr)
+            ->orderBy('sort','desc')
+            ->orderBy('id','desc')
+            ->skip($start)
+            ->take($limit)
+            ->get();
+        $total = $query->whereIn('genre',$genreArr)
+            ->whereIn('cate',$cateArr)
+            ->whereIn('isshow',$isshowArr)
+            ->count();
         if (!count($models)) {
             $rstArr = [
                 'error' =>  [
@@ -79,11 +64,7 @@ class DesignController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->objToArr($model);
-            $datas[$k]['createTime'] = $model->createTime();
-            $datas[$k]['updateTime'] = $model->updateTime();
-            $datas[$k]['genreName'] = $model->getGenreName();
-            $datas[$k]['cateName'] = $model->getCateName();
+            $datas[$k] = $this->getArrByModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -120,11 +101,7 @@ class DesignController extends BaseController
             ];
             echo json_encode($rstArr);exit;
         }
-        $datas = $this->objToArr($model);
-        $datas['createTime'] = $model->createTime();
-        $datas['updateTime'] = $model->updateTime();
-        $datas['genreName'] = $model->getGenreName();
-        $datas['cateName'] = $model->getCateName();
+        $datas = $this->getArrByModel($model);
         $rstArr = [
             'error' =>  [
                 'code'  =>  0,
@@ -310,5 +287,21 @@ class DesignController extends BaseController
             'model' =>  $model,
         ];
         echo json_encode($rstArr);exit;
+    }
+
+    /**
+     * 数据对象转为数组
+     */
+    public function getArrByModel($model)
+    {
+        $data = $this->objToArr($model);
+        $data['createTime'] = $model->createTime();
+        $data['updateTime'] = $model->updateTime();
+        $data['genreName'] = $model->getGenreName();
+        $data['cateName'] = $model->getCateName();
+        $data['fileType'] = $model->getFileType();
+        $data['fileLink'] = $model->getFileLink();
+        $data['fileCode'] = $model->getFileCode();
+        return $data;
     }
 }
