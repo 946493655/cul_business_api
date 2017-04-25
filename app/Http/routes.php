@@ -93,6 +93,12 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('staff/show', 'StaffController@show');
     $app->post('staff/staffsbyuid', 'StaffController@getStaffsByUid');
     $app->post('staff/getmodel', 'StaffController@getModel');
+    //配音路由
+    $app->post('dub', 'DubController@index');
+    $app->post('dub/getmodel', 'DubController@getModel');
+    //视频投放路由
+    $app->post('advert', 'AdvertController@index');
+    $app->post('advert/getmodel', 'AdvertController@getModel');
     //消息路由
     $app->post('message', 'MessageController@index');
     $app->post('message/add', 'MessageController@store');

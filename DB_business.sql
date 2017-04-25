@@ -86,6 +86,39 @@ INSERT INTO `bs_ads` VALUES (1,'前台横幅001',1,'1111111111111111111111','upl
 UNLOCK TABLES;
 
 --
+-- Table structure for table `bs_adverts`
+--
+
+DROP TABLE IF EXISTS `bs_adverts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bs_adverts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL COMMENT '投放媒介名称',
+  `genre` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '媒介类型：1广告商，2电视台，3各类网站',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `money` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '报价，元',
+  `period` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '有效时间，秒',
+  `intro` varchar(255) NOT NULL COMMENT '影响力说明：人数、年龄段...',
+  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '1不显示，2显示',
+  `del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0不删除，1删除',
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='视频投放媒介 bs_throw';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bs_adverts`
+--
+
+LOCK TABLES `bs_adverts` WRITE;
+/*!40000 ALTER TABLE `bs_adverts` DISABLE KEYS */;
+INSERT INTO `bs_adverts` VALUES (1,'',1,0,0,0,'',2,0,1474005529,1474024833),(2,'',1,0,0,0,'',2,0,1475647683,0),(3,'',1,0,0,0,'',2,0,1476581293,0),(5,'',1,0,0,0,'',2,0,1476699760,0);
+/*!40000 ALTER TABLE `bs_adverts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `bs_citys`
 --
 
@@ -150,6 +183,40 @@ LOCK TABLES `bs_designs` WRITE;
 /*!40000 ALTER TABLE `bs_designs` DISABLE KEYS */;
 INSERT INTO `bs_designs` VALUES (1,'嘎嘎嘎',1,1,1,'而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧而过的风格吧','',55,'',0,10,2,0,1470573399,1470574616),(2,'设计001',3,1,1,'ggggggggggg','',11,'',0,10,2,0,1470816620,0),(3,'设计设计',1,1,1,'办不放过','',1,'',0,10,2,0,1487209703,1487209773),(4,'设计设计',1,1,1,'vfdvfdbrfgbb','http://www.jiuge_wenhua.com/uploads/images/2017-02-25/58b18c114da63.jpg',10,'',0,10,1,0,1488022991,1488025149),(5,'测试测试',2,3,1,'00000000000\r\n111','',0,'',0,10,2,0,1490237539,1490237552);
 /*!40000 ALTER TABLE `bs_designs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bs_dubs`
+--
+
+DROP TABLE IF EXISTS `bs_dubs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bs_dubs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL COMMENT '配音名称',
+  `genre` tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT '类型：1小孩男，2小孩女，3少年男，4少年女，5青年男，6青年女，7中年男，8中年女，9老年男，10老年女',
+  `uid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `link` varchar(255) NOT NULL COMMENT '样音链接',
+  `money` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '报价，元',
+  `words` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '报价依据--字数，个',
+  `intro` varchar(255) NOT NULL COMMENT '语音语气说明',
+  `isshow` tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '1不显示，2显示',
+  `del` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0不删除，1删除',
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='配音 bs_dubs';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bs_dubs`
+--
+
+LOCK TABLES `bs_dubs` WRITE;
+/*!40000 ALTER TABLE `bs_dubs` DISABLE KEYS */;
+INSERT INTO `bs_dubs` VALUES (1,'',1,0,'',0,0,'',2,0,1474005529,1474024833),(2,'',1,0,'',0,0,'',2,0,1475647683,0),(3,'',1,0,'',0,0,'',2,0,1476581293,0),(5,'',1,0,'',0,0,'',2,0,1476699760,0);
+/*!40000 ALTER TABLE `bs_dubs` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -798,4 +865,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-24 16:42:43
+-- Dump completed on 2017-04-25 16:30:42
