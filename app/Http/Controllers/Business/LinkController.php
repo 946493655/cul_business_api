@@ -39,7 +39,7 @@ class LinkController extends BaseController
         $models = LinkModel::where('cid', $cid)
             ->whereIn('type', $typeArr)
             ->whereIn('isshow', $isshowArr)
-            ->orderBy('id', $sortid)
+            ->orderBy('sort', $sortid)
             ->skip($start)
             ->take($limit)
             ->get();

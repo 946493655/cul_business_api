@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Controllers\Business;
 
-use App\Models\Business\AdvertsModel;
+use App\Models\Business\DeliverysModel;
 
-class AdvertController extends BaseController
+class DeliveryController extends BaseController
 {
     /**
      * 视频投放媒介
@@ -12,7 +12,7 @@ class AdvertController extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->selfModel = new AdvertsModel();
+        $this->selfModel = new DeliverysModel();
     }
 
     public function index()
@@ -28,10 +28,10 @@ class AdvertController extends BaseController
         $genreArr = $genre ? [$genre] : [0,1,2,3];
         $isshowArr = $isshow ? [$isshow] : [0,1,2];
         if ($uid) {
-            $query = AdvertsModel::where('del',$del)
+            $query = DeliverysModel::where('del',$del)
                 ->where('uid',$uid);
         } else {
-            $query = AdvertsModel::where('del',$del);
+            $query = DeliverysModel::where('del',$del);
         }
         $models = $query->whereIn('genre',$genreArr)
             ->whereIn('isshow',$isshowArr)

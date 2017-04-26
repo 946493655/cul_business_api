@@ -97,8 +97,8 @@ $app->group(['prefix' => 'api/v1', 'namespace'=>'App\Http\Controllers\Business']
     $app->post('dub', 'DubController@index');
     $app->post('dub/getmodel', 'DubController@getModel');
     //视频投放路由
-    $app->post('advert', 'AdvertController@index');
-    $app->post('advert/getmodel', 'AdvertController@getModel');
+    $app->post('delivery', 'DeliveryController@index');
+    $app->post('delivery/getmodel', 'DeliveryController@getModel');
     //消息路由
     $app->post('message', 'MessageController@index');
     $app->post('message/add', 'MessageController@store');
@@ -174,4 +174,9 @@ $app->group(['prefix' => 'api/v1/com', 'namespace'=>'App\Http\Controllers\Compan
     //访问路由
     $app->post('visit', 'VisitlogController@index');
     $app->post('visit/show', 'VisitlogController@show');
+});
+//搜索路由
+$app->group(['prefix' => 'api/v1/search', 'namespace'=>'App\Http\Controllers\Search'], function () use ($app) {
+    $app->post('/', 'SearchController@index');
+    $app->post('getmodel', 'SearchController@getModel');
 });

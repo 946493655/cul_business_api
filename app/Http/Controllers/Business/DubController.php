@@ -53,7 +53,7 @@ class DubController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->getArrByModel($models);
+            $datas[$k] = $this->getArrByModel($model);
         }
         $rstArr = [
             'error' =>  [
@@ -93,10 +93,10 @@ class DubController extends BaseController
     public function getArrByModel($model)
     {
         $data = $this->objToArr($model);
-        $data['created_at'] = $model->createTime();
-        $data['updated_at'] = $model->updateTime();
+        $data['createTime'] = $model->createTime();
+        $data['updateTime'] = $model->updateTime();
         $data['genreName'] = $model->getGenreName();
-        $data['ashowName'] = $model->getIsshowName();
+        $data['ishowName'] = $model->getIsshowName();
         return $data;
     }
 }

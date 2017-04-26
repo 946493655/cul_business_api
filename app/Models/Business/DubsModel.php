@@ -7,7 +7,7 @@ class DubsModel extends BaseModel
      * 配音model
      */
 
-    protected $table = 'bd_dubs';
+    protected $table = 'bs_dubs';
     protected $fillable = [
         'id','name','genre','uid','link','money','words','intro','isshow','del','created_at','updated_at',
     ];
