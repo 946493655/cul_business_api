@@ -57,7 +57,8 @@ class SearchController extends BaseController
         }
         $datas = array();
         foreach ($models as $k=>$model) {
-            $datas[$k] = $this->getArrByModel($model);
+//            $datas[$k] = $this->getArrByModel($model);
+            $datas[$k] = $this->objToArr($model);
         }
         $rstArr = [
             'error' =>  [
